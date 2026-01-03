@@ -2,8 +2,7 @@
 // DojoCountdown Prisma Schema
 // ===========================================
 // This is the Prisma schema file for DojoCountdown.
-// It defines the database provider and will contain
-// all data models as the application grows.
+// It defines the database provider and all data models.
 
 generator client {
   provider = "prisma-client-js"
@@ -16,8 +15,99 @@ datasource db {
 }
 
 // ===========================================
-// Models will be added in future phases:
-// - PHASE 2: User, Session (Auth)
-// - PHASE 3: Countdown, Timer (Business Logic)
-// - PHASE 4: Subscription, Plan (Payments)
+// Enums
 // ===========================================
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+// ===========================================
+// Phase 2: Authentication & User Foundation
+// ===========================================
+
+model User {
+  id         String  @id @default(cuid())
+  email      String  @unique
+  password   String
+  name       String?
+  role       Role    @default(USER)
+  plan       Plan    @default(FREE)
+  isActive   Boolean @default(true)
+  isVerified Boolean @default(false) // For future email verification
+
+  // Relationships
+  refreshTokens RefreshToken[]
+  usageStats    UsageStats?
+  // countdowns    Countdown[]  // Phase 3
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userAgent String? // Track device/browser
+  ipAddress String? // Track IP for security
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model UsageStats {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Usage Metrics
+  countdownsCreated Int @default(0)
+  activeCountdowns  Int @default(0)
+  monthlyViews      Int @default(0)
+  totalViews        Int @default(0)
+
+  // Billing Period (for monthly resets)
+  currentPeriodStart DateTime @default(now())
+  currentPeriodEnd   DateTime
+
+  updatedAt DateTime @updatedAt
+
+  @@map("usage_stats")
+}
+
+// ===========================================
+// Phase 3: Countdown Engine (Coming Soon)
+// ===========================================
+// model Countdown {
+//   id          String   @id @default(cuid())
+//   userId      String
+//   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   name        String
+//   endDate     DateTime
+//   timezone    String   @default("UTC")
+//   style       Json     // Customization options
+//   isActive    Boolean  @default(true)
+//   viewCount   Int      @default(0)
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//   expiresAt   DateTime
+//   
+//   @@index([userId])
+//   @@map("countdowns")
+// }
