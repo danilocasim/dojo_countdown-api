@@ -1,0 +1,23 @@
+// ===========================================
+// DojoCountdown Prisma Schema
+// ===========================================
+// This is the Prisma schema file for DojoCountdown.
+// It defines the database provider and will contain
+// all data models as the application grows.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===========================================
+// Models will be added in future phases:
+// - PHASE 2: User, Session (Auth)
+// - PHASE 3: Countdown, Timer (Business Logic)
+// - PHASE 4: Subscription, Plan (Payments)
+// ===========================================
