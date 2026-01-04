@@ -30,6 +30,12 @@ enum Plan {
   ENTERPRISE
 }
 
+enum CountdownStatus {
+  ACTIVE
+  EXPIRED
+  DISABLED
+}
+
 // ===========================================
 // Phase 2: Authentication & User Foundation
 // ===========================================
@@ -42,12 +48,12 @@ model User {
   role       Role    @default(USER)
   plan       Plan    @default(FREE)
   isActive   Boolean @default(true)
-  isVerified Boolean @default(false) // For future email verification
+  isVerified Boolean @default(false)
 
   // Relationships
   refreshTokens RefreshToken[]
   usageStats    UsageStats?
-  // countdowns    Countdown[]  // Phase 3
+  countdowns    Countdown[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -61,8 +67,8 @@ model RefreshToken {
   token     String   @unique
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userAgent String? // Track device/browser
-  ipAddress String? // Track IP for security
+  userAgent String?
+  ipAddress String?
   expiresAt DateTime
   createdAt DateTime @default(now())
 
@@ -92,22 +98,32 @@ model UsageStats {
 }
 
 // ===========================================
-// Phase 3: Countdown Engine (Coming Soon)
+// Phase 3: Countdown Domain
 // ===========================================
-// model Countdown {
-//   id          String   @id @default(cuid())
-//   userId      String
-//   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   name        String
-//   endDate     DateTime
-//   timezone    String   @default("UTC")
-//   style       Json     // Customization options
-//   isActive    Boolean  @default(true)
-//   viewCount   Int      @default(0)
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-//   expiresAt   DateTime
-//   
-//   @@index([userId])
-//   @@map("countdowns")
-// }
+
+model Countdown {
+  id      String @id @default(cuid())
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // Core Fields
+  title    String
+  endAt    DateTime
+  timezone String          @default("UTC")
+  status   CountdownStatus @default(ACTIVE)
+
+  // Style Configuration (JSON)
+  styleConfig Json @default("{}")
+
+  // Metrics (Phase 4)
+  viewCount Int @default(0)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([status])
+  @@index([ownerId, status])
+  @@map("countdowns")
+}
