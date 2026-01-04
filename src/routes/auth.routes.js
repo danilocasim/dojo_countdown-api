@@ -22,6 +22,26 @@ import {
 const router = Router();
 
 /**
+ * @route   GET /api/v1/auth
+ * @desc    Auth API info
+ * @access  Public
+ */
+router.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "DojoCountdown Auth API",
+    endpoints: {
+      signup: "POST /api/v1/auth/signup",
+      login: "POST /api/v1/auth/login",
+      refresh: "POST /api/v1/auth/refresh",
+      logout: "POST /api/v1/auth/logout",
+      logoutAll: "POST /api/v1/auth/logout-all (auth required)",
+      sessions: "GET /api/v1/auth/sessions (auth required)",
+    },
+  });
+});
+
+/**
  * @route   POST /api/v1/auth/signup
  * @desc    Create new user account
  * @access  Public
