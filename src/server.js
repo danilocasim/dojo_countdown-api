@@ -64,6 +64,7 @@ const startServer = async () => {
       console.log(`🌐 URL: http://localhost:${PORT}`);
       console.log(`💚 Health: http://localhost:${PORT}/health`);
       console.log(`🔐 Auth: http://localhost:${PORT}/api/v1/auth`);
+      console.log(`⏱️  Countdowns: http://localhost:${PORT}/api/v1/countdowns`);
       console.log("═══════════════════════════════════════════");
     });
 
