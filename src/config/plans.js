@@ -60,6 +60,27 @@ export const PLAN_LIMITS = {
 };
 
 /**
+ * Default style configuration for countdowns.
+ */
+export const DEFAULT_COUNTDOWN_STYLE = {
+  fontFamily: "Arial, sans-serif",
+  fontSize: 48,
+  fontColor: "#FFFFFF",
+  backgroundColor: "#1a1a2e",
+  accentColor: "#e94560",
+  layout: "horizontal",
+  showLabels: true,
+  labelStyle: "short",
+  showDays: true,
+  showHours: true,
+  showMinutes: true,
+  showSeconds: true,
+  padding: 20,
+  borderRadius: 8,
+  showBranding: true,
+};
+
+/**
  * Get limits for a specific plan.
  *
  * @param {string} plan - Plan name (FREE, STARTER, PRO, ENTERPRISE)
