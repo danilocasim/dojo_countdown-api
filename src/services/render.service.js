@@ -61,8 +61,7 @@ export const renderCountdownById = async (countdownId, options = {}) => {
   }
 
   // Calculate time for metadata and GIF frame optimization
-  const time = calculateRemainingTime(countdown.endAt, countdown.timezone);
-
+  const time = calculateRemainingTime(countdown.endAt);
   // For GIF, calculate optimal frame count
   let frameCount = options.frameCount;
   if (format === "gif" && !frameCount) {
@@ -154,7 +153,7 @@ export const getRenderStats = async (countdownId) => {
     throw new NotFoundError("Countdown not found");
   }
 
-  const time = calculateRemainingTime(countdown.endAt, countdown.timezone);
+  const time = calculateRemainingTime(countdown.endAt);
   const remainingSeconds = Math.floor(time.totalMs / 1000);
   const optimalFrameCount = calculateOptimalFrameCount(remainingSeconds);
   const gifEstimate = estimateGifSize(

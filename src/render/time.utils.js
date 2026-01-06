@@ -2,27 +2,34 @@
 // Time Calculation Utilities
 // ===========================================
 // Pure functions for countdown time calculations.
-// These are stateless and unit-testable.
 //
-// WHY PURE FUNCTIONS:
-// - Deterministic output for same input
-// - Easy to test in isolation
-// - No side effects
-// - Shared across renderer and API
+// IMPORTANT: All endAt values should be stored as UTC in database.
+// Timezone is only used for display purposes.
+
+/**
+ * Pads a number with leading zeros.
+ *
+ * @param {number} num - Number to pad
+ * @param {number} length - Desired length
+ * @returns {string} Padded string
+ */
+export const padZero = (num, length = 2) => {
+  return String(num).padStart(length, "0");
+};
 
 /**
  * Calculates remaining time until a target date.
+ * Assumes endAt is stored in UTC.
  *
- * @param {Date|string} endAt - Target end date
- * @param {string} timezone - IANA timezone (e.g., 'America/New_York')
+ * @param {Date|string} endAt - Target end date (UTC)
  * @returns {Object} Time breakdown and metadata
  */
-export const calculateRemainingTime = (endAt, timezone = "UTC") => {
-  const now = new Date();
-  const end = new Date(endAt);
+export const calculateRemainingTime = (endAt) => {
+  const now = Date.now();
+  const end = new Date(endAt).getTime();
 
   // Calculate difference in milliseconds
-  const diffMs = end.getTime() - now.getTime();
+  const diffMs = end - now;
 
   // Check if expired
   if (diffMs <= 0) {
@@ -66,17 +73,6 @@ export const calculateRemainingTime = (endAt, timezone = "UTC") => {
 };
 
 /**
- * Pads a number with leading zeros.
- *
- * @param {number} num - Number to pad
- * @param {number} length - Desired length
- * @returns {string} Padded string
- */
-export const padZero = (num, length = 2) => {
-  return String(num).padStart(length, "0");
-};
-
-/**
  * Formats time for display based on configuration.
  *
  * @param {Object} time - Time object from calculateRemainingTime
@@ -89,7 +85,7 @@ export const formatTimeSegments = (time, options = {}) => {
     showHours = true,
     showMinutes = true,
     showSeconds = true,
-    labelStyle = "short", // 'short' | 'full' | 'none'
+    labelStyle = "short",
   } = options;
 
   const labels = {
@@ -142,42 +138,93 @@ export const formatTimeSegments = (time, options = {}) => {
 };
 
 /**
- * Gets the current time in a specific timezone.
+ * Converts a local datetime string to UTC.
+ * Used when creating/updating countdowns.
  *
- * @param {string} timezone - IANA timezone
- * @returns {Date} Current time in timezone
+ * @param {string} localDateStr - Local datetime string (e.g., "2025-01-15T12:00")
+ * @param {string} timezone - IANA timezone (e.g., "Asia/Manila")
+ * @returns {Date} UTC Date object
  */
-export const getCurrentTimeInTimezone = (timezone) => {
-  try {
-    const formatter = new Intl.DateTimeFormat("en-US", {
-      timeZone: timezone,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    });
+export const localToUTC = (localDateStr, timezone) => {
+  // Create a formatter that interprets time in the target timezone
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
 
-    const parts = formatter.formatToParts(new Date());
-    const values = {};
-    parts.forEach((part) => {
-      values[part.type] = part.value;
-    });
+  // Parse the local date string parts
+  const [datePart, timePart] = localDateStr.includes("T")
+    ? localDateStr.split("T")
+    : [localDateStr, "00:00:00"];
 
-    return new Date(
-      `${values.year}-${values.month}-${values.day}T${values.hour}:${values.minute}:${values.second}`
-    );
-  } catch (error) {
-    // Fallback to UTC if timezone is invalid
-    return new Date();
-  }
+  const [year, month, day] = datePart.split("-").map(Number);
+  const [hour, minute, second] = (timePart || "00:00:00")
+    .split(":")
+    .map((v) => parseInt(v) || 0);
+
+  // Find the UTC time that corresponds to this local time
+  // by checking what UTC time displays as this local time
+  const targetLocal = { year, month, day, hour, minute, second };
+
+  // Binary search to find the UTC timestamp
+  // Start with a rough estimate
+  let utcGuess = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+
+  // Get offset by checking what our guess displays as in target timezone
+  const guessLocal = formatter.formatToParts(utcGuess);
+  const guessValues = {};
+  guessLocal.forEach((part) => {
+    guessValues[part.type] = parseInt(part.value) || 0;
+  });
+
+  // Calculate difference and adjust
+  const localGuess = new Date(
+    guessValues.year,
+    guessValues.month - 1,
+    guessValues.day,
+    guessValues.hour,
+    guessValues.minute,
+    guessValues.second
+  );
+  const targetDate = new Date(year, month - 1, day, hour, minute, second);
+  const offsetMs = localGuess.getTime() - targetDate.getTime();
+
+  // Adjust UTC guess by the offset
+  return new Date(utcGuess.getTime() + offsetMs);
+};
+
+/**
+ * Formats a UTC date for display in a specific timezone.
+ * Used when showing countdown end time to users.
+ *
+ * @param {Date|string} utcDate - UTC date
+ * @param {string} timezone - IANA timezone for display
+ * @returns {string} Formatted date string
+ */
+export const formatInTimezone = (utcDate, timezone) => {
+  const date = new Date(utcDate);
+
+  return date.toLocaleString("en-US", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 };
 
 export default {
   calculateRemainingTime,
   padZero,
   formatTimeSegments,
-  getCurrentTimeInTimezone,
+  localToUTC,
+  formatInTimezone,
 };

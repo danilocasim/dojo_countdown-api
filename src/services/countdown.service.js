@@ -12,6 +12,8 @@
 import * as renderService from "./render.service.js";
 
 import prisma from "../lib/prisma.js";
+// Add import at top
+import { localToUTC } from "../render/time.utils.js";
 import {
   NotFoundError,
   ForbiddenError,
@@ -152,7 +154,8 @@ export const createCountdown = async (userId, data, userPlan) => {
       data: {
         ownerId: userId,
         title,
-        endAt: new Date(endAt),
+        // NEW - Convert local time to UTC before storing
+        endAt: localToUTC(endAt, timezone),
         timezone,
         styleConfig: finalStyleConfig,
         status: "ACTIVE",
@@ -297,7 +300,8 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
 
   // Update endAt if provided
   if (endAt !== undefined) {
-    const endDate = new Date(endAt);
+    const tz = timezone || existing.timezone || "UTC";
+    const endDate = localToUTC(endAt, tz);
     const now = new Date();
     const daysUntilEnd = Math.ceil((endDate - now) / (1000 * 60 * 60 * 24));
     const limits = getPlanLimits(userPlan);

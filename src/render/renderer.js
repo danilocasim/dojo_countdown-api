@@ -89,8 +89,7 @@ const renderStaticImage = async (countdown, options = {}) => {
   const { format = "png", quality = 0.92, userPlan = "FREE" } = options;
 
   // Calculate remaining time
-  const time = calculateRemainingTime(countdown.endAt, countdown.timezone);
-
+  const time = calculateRemainingTime(countdown.endAt);
   // Merge style configuration
   let style = mergeStyleConfig(countdown.styleConfig);
 

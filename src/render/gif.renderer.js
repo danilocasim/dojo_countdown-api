@@ -59,10 +59,7 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
   style.showBranding = showBranding;
 
   // Calculate initial time
-  const initialTime = calculateRemainingTime(
-    countdown.endAt,
-    countdown.timezone
-  );
+  const initialTime = calculateRemainingTime(countdown.endAt);
 
   // If already expired, return single-frame "expired" GIF
   if (initialTime.isExpired) {
