@@ -146,7 +146,25 @@ export const formatTimeSegments = (time, options = {}) => {
  * @returns {Date} UTC Date object
  */
 export const localToUTC = (localDateStr, timezone) => {
-  // Create a formatter that interprets time in the target timezone
+  // If already has Z or offset (e.g., +08:00, -05:00), it's already UTC-aware
+  // Just parse it directly - no conversion needed
+  if (localDateStr.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(localDateStr)) {
+    return new Date(localDateStr);
+  }
+
+  // No timezone info - interpret as local time in the specified timezone
+  // Parse the local date string parts
+  const [datePart, timePart] = localDateStr.includes("T")
+    ? localDateStr.split("T")
+    : [localDateStr, "00:00:00"];
+
+  const [year, month, day] = datePart.split("-").map(Number);
+  const timeParts = (timePart || "00:00:00").split(":");
+  const hour = parseInt(timeParts[0]) || 0;
+  const minute = parseInt(timeParts[1]) || 0;
+  const second = parseInt(timeParts[2]) || 0;
+
+  // Create formatter for the target timezone
   const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: timezone,
     year: "numeric",
@@ -158,45 +176,34 @@ export const localToUTC = (localDateStr, timezone) => {
     hour12: false,
   });
 
-  // Parse the local date string parts
-  const [datePart, timePart] = localDateStr.includes("T")
-    ? localDateStr.split("T")
-    : [localDateStr, "00:00:00"];
-
-  const [year, month, day] = datePart.split("-").map(Number);
-  const [hour, minute, second] = (timePart || "00:00:00")
-    .split(":")
-    .map((v) => parseInt(v) || 0);
-
-  // Find the UTC time that corresponds to this local time
-  // by checking what UTC time displays as this local time
-  const targetLocal = { year, month, day, hour, minute, second };
-
-  // Binary search to find the UTC timestamp
-  // Start with a rough estimate
+  // Start with a UTC guess (same numbers but in UTC)
   let utcGuess = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
 
-  // Get offset by checking what our guess displays as in target timezone
-  const guessLocal = formatter.formatToParts(utcGuess);
-  const guessValues = {};
-  guessLocal.forEach((part) => {
-    guessValues[part.type] = parseInt(part.value) || 0;
+  // See what this UTC time looks like in the target timezone
+  const parts = formatter.formatToParts(utcGuess);
+  const values = {};
+  parts.forEach((part) => {
+    values[part.type] = parseInt(part.value) || 0;
   });
 
-  // Calculate difference and adjust
-  const localGuess = new Date(
-    guessValues.year,
-    guessValues.month - 1,
-    guessValues.day,
-    guessValues.hour,
-    guessValues.minute,
-    guessValues.second
+  // Calculate the offset between what we want and what we got
+  const guessInTz = new Date(
+    values.year,
+    values.month - 1,
+    values.day,
+    values.hour,
+    values.minute,
+    values.second
   );
-  const targetDate = new Date(year, month - 1, day, hour, minute, second);
-  const offsetMs = localGuess.getTime() - targetDate.getTime();
+  const target = new Date(year, month - 1, day, hour, minute, second);
 
-  // Adjust UTC guess by the offset
-  return new Date(utcGuess.getTime() + offsetMs);
+  // Offset is how much we need to adjust UTC
+  const offsetMs = guessInTz.getTime() - target.getTime();
+
+  // Subtract offset to get correct UTC time
+  // If Manila (UTC+8) shows 20:00 when UTC is 12:00, offset is +8 hours
+  // So to get 20:00 Manila in UTC, we subtract 8 hours: UTC 12:00
+  return new Date(utcGuess.getTime() - offsetMs);
 };
 
 /**
