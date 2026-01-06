@@ -9,6 +9,7 @@
 // - Enforces ownership and authorization
 // - Manages status transitions
 // - Enforces plan-based limits
+import * as renderService from "./render.service.js";
 
 import prisma from "../lib/prisma.js";
 import {
@@ -490,4 +491,32 @@ export const expireCountdowns = async () => {
   ]);
 
   return toExpire.length;
+};
+
+/**
+ * Gets public countdown data for rendering.
+ * Used by render service to fetch countdown without ownership check.
+ *
+ * @param {string} countdownId - Countdown ID
+ * @returns {Promise<Object>} Countdown with owner info
+ */
+export const getCountdownForRender = async (countdownId) => {
+  const countdown = await prisma.countdown.findUnique({
+    where: { id: countdownId },
+    include: {
+      owner: {
+        select: {
+          id: true,
+          plan: true,
+          isActive: true,
+        },
+      },
+    },
+  });
+
+  if (!countdown) {
+    throw new NotFoundError("Countdown not found");
+  }
+
+  return countdown;
 };
