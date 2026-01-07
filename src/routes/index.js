@@ -10,6 +10,7 @@ import authRoutes from "./auth.routes.js";
 import userRoutes from "./user.routes.js";
 import countdownRoutes from "./countdown.routes.js";
 import renderRoutes from "./render.routes.js";
+import usageRoutes from "./usage.routes.js";
 
 const router = Router();
 
@@ -30,10 +31,11 @@ router.use("/api/v1/auth", authRoutes);
 router.use("/api/v1/users", userRoutes);
 router.use("/api/v1/countdowns", countdownRoutes);
 router.use("/api/v1/render", renderRoutes);
+router.use("/api/v1/usage", usageRoutes);
 
 // ===========================================
 // Future route registrations:
-// router.use('/api/v1/billing', billingRoutes); // PHASE 5
+// router.use('/api/v1/billing', billingRoutes); // PHASE 6
 // router.use('/api/v1/analytics', analyticsRoutes);
 // ===========================================
 
