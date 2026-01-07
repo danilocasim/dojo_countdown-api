@@ -21,7 +21,7 @@
  */
 export const PLAN_LIMITS = {
   FREE: {
-    maxActiveCountdowns: 3,
+    maxActiveCountdowns: 10,
     monthlyViews: 20_000,
     countdownDurationDays: 30,
     customization: false,
@@ -32,7 +32,7 @@ export const PLAN_LIMITS = {
   },
 
   BOOTSTRAP: {
-    maxActiveCountdowns: 10,
+    maxActiveCountdowns: 100,
     monthlyViews: 100_000,
     countdownDurationDays: 90,
     customization: true,
@@ -43,7 +43,7 @@ export const PLAN_LIMITS = {
   },
 
   STARTUP: {
-    maxActiveCountdowns: 50,
+    maxActiveCountdowns: 500,
     monthlyViews: 700_000,
     countdownDurationDays: 365,
     customization: true,
