@@ -9,7 +9,7 @@
 // - Static images show stale time after caching
 // - Animated GIFs loop, showing "live" countdown effect
 // - Maximum email client compatibility
-
+import { DESIGN_VARIANTS } from "../config/styles.js";
 import { createCanvas } from "canvas";
 import GIFEncoder from "gifencoder";
 import { Readable } from "stream";
@@ -203,6 +203,9 @@ const calculateTimeForFrame = (initialTime, frameIndex) => {
  * @param {Object} countdown - Countdown object
  * @param {boolean} showBranding - Whether to show branding
  */
+/**
+ * Renders a single frame to the canvas.
+ */
 const renderFrame = (
   ctx,
   layout,
@@ -213,27 +216,183 @@ const renderFrame = (
   showBranding
 ) => {
   const { width, height } = layout.canvas;
+  const colors = style.colors || {};
 
   // Clear canvas
   ctx.clearRect(0, 0, width, height);
 
-  // Draw background
-  ctx.fillStyle = style.backgroundColor;
-  ctx.fillRect(0, 0, width, height);
+  // Draw backdrop
+  if (!style.noBackdrop) {
+    ctx.fillStyle = colors.backdrop || "#FFFFFF";
+    ctx.fillRect(0, 0, width, height);
+  }
 
   if (isExpired) {
-    // Render expired state
     const expiredConfig = getExpiredMessage(countdown);
     renderExpiredState(ctx, layout, style, expiredConfig);
   } else {
-    // Render time segments
-    renderTimeSegments(ctx, layout, style, segments);
+    // Render based on design
+    switch (layout.design) {
+      case DESIGN_VARIANTS.CIRCLE:
+        renderCircleFrame(ctx, layout, style, segments);
+        break;
+      case DESIGN_VARIANTS.MINIMAL:
+        renderMinimalFrame(ctx, layout, style, segments);
+        break;
+      case DESIGN_VARIANTS.PILL:
+        renderPillFrame(ctx, layout, style, segments);
+        break;
+      case DESIGN_VARIANTS.BLOCK:
+      default:
+        renderBlockFrame(ctx, layout, style, segments);
+        break;
+    }
   }
 
-  // Render branding if needed
   if (showBranding) {
     renderBranding(ctx, layout);
   }
+};
+
+const renderBlockFrame = (ctx, layout, style, segments) => {
+  const { fontSize, unitSize } = layout.dimensions;
+  const colors = style.colors || {};
+
+  segments.forEach((segment, index) => {
+    const pos = layout.segments[index];
+    if (!pos) return;
+
+    // Draw block
+    ctx.fillStyle = colors.design || "#000000";
+    roundRect(ctx, pos.unitX, pos.unitY, unitSize, unitSize, 8);
+    ctx.fill();
+
+    // Draw value
+    ctx.font = `bold ${fontSize}px Arial`;
+    ctx.fillStyle = colors.text || "#FFFFFF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(segment.value, pos.x, pos.valueY);
+
+    if (style.showLabels && segment.label) {
+      ctx.font = `${layout.dimensions.labelFontSize}px Arial`;
+      ctx.fillStyle = colors.design || "#000000";
+      ctx.fillText(segment.label, pos.x, pos.labelY);
+    }
+  });
+
+  renderFrameSeparators(ctx, layout, style, colors);
+};
+
+const renderCircleFrame = (ctx, layout, style, segments) => {
+  const { fontSize } = layout.dimensions;
+  const colors = style.colors || {};
+
+  segments.forEach((segment, index) => {
+    const pos = layout.segments[index];
+    if (!pos) return;
+
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, pos.radius, 0, Math.PI * 2);
+    ctx.fillStyle = colors.design || "#000000";
+    ctx.fill();
+
+    ctx.font = `bold ${fontSize}px Arial`;
+    ctx.fillStyle = colors.text || "#FFFFFF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(segment.value, pos.x, pos.valueY);
+
+    if (style.showLabels && segment.label) {
+      ctx.font = `${layout.dimensions.labelFontSize}px Arial`;
+      ctx.fillStyle = colors.design || "#000000";
+      ctx.fillText(segment.label, pos.x, pos.labelY);
+    }
+  });
+};
+
+const renderMinimalFrame = (ctx, layout, style, segments) => {
+  const { fontSize, labelFontSize } = layout.dimensions;
+  const colors = style.colors || {};
+
+  segments.forEach((segment, index) => {
+    const pos = layout.segments[index];
+    if (!pos) return;
+
+    ctx.font = `bold ${fontSize}px Arial`;
+    ctx.fillStyle = colors.design || "#000000";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(segment.value, pos.x, pos.valueY);
+
+    if (style.showLabels && segment.label) {
+      ctx.font = `${labelFontSize}px Arial`;
+      ctx.fillStyle = colors.text || "#666666";
+      ctx.fillText(segment.label, pos.x, pos.labelY);
+    }
+  });
+
+  renderFrameSeparators(ctx, layout, style, colors);
+};
+
+const renderPillFrame = (ctx, layout, style, segments) => {
+  const { fontSize, borderRadius } = layout.dimensions;
+  const colors = style.colors || {};
+  const pill = layout.pill;
+
+  ctx.fillStyle = colors.design || "#000000";
+  roundRect(ctx, pill.x, pill.y, pill.width, pill.height, borderRadius);
+  ctx.fill();
+
+  segments.forEach((segment, index) => {
+    const pos = layout.segments[index];
+    if (!pos) return;
+
+    ctx.font = `bold ${fontSize}px Arial`;
+    ctx.fillStyle = colors.text || "#FFFFFF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(segment.value, pos.x, pos.valueY);
+  });
+
+  if (layout.separators) {
+    ctx.strokeStyle = colors.text || "#FFFFFF";
+    ctx.lineWidth = 1;
+    ctx.globalAlpha = 0.3;
+    layout.separators.forEach((sep) => {
+      ctx.beginPath();
+      ctx.moveTo(sep.x, sep.y1);
+      ctx.lineTo(sep.x, sep.y2);
+      ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+  }
+};
+
+const renderFrameSeparators = (ctx, layout, style, colors) => {
+  if (!style.showSeparators || !layout.separators) return;
+
+  layout.separators.forEach((sep) => {
+    ctx.font = `bold ${sep.fontSize}px Arial`;
+    ctx.fillStyle = colors.design || "#000000";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(style.separatorChar || ":", sep.x, sep.y);
+  });
+};
+
+const roundRect = (ctx, x, y, width, height, radius) => {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
 };
 
 /**

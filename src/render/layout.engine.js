@@ -2,195 +2,266 @@
 // Layout Engine
 // ===========================================
 // Data-driven layout system for countdown rendering.
-// Accepts styleConfig and calculates dimensions/positions.
-//
-// WHY DATA-DRIVEN:
-// - No hardcoded styles
-// - User customization support
-// - Plan-based feature gating
-// - Easy to extend
+// Supports multiple design variants with different layouts.
 
-/**
- * Default style configuration.
- * Used when user doesn't provide custom styles.
- */
-export const DEFAULT_STYLE = {
-  // Canvas dimensions
-  width: 600,
-  height: 200,
-
-  // Colors
-  backgroundColor: "#1a1a2e",
-  fontColor: "#FFFFFF",
-  accentColor: "#e94560",
-  labelColor: "#888888",
-
-  // Typography
-  fontFamily: "Arial",
-  fontSize: 64,
-  labelFontSize: 14,
-
-  // Layout
-  layout: "horizontal", // 'horizontal' | 'vertical' | 'compact'
-  alignment: "center", // 'left' | 'center' | 'right'
-  padding: 20,
-  segmentGap: 20,
-
-  // Display options
-  showLabels: true,
-  labelStyle: "short",
-  showDays: true,
-  showHours: true,
-  showMinutes: true,
-  showSeconds: true,
-  showSeparators: true,
-  separatorChar: ":",
-
-  // Visual effects
-  borderRadius: 0,
-  shadowEnabled: false,
-  shadowColor: "rgba(0,0,0,0.3)",
-  shadowBlur: 10,
-
-  // Branding
-  showBranding: true,
-};
+import {
+  DESIGN_VARIANTS,
+  DEFAULT_STYLE,
+  getDesignDimensions,
+  normalizeStyleConfig,
+} from "../config/styles.js";
 
 /**
  * Merges user style config with defaults.
+ * Now delegates to centralized normalizeStyleConfig.
  *
  * @param {Object} userConfig - User's style configuration
  * @returns {Object} Merged configuration
  */
 export const mergeStyleConfig = (userConfig = {}) => {
-  return {
-    ...DEFAULT_STYLE,
-    ...userConfig,
-  };
+  return normalizeStyleConfig(userConfig);
 };
 
 /**
- * Calculates layout dimensions based on style config.
+ * Calculates layout dimensions based on design variant.
  *
- * @param {Object} style - Merged style configuration
+ * @param {Object} style - Normalized style configuration
  * @param {number} segmentCount - Number of time segments to display
  * @returns {Object} Layout dimensions and positions
  */
 export const calculateLayout = (style, segmentCount) => {
-  const {
-    width,
-    height,
-    padding,
-    segmentGap,
-    fontSize,
-    labelFontSize,
-    showLabels,
-    showSeparators,
-    layout,
-    alignment,
-    showBranding,
-  } = style;
+  const design = style.design || DESIGN_VARIANTS.BLOCK;
+  const dimensions = getDesignDimensions(design);
 
-  // Calculate content area
-  const contentWidth = width - padding * 2;
-  const contentHeight = height - padding * 2 - (showBranding ? 25 : 0);
-
-  // Calculate segment dimensions
-  const separatorCount = showSeparators ? segmentCount - 1 : 0;
-  const totalGapWidth = (segmentCount - 1) * segmentGap;
-  const segmentWidth = (contentWidth - totalGapWidth) / segmentCount;
-
-  // Calculate positions based on layout type
-  let segments = [];
-
-  if (layout === "horizontal") {
-    const segmentHeight = showLabels ? fontSize + labelFontSize + 10 : fontSize;
-    const startY = padding + (contentHeight - segmentHeight) / 2;
-
-    for (let i = 0; i < segmentCount; i++) {
-      const x = padding + i * (segmentWidth + segmentGap);
-      segments.push({
-        x: x + segmentWidth / 2, // Center of segment
-        y: startY,
-        width: segmentWidth,
-        height: segmentHeight,
-        valueY: startY + fontSize * 0.8,
-        labelY: startY + fontSize + labelFontSize + 5,
-      });
-    }
-  } else if (layout === "compact") {
-    // Compact layout - all in one line with separators
-    const totalWidth =
-      segmentCount * fontSize * 1.5 + separatorCount * fontSize * 0.5;
-    let startX = (width - totalWidth) / 2;
-    const centerY = height / 2;
-
-    for (let i = 0; i < segmentCount; i++) {
-      segments.push({
-        x: startX + fontSize * 0.75,
-        y: centerY - fontSize / 2,
-        width: fontSize * 1.5,
-        height: fontSize,
-        valueY: centerY + fontSize * 0.3,
-        labelY: centerY + fontSize * 0.3,
-        compact: true,
-      });
-      startX += fontSize * 1.5 + (showSeparators ? fontSize * 0.5 : segmentGap);
-    }
+  // Route to design-specific layout calculator
+  switch (design) {
+    case DESIGN_VARIANTS.CIRCLE:
+      return calculateCircleLayout(style, segmentCount, dimensions);
+    case DESIGN_VARIANTS.MINIMAL:
+      return calculateMinimalLayout(style, segmentCount, dimensions);
+    case DESIGN_VARIANTS.PILL:
+      return calculatePillLayout(style, segmentCount, dimensions);
+    case DESIGN_VARIANTS.BLOCK:
+    default:
+      return calculateBlockLayout(style, segmentCount, dimensions);
   }
+};
 
-  // Calculate separator positions
-  const separators = [];
-  if (showSeparators && segments.length > 1) {
-    for (let i = 0; i < segments.length - 1; i++) {
-      const seg1 = segments[i];
-      const seg2 = segments[i + 1];
-      separators.push({
-        x: (seg1.x + seg1.width / 2 + seg2.x - seg2.width / 2) / 2,
-        y: seg1.valueY,
-      });
-    }
+/**
+ * Calculates layout for BLOCK design (default).
+ * Square blocks with numbers inside.
+ */
+const calculateBlockLayout = (style, segmentCount, dimensions) => {
+  const { width, height, unitSize, unitGap, fontSize, labelFontSize } =
+    dimensions;
+  const { showLabels, showBranding, noBackdrop } = style;
+
+  const totalWidth = segmentCount * unitSize + (segmentCount - 1) * unitGap;
+  const startX = (width - totalWidth) / 2;
+  const centerY = height / 2;
+
+  const segments = [];
+  for (let i = 0; i < segmentCount; i++) {
+    const x = startX + i * (unitSize + unitGap);
+    segments.push({
+      x: x + unitSize / 2,
+      y: centerY,
+      width: unitSize,
+      height: unitSize,
+      valueY: showLabels ? centerY - 5 : centerY,
+      labelY: centerY + unitSize / 2 + labelFontSize + 5,
+      unitX: x,
+      unitY: centerY - unitSize / 2,
+    });
   }
-
-  // Calculate branding position
-  const brandingPosition = {
-    x: width - padding - 10,
-    y: height - 10,
-  };
 
   return {
+    design: DESIGN_VARIANTS.BLOCK,
     canvas: { width, height },
-    content: {
-      width: contentWidth,
-      height: contentHeight,
-      x: padding,
-      y: padding,
-    },
     segments,
-    separators,
-    branding: brandingPosition,
+    separators: calculateSeparators(segments, style, fontSize, centerY),
+    branding: { x: width - 10, y: height - 10 },
+    dimensions: { fontSize, labelFontSize, unitSize },
+    noBackdrop,
   };
 };
 
 /**
+ * Calculates layout for CIRCLE design.
+ * Circular units with numbers inside.
+ */
+const calculateCircleLayout = (style, segmentCount, dimensions) => {
+  const { width, height, unitSize, unitGap, fontSize, labelFontSize } =
+    dimensions;
+  const { showLabels, noBackdrop } = style;
+
+  const totalWidth = segmentCount * unitSize + (segmentCount - 1) * unitGap;
+  const startX = (width - totalWidth) / 2;
+  const centerY = height / 2;
+
+  const segments = [];
+  for (let i = 0; i < segmentCount; i++) {
+    const x = startX + i * (unitSize + unitGap);
+    segments.push({
+      x: x + unitSize / 2,
+      y: centerY,
+      width: unitSize,
+      height: unitSize,
+      radius: unitSize / 2,
+      valueY: showLabels ? centerY - 3 : centerY,
+      labelY: centerY + unitSize / 2 + labelFontSize + 8,
+      unitX: x,
+      unitY: centerY - unitSize / 2,
+    });
+  }
+
+  return {
+    design: DESIGN_VARIANTS.CIRCLE,
+    canvas: { width, height },
+    segments,
+    separators: [], // No separators in circle design
+    branding: { x: width - 10, y: height - 10 },
+    dimensions: { fontSize, labelFontSize, unitSize },
+    noBackdrop,
+  };
+};
+
+/**
+ * Calculates layout for MINIMAL design.
+ * Simple text with minimal styling.
+ */
+const calculateMinimalLayout = (style, segmentCount, dimensions) => {
+  const { width, height, unitGap, fontSize, labelFontSize } = dimensions;
+  const { showLabels, noBackdrop } = style;
+
+  const unitWidth = 50;
+  const totalWidth = segmentCount * unitWidth + (segmentCount - 1) * unitGap;
+  const startX = (width - totalWidth) / 2;
+  const centerY = height / 2;
+
+  const segments = [];
+  for (let i = 0; i < segmentCount; i++) {
+    const x = startX + i * (unitWidth + unitGap);
+    segments.push({
+      x: x + unitWidth / 2,
+      y: centerY,
+      width: unitWidth,
+      height: fontSize + 10,
+      valueY: showLabels ? centerY - 8 : centerY,
+      labelY: centerY + fontSize / 2 + 5,
+      minimal: true,
+    });
+  }
+
+  return {
+    design: DESIGN_VARIANTS.MINIMAL,
+    canvas: { width, height },
+    segments,
+    separators: calculateSeparators(segments, style, fontSize, centerY - 8),
+    branding: { x: width - 10, y: height - 10 },
+    dimensions: { fontSize, labelFontSize },
+    noBackdrop,
+  };
+};
+
+/**
+ * Calculates layout for PILL design.
+ * Single rounded bar with all numbers.
+ */
+const calculatePillLayout = (style, segmentCount, dimensions) => {
+  const { width, height, fontSize, borderRadius, padding } = dimensions;
+  const { noBackdrop } = style;
+
+  const pillWidth = width - padding * 2;
+  const pillHeight = height - padding * 2;
+  const unitWidth = pillWidth / segmentCount;
+  const centerY = height / 2;
+
+  const segments = [];
+  for (let i = 0; i < segmentCount; i++) {
+    const x = padding + i * unitWidth;
+    segments.push({
+      x: x + unitWidth / 2,
+      y: centerY,
+      width: unitWidth,
+      height: pillHeight,
+      valueY: centerY,
+      labelY: centerY, // No labels in pill
+      pill: true,
+    });
+  }
+
+  return {
+    design: DESIGN_VARIANTS.PILL,
+    canvas: { width, height },
+    pill: {
+      x: padding,
+      y: padding,
+      width: pillWidth,
+      height: pillHeight,
+      borderRadius,
+    },
+    segments,
+    separators: calculatePillSeparators(segments, style, pillHeight, padding),
+    branding: { x: width - 10, y: height - 10 },
+    dimensions: { fontSize, borderRadius },
+    noBackdrop,
+  };
+};
+
+/**
+ * Calculates separator positions for block/minimal designs.
+ */
+const calculateSeparators = (segments, style, fontSize, y) => {
+  if (!style.showSeparators || segments.length < 2) {
+    return [];
+  }
+
+  const separators = [];
+  for (let i = 0; i < segments.length - 1; i++) {
+    const seg1 = segments[i];
+    const seg2 = segments[i + 1];
+    separators.push({
+      x: (seg1.x + seg2.x) / 2,
+      y,
+      fontSize,
+    });
+  }
+  return separators;
+};
+
+/**
+ * Calculates separator positions for pill design (vertical lines).
+ */
+const calculatePillSeparators = (segments, style, pillHeight, padding) => {
+  if (segments.length < 2) return [];
+
+  const separators = [];
+  for (let i = 0; i < segments.length - 1; i++) {
+    const seg1 = segments[i];
+    const seg2 = segments[i + 1];
+    separators.push({
+      x: (seg1.x + seg1.width / 2 + seg2.x - seg2.width / 2) / 2,
+      y1: padding + 10,
+      y2: padding + pillHeight - 10,
+      vertical: true,
+    });
+  }
+  return separators;
+};
+
+/**
  * Parses color string and returns rgba components.
- * Supports hex, rgb, rgba formats.
- *
- * @param {string} color - Color string
- * @returns {Object} RGBA components
  */
 export const parseColor = (color) => {
-  // Handle hex colors
   if (color.startsWith("#")) {
     const hex = color.slice(1);
     const r = parseInt(hex.substr(0, 2), 16);
     const g = parseInt(hex.substr(2, 2), 16);
     const b = parseInt(hex.substr(4, 2), 16);
-    const a = hex.length === 8 ? parseInt(hex.substr(6, 2), 16) / 255 : 1;
-    return { r, g, b, a };
+    return { r, g, b, a: 1 };
   }
 
-  // Handle rgb/rgba
   const match = color.match(
     /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
   );
@@ -203,16 +274,11 @@ export const parseColor = (color) => {
     };
   }
 
-  // Default to black
   return { r: 0, g: 0, b: 0, a: 1 };
 };
 
 /**
  * Darkens a color for expired state.
- *
- * @param {string} color - Original color
- * @param {number} amount - Darken amount (0-1)
- * @returns {string} Darkened color
  */
 export const darkenColor = (color, amount = 0.5) => {
   const { r, g, b, a } = parseColor(color);
@@ -222,9 +288,6 @@ export const darkenColor = (color, amount = 0.5) => {
 
 /**
  * Converts color to grayscale.
- *
- * @param {string} color - Original color
- * @returns {string} Grayscale color
  */
 export const grayscaleColor = (color) => {
   const { r, g, b, a } = parseColor(color);
@@ -232,8 +295,9 @@ export const grayscaleColor = (color) => {
   return `rgba(${gray}, ${gray}, ${gray}, ${a})`;
 };
 
+export { DESIGN_VARIANTS, DEFAULT_STYLE };
+
 export default {
-  DEFAULT_STYLE,
   mergeStyleConfig,
   calculateLayout,
   parseColor,

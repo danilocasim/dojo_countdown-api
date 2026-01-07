@@ -4,10 +4,10 @@
 // Input validation schemas for countdown endpoints.
 
 import { body, param, query } from "express-validator";
+import { VALID_DESIGNS, isValidHexColor } from "../config/styles.js";
 
 /**
  * Valid IANA timezone check.
- * Uses Intl.DateTimeFormat to validate timezone strings.
  */
 const isValidTimezone = (value) => {
   try {
@@ -23,33 +23,56 @@ const isValidTimezone = (value) => {
  * Validates the JSON structure for countdown styling.
  */
 const validateStyleConfig = (value) => {
+  console.log(typeof value);
   if (!value || typeof value !== "object") {
     return true; // Optional, defaults will be applied
   }
 
-  const allowedKeys = [
-    "fontFamily",
-    "fontSize",
-    "fontColor",
-    "backgroundColor",
-    "accentColor",
-    "layout",
+  // Validate design
+  if (value.design && !VALID_DESIGNS.includes(value.design)) {
+    throw new Error(
+      `Invalid design. Must be one of: ${VALID_DESIGNS.join(", ")}`
+    );
+  }
+
+  // Validate colors
+  if (value.colors && typeof value.colors === "object") {
+    const colorFields = ["design", "text", "backdrop"];
+    for (const field of colorFields) {
+      if (value.colors[field] && !isValidHexColor(value.colors[field])) {
+        throw new Error(
+          `Invalid color for colors.${field}. Must be hex format (e.g., #FF0000)`
+        );
+      }
+    }
+  }
+
+  // Validate noBackdrop
+  if (value.noBackdrop !== undefined && typeof value.noBackdrop !== "boolean") {
+    throw new Error("noBackdrop must be a boolean");
+  }
+
+  // Validate display options
+  const booleanFields = [
     "showLabels",
-    "labelStyle",
     "showDays",
     "showHours",
     "showMinutes",
     "showSeconds",
-    "padding",
-    "borderRadius",
+    "showSeparators",
     "showBranding",
   ];
+  for (const field of booleanFields) {
+    if (value[field] !== undefined && typeof value[field] !== "boolean") {
+      throw new Error(`${field} must be a boolean`);
+    }
+  }
 
-  const providedKeys = Object.keys(value);
-  const invalidKeys = providedKeys.filter((key) => !allowedKeys.includes(key));
-
-  if (invalidKeys.length > 0) {
-    throw new Error(`Invalid style config keys: ${invalidKeys.join(", ")}`);
+  if (
+    value.labelStyle &&
+    !["short", "full", "none"].includes(value.labelStyle)
+  ) {
+    throw new Error("labelStyle must be one of: short, full, none");
   }
 
   return true;
@@ -97,6 +120,11 @@ export const createCountdownValidator = [
     .isObject()
     .withMessage("Style config must be an object")
     .custom(validateStyleConfig),
+
+  body("styleConfig.design")
+    .optional()
+    .isIn(VALID_DESIGNS)
+    .withMessage(`Design must be one of: ${VALID_DESIGNS.join(", ")}`),
 ];
 
 /**
