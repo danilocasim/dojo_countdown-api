@@ -25,8 +25,8 @@ enum Role {
 
 enum Plan {
   FREE
-  STARTER
-  PRO
+  BOOTSTRAP
+  STARTUP
   ENTERPRISE
 }
 
@@ -54,6 +54,7 @@ model User {
   refreshTokens RefreshToken[]
   usageStats    UsageStats?
   countdowns    Countdown[]
+  usageMonths   UsageMonth[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -115,7 +116,7 @@ model Countdown {
   // Style Configuration (JSON)
   styleConfig Json @default("{}")
 
-  // Metrics (Phase 4)
+  // Metrics
   viewCount Int @default(0)
 
   // Timestamps
@@ -126,4 +127,32 @@ model Countdown {
   @@index([status])
   @@index([ownerId, status])
   @@map("countdowns")
+}
+
+// ===========================================
+// Phase 5: Usage & Limits
+// ===========================================
+
+model UsageMonth {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Calendar month tracking (UTC-based)
+  year  Int
+  month Int // 1-12
+
+  // View counters
+  viewsUsed  Int @default(0)
+  viewsLimit Int // Copied from plan at creation time
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Unique constraint: one record per user per month
+  @@unique([userId, year, month])
+  @@index([userId])
+  @@index([year, month])
+  @@map("usage_months")
 }
