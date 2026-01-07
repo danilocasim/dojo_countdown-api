@@ -11,23 +11,29 @@
 
 /**
  * Plan limits by tier.
- * Used by planLimits middleware to enforce restrictions.
+ * Used by planLimits middleware and usage service to enforce restrictions.
+ *
+ * Monthly view limits match MotionMail-style pricing:
+ * - FREE: 20,000 views/month
+ * - BOOTSTRAP: 100,000 views/month
+ * - STARTUP: 700,000 views/month
+ * - ENTERPRISE: 2,800,000 views/month
  */
 export const PLAN_LIMITS = {
   FREE: {
     maxActiveCountdowns: 3,
-    monthlyViews: 1000,
-    countdownDurationDays: 30, // Max days countdown can run
-    customization: false, // Custom colors, fonts
-    removeBranding: false, // DojoCountdown watermark
-    apiAccess: false, // Direct API access
-    analytics: false, // View analytics
-    priority: "low", // Render priority
+    monthlyViews: 20_000,
+    countdownDurationDays: 30,
+    customization: false,
+    removeBranding: false,
+    apiAccess: false,
+    analytics: false,
+    priority: "low",
   },
 
-  STARTER: {
+  BOOTSTRAP: {
     maxActiveCountdowns: 10,
-    monthlyViews: 10000,
+    monthlyViews: 100_000,
     countdownDurationDays: 90,
     customization: true,
     removeBranding: false,
@@ -36,9 +42,9 @@ export const PLAN_LIMITS = {
     priority: "normal",
   },
 
-  PRO: {
+  STARTUP: {
     maxActiveCountdowns: 50,
-    monthlyViews: 100000,
+    monthlyViews: 700_000,
     countdownDurationDays: 365,
     customization: true,
     removeBranding: true,
@@ -49,7 +55,7 @@ export const PLAN_LIMITS = {
 
   ENTERPRISE: {
     maxActiveCountdowns: Infinity,
-    monthlyViews: Infinity,
+    monthlyViews: 2_800_000,
     countdownDurationDays: Infinity,
     customization: true,
     removeBranding: true,
@@ -83,11 +89,22 @@ export const DEFAULT_COUNTDOWN_STYLE = {
 /**
  * Get limits for a specific plan.
  *
- * @param {string} plan - Plan name (FREE, STARTER, PRO, ENTERPRISE)
+ * @param {string} plan - Plan name (FREE, BOOTSTRAP, STARTUP, ENTERPRISE)
  * @returns {Object} Plan limits object
  */
 export const getPlanLimits = (plan) => {
   return PLAN_LIMITS[plan] || PLAN_LIMITS.FREE;
+};
+
+/**
+ * Get monthly view limit for a plan.
+ *
+ * @param {string} plan - Plan name
+ * @returns {number} Monthly view limit
+ */
+export const getMonthlyViewLimit = (plan) => {
+  const limits = getPlanLimits(plan);
+  return limits.monthlyViews;
 };
 
 /**
