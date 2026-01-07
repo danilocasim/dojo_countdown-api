@@ -67,19 +67,24 @@ export const renderCountdownImage = asyncHandler(async (req, res) => {
 
   // Add custom headers for debugging/analytics
   res.set("X-Countdown-Id", result.metadata.countdownId);
-  res.set("X-Countdown-Expired", result.metadata.isExpired.toString());
+  res.set(
+    "X-Countdown-Expired",
+    result.metadata.isExpired?.toString() || "false"
+  );
   res.set("X-Countdown-Format", result.metadata.format);
   res.set("X-Generated-At", result.metadata.generatedAt);
 
-  if (result.metadata.frameCount) {
-    res.set("X-Gif-Frames", result.metadata.frameCount.toString());
+  // Quota headers
+  if (result.quotaExceeded) {
+    res.set("X-Quota-Exceeded", "true");
+  }
+  if (result.metadata.usage) {
+    res.set("X-Usage-Used", result.metadata.usage.used.toString());
+    res.set("X-Usage-Limit", result.metadata.usage.limit.toString());
   }
 
-  // Increment view count asynchronously (non-blocking)
-  if (result.metadata.ownerId) {
-    renderService
-      .incrementViewCount(result.metadata.countdownId, result.metadata.ownerId)
-      .catch(() => {}); // Ignore errors
+  if (result.metadata.frameCount) {
+    res.set("X-Gif-Frames", result.metadata.frameCount.toString());
   }
 
   // Send image buffer
@@ -131,6 +136,7 @@ export const getEmbedCode = asyncHandler(async (req, res) => {
  *
  * Renders a preview image for a style configuration.
  * Requires authentication.
+ * Does NOT count against usage.
  */
 export const renderPreview = asyncHandler(async (req, res) => {
   const { styleConfig, format = "gif" } = req.body;
