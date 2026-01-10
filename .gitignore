@@ -11,7 +11,6 @@ node_modules/
 .env.*.local
 
 # Prisma generated client
-generated/
 
 # Logs
 logs/
