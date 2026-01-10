@@ -19,6 +19,9 @@ const router = Router();
  * @access  Public
  * @ratelimit 1000 requests per minute per IP
  */
+
+router.get("/:id/embed", renderController.getEmbedCode);
+
 router.get("/:id", renderLimiter, renderController.renderCountdownImage);
 
 /**
@@ -26,7 +29,6 @@ router.get("/:id", renderLimiter, renderController.renderCountdownImage);
  * @desc    Get embed codes for countdown
  * @access  Public
  */
-router.get("/:id/embed", renderController.getEmbedCode);
 
 /**
  * @route   POST /api/v1/render/preview
