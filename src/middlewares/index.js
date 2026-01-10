@@ -28,7 +28,7 @@ export const registerMiddleware = (app) => {
    * Helmet - Sets security-related HTTP headers
    * WHY: Protects against common web vulnerabilities like XSS, clickjacking
    */
-  app.use(helmet());
+  // app.use(helmet());
 
   /**
    * CORS - Cross-Origin Resource Sharing
@@ -38,13 +38,8 @@ export const registerMiddleware = (app) => {
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN || "*", // Configure in production
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: true,
-      maxAge: 86400, // 24 hours - browsers cache preflight response
     })
   );
-  app.options("*", cors()); // handle preflight
 
   // ===========================================
   // Body Parsing Middleware
