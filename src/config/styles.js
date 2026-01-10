@@ -122,6 +122,8 @@ export const normalizeStyleConfig = (styleConfig) => {
     colors: { ...DEFAULT_STYLE.colors },
   };
 
+  console.log("style", styleConfig);
+
   // If no config provided, return defaults
   if (!styleConfig || typeof styleConfig !== "object") {
     return normalized;
@@ -135,6 +137,7 @@ export const normalizeStyleConfig = (styleConfig) => {
   // Validate and apply colors
   if (styleConfig.colors && typeof styleConfig.colors === "object") {
     if (isValidHexColor(styleConfig.colors.design)) {
+      console.log(styleConfig.colors.design);
       normalized.colors.design = styleConfig.colors.design;
     }
     if (isValidHexColor(styleConfig.colors.text)) {
@@ -147,13 +150,13 @@ export const normalizeStyleConfig = (styleConfig) => {
 
   // Handle legacy color fields (backward compatibility)
   if (isValidHexColor(styleConfig.backgroundColor)) {
-    normalized.colors.backdrop = styleConfig.backgroundColor;
+    normalized.backgroundColor = styleConfig.backgroundColor;
   }
   if (isValidHexColor(styleConfig.fontColor)) {
-    normalized.colors.text = styleConfig.fontColor;
+    normalized.fontColor = styleConfig.fontColor;
   }
   if (isValidHexColor(styleConfig.accentColor)) {
-    normalized.colors.design = styleConfig.accentColor;
+    normalized.accentColor = styleConfig.accentColor;
   }
 
   // Apply noBackdrop
@@ -193,6 +196,7 @@ export const normalizeStyleConfig = (styleConfig) => {
     normalized.showBranding = styleConfig.showBranding;
   }
 
+  console.log(normalized);
   return normalized;
 };
 
