@@ -139,7 +139,6 @@ export const createCountdown = async (userId, data, userPlan) => {
   }
 
   // Merge style config with defaults
-  // Enforce branding for plans that don't allow removal
   const finalStyleConfig = {
     ...DEFAULT_STYLE_CONFIG,
     ...styleConfig,
@@ -148,14 +147,27 @@ export const createCountdown = async (userId, data, userPlan) => {
       : true,
   };
 
+  // Determine if endAt is already UTC (ISO string with Z or offset)
+  // If so, use directly. Otherwise, convert from local timezone.
+  let utcEndAt;
+  if (
+    typeof endAt === "string" &&
+    (endAt.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(endAt))
+  ) {
+    // Already UTC/ISO format
+    utcEndAt = new Date(endAt);
+  } else {
+    // Local time in specified timezone - convert to UTC
+    utcEndAt = localToUTC(endAt, timezone);
+  }
+
   // Create countdown and update usage in transaction
   const [countdown] = await prisma.$transaction([
     prisma.countdown.create({
       data: {
         ownerId: userId,
         title,
-        // NEW - Convert local time to UTC before storing
-        endAt: localToUTC(endAt, timezone),
+        endAt: utcEndAt,
         timezone,
         styleConfig: finalStyleConfig,
         status: "ACTIVE",
@@ -293,17 +305,27 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
   const { title, endAt, timezone, status, styleConfig } = data;
   const updateData = {};
 
-  // Update title if provided
   if (title !== undefined) {
     updateData.title = title;
   }
 
-  // Update endAt if provided
   if (endAt !== undefined) {
+    // Determine if endAt is already UTC
+    let utcEndAt;
     const tz = timezone || existing.timezone || "UTC";
-    const endDate = localToUTC(endAt, tz);
+
+    if (
+      typeof endAt === "string" &&
+      (endAt.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(endAt))
+    ) {
+      utcEndAt = new Date(endAt);
+    } else {
+      utcEndAt = localToUTC(endAt, tz);
+    }
+
+    // Validate duration limits
     const now = new Date();
-    const daysUntilEnd = Math.ceil((endDate - now) / (1000 * 60 * 60 * 24));
+    const daysUntilEnd = Math.ceil((utcEndAt - now) / (1000 * 60 * 60 * 24));
     const limits = getPlanLimits(userPlan);
 
     if (daysUntilEnd > limits.countdownDurationDays) {
@@ -312,14 +334,12 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
       );
     }
 
-    updateData.endAt = endDate;
+    updateData.endAt = utcEndAt;
   }
 
-  // Update timezone if provided
   if (timezone !== undefined) {
     updateData.timezone = timezone;
   }
-
   // Update status if provided
   if (status !== undefined) {
     // Can only manually set to ACTIVE or DISABLED
