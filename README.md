@@ -2,6 +2,12 @@
 
 A RESTful API service for generating dynamic countdown timer images. DojoCountdown enables users to create animated GIF countdowns that work in email clients and websites without requiring JavaScript.
 
+| Resource | Link |
+|----------|------|
+| Frontend Repository | [dojo-countdown-client](https://github.com/danilocasim/dojo-countdown-client) |
+| Live Application | [dojocountdown.vercel.app](https://dojocountdown.vercel.app) |
+| Live API | [dojo-countdown-api.onrender.com](https://dojo-countdown-api.onrender.com) |
+
 ## Table of Contents
 
 - [Overview](#overview)
