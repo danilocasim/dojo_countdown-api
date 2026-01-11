@@ -26,6 +26,13 @@ COPY package*.json ./
 # Step 5: Install Node.js dependencies
 RUN npm ci
 
+# Copy prisma schema BEFORE generate
+COPY prisma ./prisma
+
+# Generate Prisma Client for THIS environment (debian-openssl-1.1.x)
+RUN npx prisma generate
+
+
 # Step 6: Copy the rest of your source code
 COPY . .
 
