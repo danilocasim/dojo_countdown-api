@@ -4,9 +4,9 @@ A RESTful API service for generating dynamic countdown timer images. DojoCountdo
 
 | Resource | Link |
 |----------|------|
-| Frontend Repository | [dojo-countdown-client](https://github.com/danilocasim/dojo-countdown-client) |
+| Frontend Repository | [dojo-countdown-client](https://github.com/danilocasim/dojo_countdown-client) |
 | Live Application | [dojocountdown.vercel.app](https://dojocountdown.vercel.app) |
-| Live API | [dojo-countdown-api.onrender.com](https://dojo-countdown-api.onrender.com) |
+| Live API | [dojo-countdown-api.onrender.com](https://dojo_countdown-api.onrender.com) |
 
 ## Table of Contents
 
