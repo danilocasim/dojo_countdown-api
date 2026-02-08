@@ -10,48 +10,50 @@
 // - Security layer against injection attacks
 // - Documents expected input format
 
-import { body } from "express-validator";
+import { body } from 'express-validator';
 
 /**
  * Password validation rules.
  * Reused across signup and password change.
  */
 const passwordRules = () =>
-  body("password")
+  body('password')
     .trim()
     .notEmpty()
-    .withMessage("Password is required")
+    .withMessage('Password is required')
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
+    .withMessage('Password must be at least 8 characters long')
     .matches(/[a-z]/)
-    .withMessage("Password must contain at least one lowercase letter")
+    .withMessage('Password must include at least one lowercase letter (a-z)')
     .matches(/[A-Z]/)
-    .withMessage("Password must contain at least one uppercase letter")
+    .withMessage('Password must include at least one uppercase letter (A-Z)')
     .matches(/[0-9]/)
-    .withMessage("Password must contain at least one number");
+    .withMessage('Password must include at least one number (0-9)')
+    .matches(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/)
+    .withMessage('Password contains invalid characters');
 
 /**
  * Signup validation schema.
  */
 export const signupValidator = [
-  body("email")
+  body('email')
     .trim()
     .notEmpty()
-    .withMessage("Email is required")
+    .withMessage('Email address is required')
     .isEmail()
-    .withMessage("Please provide a valid email")
+    .withMessage('Please enter a valid email address (e.g., user@example.com)')
     .normalizeEmail(),
 
   passwordRules(),
 
-  body("name")
+  body('name')
     .optional()
     .trim()
     .isLength({ min: 2, max: 100 })
-    .withMessage("Name must be between 2 and 100 characters")
+    .withMessage('Name must be between 2 and 100 characters')
     .matches(/^[a-zA-Z\s'-]+$/)
     .withMessage(
-      "Name can only contain letters, spaces, hyphens, and apostrophes"
+      'Name can only contain letters, spaces, hyphens, and apostrophes',
     ),
 ];
 
@@ -59,72 +61,72 @@ export const signupValidator = [
  * Login validation schema.
  */
 export const loginValidator = [
-  body("email")
+  body('email')
     .trim()
     .notEmpty()
-    .withMessage("Email is required")
+    .withMessage('Email is required')
     .isEmail()
-    .withMessage("Please provide a valid email")
+    .withMessage('Please provide a valid email')
     .normalizeEmail(),
 
-  body("password").notEmpty().withMessage("Password is required"),
+  body('password').notEmpty().withMessage('Password is required'),
 ];
 
 /**
  * Refresh token validation schema.
  */
 export const refreshValidator = [
-  body("refreshToken")
+  body('refreshToken')
     .notEmpty()
-    .withMessage("Refresh token is required")
+    .withMessage('Refresh token is required')
     .isString()
-    .withMessage("Refresh token must be a string"),
+    .withMessage('Refresh token must be a string'),
 ];
 
 /**
  * Logout validation schema.
  */
 export const logoutValidator = [
-  body("refreshToken")
+  body('refreshToken')
     .notEmpty()
-    .withMessage("Refresh token is required")
+    .withMessage('Refresh token is required')
     .isString()
-    .withMessage("Refresh token must be a string"),
+    .withMessage('Refresh token must be a string'),
 ];
 
 /**
  * Password change validation schema.
  */
 export const changePasswordValidator = [
-  body("currentPassword")
+  body('currentPassword')
     .notEmpty()
-    .withMessage("Current password is required"),
+    .withMessage('Current password is required'),
 
-  body("newPassword")
+  body('newPassword')
     .trim()
     .notEmpty()
-    .withMessage("New password is required")
+    .withMessage('New password is required')
     .isLength({ min: 8 })
-    .withMessage("New password must be at least 8 characters")
+    .withMessage('New password must be at least 8 characters')
     .matches(/[a-z]/)
-    .withMessage("New password must contain at least one lowercase letter")
+    .withMessage('New password must contain at least one lowercase letter')
     .matches(/[A-Z]/)
-    .withMessage("New password must contain at least one uppercase letter")
+    .withMessage('New password must contain at least one uppercase letter')
     .matches(/[0-9]/)
-    .withMessage("New password must contain at least one number")
+    .withMessage('New password must contain at least one number')
     .custom((value, { req }) => {
       if (value === req.body.currentPassword) {
-        throw new Error("New password must be different from current password");
+        throw new Error('New password must be different from current password');
       }
       return true;
     }),
 
-  body("confirmPassword")
+  body('confirmPassword')
     .notEmpty()
-    .withMessage("Password confirmation is required")
+    .withMessage('Password confirmation is required')
     .custom((value, { req }) => {
       if (value !== req.body.newPassword) {
-        throw new Error("Passwords do not match");
+        throw new Error('Passwords do not match');
       }
       return true;
     }),
