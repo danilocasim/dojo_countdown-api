@@ -1,7 +1,7 @@
+# Step 1: Base image
 FROM node:18-bullseye-slim
 
-# Step 2: Install system libraries that 'canvas' package needs
-# These are the libraries that caused your build to fail earlier
+# Step 2: Install system libraries required by 'canvas'
 RUN apt-get update && apt-get install -y \
     build-essential \
     libcairo2-dev \
@@ -16,28 +16,24 @@ RUN apt-get update && apt-get install -y \
     fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
 
-# Step 3: Set working directory inside the container
+# Step 3: Set working directory
 WORKDIR /app
 
-# Step 4: Copy package.json and package-lock.json first
-# (This helps Docker cache the npm install step)
+# Step 4: Copy package.json & package-lock.json
 COPY package*.json ./
 
 # Step 5: Install Node.js dependencies
 RUN npm ci
 
-# Copy prisma schema BEFORE generate
+# Step 6: Copy Prisma schema & generate client
 COPY prisma ./prisma
-
-# Generate Prisma Client for THIS environment (debian-openssl-1.1.x)
 RUN npx prisma generate
 
-
-# Step 6: Copy the rest of your source code
+# Step 7: Copy the rest of your source code
 COPY . .
 
-# Step 7: Tell Docker this app uses port 3000
+# Step 8: Expose port for local testing (Elastic Beanstalk default is 3000)
 EXPOSE 3000
 
-# Step 8: Command to start the app
-CMD ["npm", "start"]
+# Step 9: Start server
+CMD ["node", "src/server.js"]

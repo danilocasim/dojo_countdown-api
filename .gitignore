@@ -12,6 +12,10 @@ node_modules/
 
 # Prisma generated client
 
+
+.amplify-hosting
+dist
+node_modules
 # Logs
 logs/
 *.log

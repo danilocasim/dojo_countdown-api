@@ -5,7 +5,7 @@
 // It loads environment variables, initializes the database connection,
 // and starts the HTTP server.
 
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 // ===========================================
 // Load Environment Variables FIRST
@@ -13,16 +13,15 @@ import dotenv from "dotenv";
 // ===========================================
 dotenv.config();
 
-import app from "./app.js";
-import prisma from "./lib/prisma.js";
-import config, { validateConfig } from "./config/index.js";
+import app from './app.js';
+import prisma from './lib/prisma.js';
+import config, { validateConfig } from './config/index.js';
 
 // ===========================================
 // Configuration
 // ===========================================
 const PORT = config.port;
 const NODE_ENV = config.env;
-
 // ===========================================
 // Server Instance
 // ===========================================
@@ -36,24 +35,24 @@ const startServer = async () => {
     // ===========================================
     // Validate Configuration
     // ===========================================
-    console.log("🔧 Validating configuration...");
+    console.log('🔧 Validating configuration...');
     validateConfig();
-    console.log("✅ Configuration valid");
+    console.log('✅ Configuration valid');
 
     // ===========================================
     // Verify Database Connection
     // ===========================================
-    console.log("🔌 Connecting to database...");
+    console.log('🔌 Connecting to database...');
     await prisma.$connect();
-    console.log("✅ Database connected successfully");
+    console.log('✅ Database connected successfully');
 
     // ===========================================
     // Start HTTP Server
     // ===========================================
     server = app.listen(PORT, () => {
-      console.log("═══════════════════════════════════════════");
-      console.log("🚀 DojoCountdown Server");
-      console.log("═══════════════════════════════════════════");
+      console.log('═══════════════════════════════════════════');
+      console.log('🚀 DojoCountdown Server');
+      console.log('═══════════════════════════════════════════');
       console.log(`📍 Environment: ${NODE_ENV}`);
       console.log(`🌐 URL: http://localhost:${PORT}`);
       console.log(`💚 Health: http://localhost:${PORT}/health`);
@@ -61,16 +60,16 @@ const startServer = async () => {
       console.log(`⏱️  Countdowns: http://localhost:${PORT}/api/v1/countdowns`);
       console.log(`🖼️  Render: http://localhost:${PORT}/api/v1/render/:id`);
       console.log(`📊 Usage: http://localhost:${PORT}/api/v1/usage`);
-      console.log("═══════════════════════════════════════════");
+      console.log('═══════════════════════════════════════════');
     });
 
     // ===========================================
     // Graceful Shutdown Handlers
     // ===========================================
-    process.on("SIGTERM", gracefulShutdown);
-    process.on("SIGINT", gracefulShutdown);
+    process.on('SIGTERM', gracefulShutdown);
+    process.on('SIGINT', gracefulShutdown);
   } catch (error) {
-    console.error("❌ Failed to start server:", error.message);
+    console.error('❌ Failed to start server:', error.message);
     process.exit(1);
   }
 };
@@ -83,21 +82,21 @@ const gracefulShutdown = async (signal) => {
 
   if (server) {
     server.close(async () => {
-      console.log("🔒 HTTP server closed");
+      console.log('🔒 HTTP server closed');
 
       try {
         await prisma.$disconnect();
-        console.log("🔌 Database disconnected");
-        console.log("👋 Shutdown complete");
+        console.log('🔌 Database disconnected');
+        console.log('👋 Shutdown complete');
         process.exit(0);
       } catch (error) {
-        console.error("❌ Error during shutdown:", error);
+        console.error('❌ Error during shutdown:', error);
         process.exit(1);
       }
     });
 
     setTimeout(() => {
-      console.error("⚠️ Forced shutdown after timeout");
+      console.error('⚠️ Forced shutdown after timeout');
       process.exit(1);
     }, 10000);
   } else {
@@ -105,13 +104,13 @@ const gracefulShutdown = async (signal) => {
   }
 };
 
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("❌ Unhandled Rejection:", reason);
-  gracefulShutdown("UNHANDLED_REJECTION");
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Unhandled Rejection:', reason);
+  gracefulShutdown('UNHANDLED_REJECTION');
 });
 
-process.on("uncaughtException", (error) => {
-  console.error("❌ Uncaught Exception:", error);
+process.on('uncaughtException', (error) => {
+  console.error('❌ Uncaught Exception:', error);
   process.exit(1);
 });
 
