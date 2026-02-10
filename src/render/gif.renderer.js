@@ -12,6 +12,10 @@
 import { DESIGN_VARIANTS } from '../config/styles.js';
 import { DEFAULT_FONT_ID } from '../config/fonts.js';
 import { getCanvasFontFamily } from '../lib/fontLoader.js';
+import {
+  loadBackgroundImage,
+  drawBackgroundImage,
+} from '../lib/backgroundLoader.js';
 import { createCanvas } from 'canvas';
 import GIFEncoder from 'gifencoder';
 import { Readable } from 'stream';
@@ -97,6 +101,16 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
   const sampleSegments = formatTimeSegments(initialTime, segmentConfig);
   const layout = calculateLayout(style, sampleSegments.length);
 
+  // Load background image if specified
+  let backgroundImage = null;
+  const userId = countdown.ownerId || countdown.owner?.id;
+  if (style.backgroundImageId && userId) {
+    backgroundImage = await loadBackgroundImage(
+      style.backgroundImageId,
+      userId,
+    );
+  }
+
   // Create GIF encoder
   const encoder = new GIFEncoder(layout.canvas.width, layout.canvas.height);
 
@@ -133,11 +147,21 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
         true,
         countdown,
         showBranding,
+        backgroundImage,
       );
     } else {
       // Render countdown frame
       const segments = formatTimeSegments(frameTime, segmentConfig);
-      renderFrame(ctx, layout, style, segments, false, countdown, showBranding);
+      renderFrame(
+        ctx,
+        layout,
+        style,
+        segments,
+        false,
+        countdown,
+        showBranding,
+        backgroundImage,
+      );
     }
 
     // Add frame to GIF
@@ -153,7 +177,6 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
     });
   });
 };
-
 /**
  * Calculates time for a specific frame.
  *
@@ -216,9 +239,7 @@ const calculateTimeForFrame = (initialTime, frameIndex) => {
  * @param {boolean} isExpired - Whether this is an expired frame
  * @param {Object} countdown - Countdown object
  * @param {boolean} showBranding - Whether to show branding
- */
-/**
- * Renders a single frame to the canvas.
+ * @param {Object|null} backgroundImage - Loaded background image or null
  */
 const renderFrame = (
   ctx,
@@ -228,6 +249,7 @@ const renderFrame = (
   isExpired,
   countdown,
   showBranding,
+  backgroundImage = null,
 ) => {
   const { width, height } = layout.canvas;
   const colors = style.colors || {};
@@ -237,8 +259,13 @@ const renderFrame = (
 
   // Draw backdrop
   if (!style.noBackdrop) {
-    ctx.fillStyle = colors.backdrop || '#FFFFFF';
-    ctx.fillRect(0, 0, width, height);
+    if (backgroundImage && backgroundImage.image) {
+      // Background image with aspect-ratio safe rendering (cover mode)
+      drawBackgroundImage(ctx, backgroundImage.image, width, height, 'cover');
+    } else {
+      ctx.fillStyle = colors.backdrop || '#FFFFFF';
+      ctx.fillRect(0, 0, width, height);
+    }
   }
 
   if (isExpired) {
@@ -473,6 +500,12 @@ const renderTimeSegments = (ctx, layout, style, segments) => {
  * @param {Object} countdown - Countdown data
  * @param {Object} style - Style configuration
  * @param {Object} options - Rendering options
+/**
+ * Renders a single-frame expired GIF.
+ *
+ * @param {Object} countdown - Countdown object
+ * @param {Object} style - Style configuration
+ * @param {Object} options - Rendering options
  * @returns {Promise<Buffer>} GIF buffer
  */
 const renderExpiredGif = async (countdown, style, options) => {
@@ -493,6 +526,16 @@ const renderExpiredGif = async (countdown, style, options) => {
 
   const layout = calculateLayout(expiredStyle, segments.length);
 
+  // Load background image if specified
+  let backgroundImage = null;
+  const userId = countdown.ownerId || countdown.owner?.id;
+  if (style.backgroundImageId && userId) {
+    backgroundImage = await loadBackgroundImage(
+      style.backgroundImageId,
+      userId,
+    );
+  }
+
   const encoder = new GIFEncoder(layout.canvas.width, layout.canvas.height);
   const canvas = createCanvas(layout.canvas.width, layout.canvas.height);
   const ctx = canvas.getContext('2d');
@@ -510,7 +553,16 @@ const renderExpiredGif = async (countdown, style, options) => {
     options.userPlan || 'FREE',
     countdown.styleConfig,
   );
-  renderFrame(ctx, layout, expiredStyle, null, true, countdown, showBranding);
+  renderFrame(
+    ctx,
+    layout,
+    expiredStyle,
+    null,
+    true,
+    countdown,
+    showBranding,
+    backgroundImage,
+  );
   encoder.addFrame(ctx);
 
   encoder.finish();

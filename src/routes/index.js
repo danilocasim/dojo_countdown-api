@@ -13,6 +13,7 @@ import renderRoutes from './render.routes.js';
 import usageRoutes from './usage.routes.js';
 import billingRoutes from './billing.routes.js';
 import fontsRoutes from './fonts.routes.js';
+import backgroundsRoutes from './backgrounds.routes.js';
 
 const router = Router();
 
@@ -36,6 +37,7 @@ router.use('/api/v1/render', renderRoutes);
 router.use('/api/v1/usage', usageRoutes);
 router.use('/api/v1/billing', billingRoutes);
 router.use('/api/v1/fonts', fontsRoutes);
+router.use('/api/v1/backgrounds', backgroundsRoutes);
 
 // ===========================================
 // Future route registrations:

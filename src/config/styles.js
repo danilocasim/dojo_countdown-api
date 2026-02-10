@@ -27,18 +27,37 @@ export const DESIGN_VARIANTS = {
 export const VALID_DESIGNS = Object.values(DESIGN_VARIANTS);
 
 /**
+ * Valid font source types.
+ * - preset: Built-in fonts from the font catalog
+ * - custom: User-uploaded fonts stored in the system
+ */
+export const FONT_SOURCES = {
+  PRESET: 'preset',
+  CUSTOM: 'custom',
+};
+
+/**
+ * List of valid font source values for validation.
+ */
+export const VALID_FONT_SOURCES = Object.values(FONT_SOURCES);
+
+/**
  * Default style configuration.
  * Used when styleConfig is null, empty, or missing fields.
  */
 export const DEFAULT_STYLE = {
   design: DESIGN_VARIANTS.BLOCK,
-  fontId: DEFAULT_FONT_ID, // Font from preset catalog
+  fontSource: FONT_SOURCES.PRESET, // 'preset' | 'custom'
+  fontId: DEFAULT_FONT_ID, // Font ID from preset catalog or custom font ID
   colors: {
     design: '#000000', // Main countdown shape color
     text: '#FFFFFF', // Digits and labels
     backdrop: '#FFFFFF', // Background color
   },
   noBackdrop: false,
+
+  // Background image (optional)
+  backgroundImageId: null, // ID of user's uploaded background image
 
   // Additional layout options (with defaults)
   showLabels: true,
@@ -135,9 +154,24 @@ export const normalizeStyleConfig = (styleConfig) => {
     normalized.design = styleConfig.design;
   }
 
+  // Validate and apply fontSource
+  if (
+    styleConfig.fontSource &&
+    VALID_FONT_SOURCES.includes(styleConfig.fontSource)
+  ) {
+    normalized.fontSource = styleConfig.fontSource;
+  }
+
   // Validate and apply font
-  if (styleConfig.fontId && isValidFontId(styleConfig.fontId)) {
-    normalized.fontId = styleConfig.fontId;
+  // For preset fonts, validate against catalog; for custom fonts, accept any string ID
+  if (styleConfig.fontId) {
+    if (normalized.fontSource === FONT_SOURCES.CUSTOM) {
+      // Custom font IDs are validated at render time against user's fonts
+      normalized.fontId = String(styleConfig.fontId);
+    } else if (isValidFontId(styleConfig.fontId)) {
+      // Preset fonts validated against catalog
+      normalized.fontId = styleConfig.fontId;
+    }
   }
 
   // Validate and apply colors
@@ -162,6 +196,11 @@ export const normalizeStyleConfig = (styleConfig) => {
   }
   if (isValidHexColor(styleConfig.accentColor)) {
     normalized.accentColor = styleConfig.accentColor;
+  }
+
+  // Apply background image ID (validated at render time against user's images)
+  if (styleConfig.backgroundImageId) {
+    normalized.backgroundImageId = String(styleConfig.backgroundImageId);
   }
 
   // Apply noBackdrop
@@ -201,7 +240,6 @@ export const normalizeStyleConfig = (styleConfig) => {
     normalized.showBranding = styleConfig.showBranding;
   }
 
-  console.log(normalized);
   return normalized;
 };
 
@@ -218,6 +256,8 @@ export const getDesignDimensions = (design) => {
 export default {
   DESIGN_VARIANTS,
   VALID_DESIGNS,
+  FONT_SOURCES,
+  VALID_FONT_SOURCES,
   DEFAULT_STYLE,
   DESIGN_DIMENSIONS,
   isValidHexColor,

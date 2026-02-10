@@ -186,6 +186,34 @@ exports.Prisma.UsageMonthScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CustomFontScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  name: 'name',
+  fileName: 'fileName',
+  storagePath: 'storagePath',
+  fileSize: 'fileSize',
+  mimeType: 'mimeType',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BackgroundImageScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  name: 'name',
+  fileName: 'fileName',
+  storagePath: 'storagePath',
+  fileSize: 'fileSize',
+  mimeType: 'mimeType',
+  width: 'width',
+  height: 'height',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -233,7 +261,9 @@ exports.Prisma.ModelName = {
   RefreshToken: 'RefreshToken',
   UsageStats: 'UsageStats',
   Countdown: 'Countdown',
-  UsageMonth: 'UsageMonth'
+  UsageMonth: 'UsageMonth',
+  CustomFont: 'CustomFont',
+  BackgroundImage: 'BackgroundImage'
 };
 
 /**

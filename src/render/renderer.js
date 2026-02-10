@@ -26,6 +26,10 @@ import {
 import { DESIGN_VARIANTS } from '../config/styles.js';
 import { getFontById, DEFAULT_FONT_ID } from '../config/fonts.js';
 import { getCanvasFontFamily } from '../lib/fontLoader.js';
+import {
+  loadBackgroundImage,
+  drawBackgroundImage,
+} from '../lib/backgroundLoader.js';
 
 /**
  * Font cache for performance.
@@ -97,6 +101,16 @@ const renderStaticImage = async (countdown, options = {}) => {
     style = applyExpiredTreatmentForDesign(style);
   }
 
+  // Load background image if specified
+  let backgroundImage = null;
+  const userId = countdown.ownerId || countdown.owner?.id;
+  if (style.backgroundImageId && userId) {
+    backgroundImage = await loadBackgroundImage(
+      style.backgroundImageId,
+      userId,
+    );
+  }
+
   // Get time segments
   const segments = formatTimeSegments(time, {
     showDays: style.showDays,
@@ -114,7 +128,15 @@ const renderStaticImage = async (countdown, options = {}) => {
   const ctx = canvas.getContext('2d');
 
   // Render based on design variant
-  renderDesign(ctx, layout, style, segments, isExpired, countdown);
+  renderDesign(
+    ctx,
+    layout,
+    style,
+    segments,
+    isExpired,
+    countdown,
+    backgroundImage,
+  );
 
   // Render branding if needed
   if (showBranding) {
@@ -132,9 +154,20 @@ const renderStaticImage = async (countdown, options = {}) => {
 /**
  * Renders the countdown based on design variant.
  */
-const renderDesign = (ctx, layout, style, segments, isExpired, countdown) => {
+/**
+ * Renders the countdown based on design variant.
+ */
+const renderDesign = (
+  ctx,
+  layout,
+  style,
+  segments,
+  isExpired,
+  countdown,
+  backgroundImage = null,
+) => {
   // Render backdrop first (unless noBackdrop)
-  renderBackdrop(ctx, layout, style);
+  renderBackdrop(ctx, layout, style, backgroundImage);
 
   // Render design-specific elements
   switch (layout.design) {
@@ -156,14 +189,19 @@ const renderDesign = (ctx, layout, style, segments, isExpired, countdown) => {
 
 /**
  * Renders the backdrop/background.
+ * Supports solid color, transparent, or background image.
  */
-const renderBackdrop = (ctx, layout, style) => {
+const renderBackdrop = (ctx, layout, style, backgroundImage = null) => {
   const { width, height } = layout.canvas;
 
   if (style.noBackdrop) {
     // Transparent background
     ctx.clearRect(0, 0, width, height);
+  } else if (backgroundImage && backgroundImage.image) {
+    // Background image with aspect-ratio safe rendering (cover mode)
+    drawBackgroundImage(ctx, backgroundImage.image, width, height, 'cover');
   } else {
+    // Solid color background
     ctx.fillStyle = style.colors?.backdrop || '#FFFFFF';
     ctx.fillRect(0, 0, width, height);
   }

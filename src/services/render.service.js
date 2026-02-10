@@ -10,12 +10,12 @@
 // - Tracks usage atomically
 // - Handles quota exceeded gracefully
 
-import prisma from "../lib/prisma.js";
-import { renderCountdown, renderPreview } from "../render/renderer.js";
-import { getQuotaExceededImage } from "../render/quota.renderer.js";
-import { calculateRemainingTime } from "../render/time.utils.js";
-import * as usageService from "./usage.service.js";
-import { NotFoundError, BadRequestError } from "../utils/errors.js";
+import prisma from '../lib/prisma.js';
+import { renderCountdown, renderPreview } from '../render/renderer.js';
+import { getQuotaExceededImage } from '../render/quota.renderer.js';
+import { calculateRemainingTime } from '../render/time.utils.js';
+import * as usageService from './usage.service.js';
+import { NotFoundError, BadRequestError } from '../utils/errors.js';
 
 /**
  * Renders a countdown image by ID.
@@ -27,7 +27,7 @@ import { NotFoundError, BadRequestError } from "../utils/errors.js";
  * @returns {Promise<Object>} Image buffer and metadata
  */
 export const renderCountdownById = async (countdownId, options = {}) => {
-  const { format = "gif" } = options;
+  const { format = 'gif' } = options;
 
   // Fetch countdown with owner's plan
   const countdown = await prisma.countdown.findUnique({
@@ -45,23 +45,23 @@ export const renderCountdownById = async (countdownId, options = {}) => {
 
   // Validate countdown exists
   if (!countdown) {
-    throw new NotFoundError("Countdown not found");
+    throw new NotFoundError('Countdown not found');
   }
 
   // Check if countdown is disabled
-  if (countdown.status === "DISABLED") {
-    throw new BadRequestError("This countdown is currently disabled");
+  if (countdown.status === 'DISABLED') {
+    throw new BadRequestError('This countdown is currently disabled');
   }
 
   // Check if owner's account is active
   if (!countdown.owner.isActive) {
-    throw new BadRequestError("This countdown is no longer available");
+    throw new BadRequestError('This countdown is no longer available');
   }
 
   // Check quota BEFORE rendering
   const quotaCheck = await usageService.checkQuota(
     countdown.owner.id,
-    countdown.owner.plan
+    countdown.owner.plan,
   );
 
   // If quota exceeded, return quota exceeded image
@@ -70,7 +70,7 @@ export const renderCountdownById = async (countdownId, options = {}) => {
 
     return {
       buffer: quotaImage,
-      contentType: "image/png",
+      contentType: 'image/png',
       quotaExceeded: true,
       metadata: {
         countdownId: countdown.id,
@@ -78,7 +78,7 @@ export const renderCountdownById = async (countdownId, options = {}) => {
         isExpired: false,
         remainingMs: 0,
         timezone: countdown.timezone,
-        format: "png",
+        format: 'png',
         quotaExceeded: true,
         usage: quotaCheck.usage,
         generatedAt: new Date().toISOString(),
@@ -91,7 +91,7 @@ export const renderCountdownById = async (countdownId, options = {}) => {
 
   // For GIF, calculate optimal frame count
   let frameCount = options.frameCount;
-  if (format === "gif" && !frameCount) {
+  if (format === 'gif' && !frameCount) {
     const remainingSeconds = Math.floor(time.totalMs / 1000);
     frameCount = calculateOptimalFrameCount(remainingSeconds);
   }
@@ -106,15 +106,15 @@ export const renderCountdownById = async (countdownId, options = {}) => {
   // Determine content type
   let contentType;
   switch (format) {
-    case "gif":
-      contentType = "image/gif";
+    case 'gif':
+      contentType = 'image/gif';
       break;
-    case "jpeg":
-    case "jpg":
-      contentType = "image/jpeg";
+    case 'jpeg':
+    case 'jpg':
+      contentType = 'image/jpeg';
       break;
     default:
-      contentType = "image/png";
+      contentType = 'image/png';
   }
 
   // Increment usage AFTER successful render
@@ -132,7 +132,7 @@ export const renderCountdownById = async (countdownId, options = {}) => {
       remainingMs: time.totalMs,
       timezone: countdown.timezone,
       format,
-      frameCount: format === "gif" ? frameCount : undefined,
+      frameCount: format === 'gif' ? frameCount : undefined,
       usage: quotaCheck.usage,
       generatedAt: new Date().toISOString(),
     },
@@ -159,7 +159,7 @@ const incrementUsageAsync = async (userId, plan, countdownId) => {
     });
   } catch (error) {
     // Log but don't fail - usage tracking shouldn't break rendering
-    console.error("Failed to increment usage:", error.message);
+    console.error('Failed to increment usage:', error.message);
   }
 };
 
@@ -189,16 +189,16 @@ const calculateOptimalFrameCount = (remainingSeconds) => {
  */
 export const renderStylePreview = async (
   styleConfig,
-  userPlan = "FREE",
-  format = "png"
+  userPlan = 'FREE',
+  format = 'png',
 ) => {
   return renderPreview(
     {
       ...styleConfig,
       showBranding:
-        userPlan === "FREE" ? true : styleConfig.showBranding ?? false,
+        userPlan === 'FREE' ? true : (styleConfig.showBranding ?? false),
     },
-    { format, userPlan }
+    { format, userPlan },
   );
 };
 
@@ -222,7 +222,7 @@ export const getRenderStats = async (countdownId) => {
   });
 
   if (!countdown) {
-    throw new NotFoundError("Countdown not found");
+    throw new NotFoundError('Countdown not found');
   }
 
   const time = calculateRemainingTime(countdown.endAt);

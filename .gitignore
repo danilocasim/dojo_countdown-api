@@ -42,5 +42,8 @@ build/
 tmp/
 temp/
 
+# User-uploaded fonts (stored locally in dev)
+storage/fonts/*
+
 generated/prisma
-.prisma
+.prismastorage/images/*

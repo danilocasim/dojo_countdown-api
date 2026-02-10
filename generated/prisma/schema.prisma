@@ -62,10 +62,12 @@ model User {
   rolloverCredits Int @default(0)
 
   // Relationships
-  refreshTokens RefreshToken[]
-  usageStats    UsageStats?
-  countdowns    Countdown[]
-  usageMonths   UsageMonth[]
+  refreshTokens    RefreshToken[]
+  usageStats       UsageStats?
+  countdowns       Countdown[]
+  usageMonths      UsageMonth[]
+  customFonts      CustomFont[]
+  backgroundImages BackgroundImage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -167,4 +169,62 @@ model UsageMonth {
   @@index([userId])
   @@index([year, month])
   @@map("usage_months")
+}
+
+// ===========================================
+// Phase 7: Custom Fonts
+// ===========================================
+
+model CustomFont {
+  id      String @id @default(cuid())
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // Font metadata
+  name        String // User-provided display name
+  fileName    String // Original uploaded filename
+  storagePath String // Path to stored font file
+  fileSize    Int // Size in bytes
+  mimeType    String // 'font/ttf' or 'font/otf'
+
+  // Status
+  isActive Boolean @default(true)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([ownerId, isActive])
+  @@map("custom_fonts")
+}
+
+// ===========================================
+// Phase 8: Background Images
+// ===========================================
+
+model BackgroundImage {
+  id      String @id @default(cuid())
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // Image metadata
+  name        String // User-provided display name
+  fileName    String // Original uploaded filename
+  storagePath String // Path to stored image file
+  fileSize    Int // Size in bytes
+  mimeType    String // 'image/jpeg', 'image/png', 'image/webp'
+  width       Int // Original width in pixels
+  height      Int // Original height in pixels
+
+  // Status
+  isActive Boolean @default(true)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([ownerId, isActive])
+  @@map("background_images")
 }

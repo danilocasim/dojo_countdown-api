@@ -38,6 +38,16 @@ export type Countdown = $Result.DefaultSelection<Prisma.$CountdownPayload>
  * 
  */
 export type UsageMonth = $Result.DefaultSelection<Prisma.$UsageMonthPayload>
+/**
+ * Model CustomFont
+ * 
+ */
+export type CustomFont = $Result.DefaultSelection<Prisma.$CustomFontPayload>
+/**
+ * Model BackgroundImage
+ * 
+ */
+export type BackgroundImage = $Result.DefaultSelection<Prisma.$BackgroundImagePayload>
 
 /**
  * Enums
@@ -250,6 +260,26 @@ export class PrismaClient<
     * ```
     */
   get usageMonth(): Prisma.UsageMonthDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customFont`: Exposes CRUD operations for the **CustomFont** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomFonts
+    * const customFonts = await prisma.customFont.findMany()
+    * ```
+    */
+  get customFont(): Prisma.CustomFontDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.backgroundImage`: Exposes CRUD operations for the **BackgroundImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BackgroundImages
+    * const backgroundImages = await prisma.backgroundImage.findMany()
+    * ```
+    */
+  get backgroundImage(): Prisma.BackgroundImageDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -695,7 +725,9 @@ export namespace Prisma {
     RefreshToken: 'RefreshToken',
     UsageStats: 'UsageStats',
     Countdown: 'Countdown',
-    UsageMonth: 'UsageMonth'
+    UsageMonth: 'UsageMonth',
+    CustomFont: 'CustomFont',
+    BackgroundImage: 'BackgroundImage'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -714,7 +746,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "usageStats" | "countdown" | "usageMonth"
+      modelProps: "user" | "refreshToken" | "usageStats" | "countdown" | "usageMonth" | "customFont" | "backgroundImage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1088,6 +1120,154 @@ export namespace Prisma {
           }
         }
       }
+      CustomFont: {
+        payload: Prisma.$CustomFontPayload<ExtArgs>
+        fields: Prisma.CustomFontFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomFontFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomFontFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomFontFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomFontFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>
+          }
+          findMany: {
+            args: Prisma.CustomFontFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>[]
+          }
+          create: {
+            args: Prisma.CustomFontCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>
+          }
+          createMany: {
+            args: Prisma.CustomFontCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomFontCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomFontDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>
+          }
+          update: {
+            args: Prisma.CustomFontUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomFontDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomFontUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomFontUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomFontUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFontPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomFontAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomFont>
+          }
+          groupBy: {
+            args: Prisma.CustomFontGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomFontGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomFontCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomFontCountAggregateOutputType> | number
+          }
+        }
+      }
+      BackgroundImage: {
+        payload: Prisma.$BackgroundImagePayload<ExtArgs>
+        fields: Prisma.BackgroundImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BackgroundImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BackgroundImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>
+          }
+          findFirst: {
+            args: Prisma.BackgroundImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BackgroundImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>
+          }
+          findMany: {
+            args: Prisma.BackgroundImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>[]
+          }
+          create: {
+            args: Prisma.BackgroundImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>
+          }
+          createMany: {
+            args: Prisma.BackgroundImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BackgroundImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>[]
+          }
+          delete: {
+            args: Prisma.BackgroundImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>
+          }
+          update: {
+            args: Prisma.BackgroundImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.BackgroundImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BackgroundImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BackgroundImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.BackgroundImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BackgroundImagePayload>
+          }
+          aggregate: {
+            args: Prisma.BackgroundImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBackgroundImage>
+          }
+          groupBy: {
+            args: Prisma.BackgroundImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BackgroundImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BackgroundImageCountArgs<ExtArgs>
+            result: $Utils.Optional<BackgroundImageCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1189,6 +1369,8 @@ export namespace Prisma {
     usageStats?: UsageStatsOmit
     countdown?: CountdownOmit
     usageMonth?: UsageMonthOmit
+    customFont?: CustomFontOmit
+    backgroundImage?: BackgroundImageOmit
   }
 
   /* Types for Logging */
@@ -1272,12 +1454,16 @@ export namespace Prisma {
     refreshTokens: number
     countdowns: number
     usageMonths: number
+    customFonts: number
+    backgroundImages: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
     countdowns?: boolean | UserCountOutputTypeCountCountdownsArgs
     usageMonths?: boolean | UserCountOutputTypeCountUsageMonthsArgs
+    customFonts?: boolean | UserCountOutputTypeCountCustomFontsArgs
+    backgroundImages?: boolean | UserCountOutputTypeCountBackgroundImagesArgs
   }
 
   // Custom InputTypes
@@ -1310,6 +1496,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountUsageMonthsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UsageMonthWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCustomFontsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFontWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBackgroundImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BackgroundImageWhereInput
   }
 
 
@@ -1607,6 +1807,8 @@ export namespace Prisma {
     usageStats?: boolean | User$usageStatsArgs<ExtArgs>
     countdowns?: boolean | User$countdownsArgs<ExtArgs>
     usageMonths?: boolean | User$usageMonthsArgs<ExtArgs>
+    customFonts?: boolean | User$customFontsArgs<ExtArgs>
+    backgroundImages?: boolean | User$backgroundImagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1673,6 +1875,8 @@ export namespace Prisma {
     usageStats?: boolean | User$usageStatsArgs<ExtArgs>
     countdowns?: boolean | User$countdownsArgs<ExtArgs>
     usageMonths?: boolean | User$usageMonthsArgs<ExtArgs>
+    customFonts?: boolean | User$customFontsArgs<ExtArgs>
+    backgroundImages?: boolean | User$backgroundImagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1685,6 +1889,8 @@ export namespace Prisma {
       usageStats: Prisma.$UsageStatsPayload<ExtArgs> | null
       countdowns: Prisma.$CountdownPayload<ExtArgs>[]
       usageMonths: Prisma.$UsageMonthPayload<ExtArgs>[]
+      customFonts: Prisma.$CustomFontPayload<ExtArgs>[]
+      backgroundImages: Prisma.$BackgroundImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2101,6 +2307,8 @@ export namespace Prisma {
     usageStats<T extends User$usageStatsArgs<ExtArgs> = {}>(args?: Subset<T, User$usageStatsArgs<ExtArgs>>): Prisma__UsageStatsClient<$Result.GetResult<Prisma.$UsageStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     countdowns<T extends User$countdownsArgs<ExtArgs> = {}>(args?: Subset<T, User$countdownsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CountdownPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usageMonths<T extends User$usageMonthsArgs<ExtArgs> = {}>(args?: Subset<T, User$usageMonthsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageMonthPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    customFonts<T extends User$customFontsArgs<ExtArgs> = {}>(args?: Subset<T, User$customFontsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    backgroundImages<T extends User$backgroundImagesArgs<ExtArgs> = {}>(args?: Subset<T, User$backgroundImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2622,6 +2830,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UsageMonthScalarFieldEnum | UsageMonthScalarFieldEnum[]
+  }
+
+  /**
+   * User.customFonts
+   */
+  export type User$customFontsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    where?: CustomFontWhereInput
+    orderBy?: CustomFontOrderByWithRelationInput | CustomFontOrderByWithRelationInput[]
+    cursor?: CustomFontWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomFontScalarFieldEnum | CustomFontScalarFieldEnum[]
+  }
+
+  /**
+   * User.backgroundImages
+   */
+  export type User$backgroundImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    where?: BackgroundImageWhereInput
+    orderBy?: BackgroundImageOrderByWithRelationInput | BackgroundImageOrderByWithRelationInput[]
+    cursor?: BackgroundImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BackgroundImageScalarFieldEnum | BackgroundImageScalarFieldEnum[]
   }
 
   /**
@@ -7180,6 +7436,2354 @@ export namespace Prisma {
 
 
   /**
+   * Model CustomFont
+   */
+
+  export type AggregateCustomFont = {
+    _count: CustomFontCountAggregateOutputType | null
+    _avg: CustomFontAvgAggregateOutputType | null
+    _sum: CustomFontSumAggregateOutputType | null
+    _min: CustomFontMinAggregateOutputType | null
+    _max: CustomFontMaxAggregateOutputType | null
+  }
+
+  export type CustomFontAvgAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type CustomFontSumAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type CustomFontMinAggregateOutputType = {
+    id: string | null
+    ownerId: string | null
+    name: string | null
+    fileName: string | null
+    storagePath: string | null
+    fileSize: number | null
+    mimeType: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFontMaxAggregateOutputType = {
+    id: string | null
+    ownerId: string | null
+    name: string | null
+    fileName: string | null
+    storagePath: string | null
+    fileSize: number | null
+    mimeType: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFontCountAggregateOutputType = {
+    id: number
+    ownerId: number
+    name: number
+    fileName: number
+    storagePath: number
+    fileSize: number
+    mimeType: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CustomFontAvgAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type CustomFontSumAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type CustomFontMinAggregateInputType = {
+    id?: true
+    ownerId?: true
+    name?: true
+    fileName?: true
+    storagePath?: true
+    fileSize?: true
+    mimeType?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFontMaxAggregateInputType = {
+    id?: true
+    ownerId?: true
+    name?: true
+    fileName?: true
+    storagePath?: true
+    fileSize?: true
+    mimeType?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFontCountAggregateInputType = {
+    id?: true
+    ownerId?: true
+    name?: true
+    fileName?: true
+    storagePath?: true
+    fileSize?: true
+    mimeType?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CustomFontAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFont to aggregate.
+     */
+    where?: CustomFontWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFonts to fetch.
+     */
+    orderBy?: CustomFontOrderByWithRelationInput | CustomFontOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomFontWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFonts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFonts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomFonts
+    **/
+    _count?: true | CustomFontCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CustomFontAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CustomFontSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomFontMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomFontMaxAggregateInputType
+  }
+
+  export type GetCustomFontAggregateType<T extends CustomFontAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomFont]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomFont[P]>
+      : GetScalarType<T[P], AggregateCustomFont[P]>
+  }
+
+
+
+
+  export type CustomFontGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFontWhereInput
+    orderBy?: CustomFontOrderByWithAggregationInput | CustomFontOrderByWithAggregationInput[]
+    by: CustomFontScalarFieldEnum[] | CustomFontScalarFieldEnum
+    having?: CustomFontScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomFontCountAggregateInputType | true
+    _avg?: CustomFontAvgAggregateInputType
+    _sum?: CustomFontSumAggregateInputType
+    _min?: CustomFontMinAggregateInputType
+    _max?: CustomFontMaxAggregateInputType
+  }
+
+  export type CustomFontGroupByOutputType = {
+    id: string
+    ownerId: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CustomFontCountAggregateOutputType | null
+    _avg: CustomFontAvgAggregateOutputType | null
+    _sum: CustomFontSumAggregateOutputType | null
+    _min: CustomFontMinAggregateOutputType | null
+    _max: CustomFontMaxAggregateOutputType | null
+  }
+
+  type GetCustomFontGroupByPayload<T extends CustomFontGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomFontGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomFontGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomFontGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomFontGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomFontSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFont"]>
+
+  export type CustomFontSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFont"]>
+
+  export type CustomFontSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFont"]>
+
+  export type CustomFontSelectScalar = {
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CustomFontOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "name" | "fileName" | "storagePath" | "fileSize" | "mimeType" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["customFont"]>
+  export type CustomFontInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CustomFontIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CustomFontIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomFontPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomFont"
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ownerId: string
+      name: string
+      fileName: string
+      storagePath: string
+      fileSize: number
+      mimeType: string
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["customFont"]>
+    composites: {}
+  }
+
+  type CustomFontGetPayload<S extends boolean | null | undefined | CustomFontDefaultArgs> = $Result.GetResult<Prisma.$CustomFontPayload, S>
+
+  type CustomFontCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomFontFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomFontCountAggregateInputType | true
+    }
+
+  export interface CustomFontDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomFont'], meta: { name: 'CustomFont' } }
+    /**
+     * Find zero or one CustomFont that matches the filter.
+     * @param {CustomFontFindUniqueArgs} args - Arguments to find a CustomFont
+     * @example
+     * // Get one CustomFont
+     * const customFont = await prisma.customFont.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomFontFindUniqueArgs>(args: SelectSubset<T, CustomFontFindUniqueArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomFont that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomFontFindUniqueOrThrowArgs} args - Arguments to find a CustomFont
+     * @example
+     * // Get one CustomFont
+     * const customFont = await prisma.customFont.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomFontFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFontFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomFont that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFontFindFirstArgs} args - Arguments to find a CustomFont
+     * @example
+     * // Get one CustomFont
+     * const customFont = await prisma.customFont.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomFontFindFirstArgs>(args?: SelectSubset<T, CustomFontFindFirstArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomFont that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFontFindFirstOrThrowArgs} args - Arguments to find a CustomFont
+     * @example
+     * // Get one CustomFont
+     * const customFont = await prisma.customFont.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomFontFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFontFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomFonts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFontFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomFonts
+     * const customFonts = await prisma.customFont.findMany()
+     * 
+     * // Get first 10 CustomFonts
+     * const customFonts = await prisma.customFont.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customFontWithIdOnly = await prisma.customFont.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomFontFindManyArgs>(args?: SelectSubset<T, CustomFontFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomFont.
+     * @param {CustomFontCreateArgs} args - Arguments to create a CustomFont.
+     * @example
+     * // Create one CustomFont
+     * const CustomFont = await prisma.customFont.create({
+     *   data: {
+     *     // ... data to create a CustomFont
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomFontCreateArgs>(args: SelectSubset<T, CustomFontCreateArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomFonts.
+     * @param {CustomFontCreateManyArgs} args - Arguments to create many CustomFonts.
+     * @example
+     * // Create many CustomFonts
+     * const customFont = await prisma.customFont.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomFontCreateManyArgs>(args?: SelectSubset<T, CustomFontCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomFonts and returns the data saved in the database.
+     * @param {CustomFontCreateManyAndReturnArgs} args - Arguments to create many CustomFonts.
+     * @example
+     * // Create many CustomFonts
+     * const customFont = await prisma.customFont.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomFonts and only return the `id`
+     * const customFontWithIdOnly = await prisma.customFont.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomFontCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFontCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomFont.
+     * @param {CustomFontDeleteArgs} args - Arguments to delete one CustomFont.
+     * @example
+     * // Delete one CustomFont
+     * const CustomFont = await prisma.customFont.delete({
+     *   where: {
+     *     // ... filter to delete one CustomFont
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomFontDeleteArgs>(args: SelectSubset<T, CustomFontDeleteArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomFont.
+     * @param {CustomFontUpdateArgs} args - Arguments to update one CustomFont.
+     * @example
+     * // Update one CustomFont
+     * const customFont = await prisma.customFont.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomFontUpdateArgs>(args: SelectSubset<T, CustomFontUpdateArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomFonts.
+     * @param {CustomFontDeleteManyArgs} args - Arguments to filter CustomFonts to delete.
+     * @example
+     * // Delete a few CustomFonts
+     * const { count } = await prisma.customFont.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomFontDeleteManyArgs>(args?: SelectSubset<T, CustomFontDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFonts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFontUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomFonts
+     * const customFont = await prisma.customFont.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomFontUpdateManyArgs>(args: SelectSubset<T, CustomFontUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFonts and returns the data updated in the database.
+     * @param {CustomFontUpdateManyAndReturnArgs} args - Arguments to update many CustomFonts.
+     * @example
+     * // Update many CustomFonts
+     * const customFont = await prisma.customFont.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomFonts and only return the `id`
+     * const customFontWithIdOnly = await prisma.customFont.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomFontUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomFontUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomFont.
+     * @param {CustomFontUpsertArgs} args - Arguments to update or create a CustomFont.
+     * @example
+     * // Update or create a CustomFont
+     * const customFont = await prisma.customFont.upsert({
+     *   create: {
+     *     // ... data to create a CustomFont
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomFont we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomFontUpsertArgs>(args: SelectSubset<T, CustomFontUpsertArgs<ExtArgs>>): Prisma__CustomFontClient<$Result.GetResult<Prisma.$CustomFontPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomFonts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFontCountArgs} args - Arguments to filter CustomFonts to count.
+     * @example
+     * // Count the number of CustomFonts
+     * const count = await prisma.customFont.count({
+     *   where: {
+     *     // ... the filter for the CustomFonts we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomFontCountArgs>(
+      args?: Subset<T, CustomFontCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomFontCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomFont.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFontAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomFontAggregateArgs>(args: Subset<T, CustomFontAggregateArgs>): Prisma.PrismaPromise<GetCustomFontAggregateType<T>>
+
+    /**
+     * Group by CustomFont.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFontGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomFontGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomFontGroupByArgs['orderBy'] }
+        : { orderBy?: CustomFontGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomFontGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFontGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomFont model
+   */
+  readonly fields: CustomFontFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomFont.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomFontClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomFont model
+   */
+  interface CustomFontFieldRefs {
+    readonly id: FieldRef<"CustomFont", 'String'>
+    readonly ownerId: FieldRef<"CustomFont", 'String'>
+    readonly name: FieldRef<"CustomFont", 'String'>
+    readonly fileName: FieldRef<"CustomFont", 'String'>
+    readonly storagePath: FieldRef<"CustomFont", 'String'>
+    readonly fileSize: FieldRef<"CustomFont", 'Int'>
+    readonly mimeType: FieldRef<"CustomFont", 'String'>
+    readonly isActive: FieldRef<"CustomFont", 'Boolean'>
+    readonly createdAt: FieldRef<"CustomFont", 'DateTime'>
+    readonly updatedAt: FieldRef<"CustomFont", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomFont findUnique
+   */
+  export type CustomFontFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFont to fetch.
+     */
+    where: CustomFontWhereUniqueInput
+  }
+
+  /**
+   * CustomFont findUniqueOrThrow
+   */
+  export type CustomFontFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFont to fetch.
+     */
+    where: CustomFontWhereUniqueInput
+  }
+
+  /**
+   * CustomFont findFirst
+   */
+  export type CustomFontFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFont to fetch.
+     */
+    where?: CustomFontWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFonts to fetch.
+     */
+    orderBy?: CustomFontOrderByWithRelationInput | CustomFontOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFonts.
+     */
+    cursor?: CustomFontWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFonts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFonts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFonts.
+     */
+    distinct?: CustomFontScalarFieldEnum | CustomFontScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFont findFirstOrThrow
+   */
+  export type CustomFontFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFont to fetch.
+     */
+    where?: CustomFontWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFonts to fetch.
+     */
+    orderBy?: CustomFontOrderByWithRelationInput | CustomFontOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFonts.
+     */
+    cursor?: CustomFontWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFonts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFonts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFonts.
+     */
+    distinct?: CustomFontScalarFieldEnum | CustomFontScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFont findMany
+   */
+  export type CustomFontFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFonts to fetch.
+     */
+    where?: CustomFontWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFonts to fetch.
+     */
+    orderBy?: CustomFontOrderByWithRelationInput | CustomFontOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomFonts.
+     */
+    cursor?: CustomFontWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFonts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFonts.
+     */
+    skip?: number
+    distinct?: CustomFontScalarFieldEnum | CustomFontScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFont create
+   */
+  export type CustomFontCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomFont.
+     */
+    data: XOR<CustomFontCreateInput, CustomFontUncheckedCreateInput>
+  }
+
+  /**
+   * CustomFont createMany
+   */
+  export type CustomFontCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomFonts.
+     */
+    data: CustomFontCreateManyInput | CustomFontCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomFont createManyAndReturn
+   */
+  export type CustomFontCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomFonts.
+     */
+    data: CustomFontCreateManyInput | CustomFontCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomFont update
+   */
+  export type CustomFontUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomFont.
+     */
+    data: XOR<CustomFontUpdateInput, CustomFontUncheckedUpdateInput>
+    /**
+     * Choose, which CustomFont to update.
+     */
+    where: CustomFontWhereUniqueInput
+  }
+
+  /**
+   * CustomFont updateMany
+   */
+  export type CustomFontUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomFonts.
+     */
+    data: XOR<CustomFontUpdateManyMutationInput, CustomFontUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFonts to update
+     */
+    where?: CustomFontWhereInput
+    /**
+     * Limit how many CustomFonts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomFont updateManyAndReturn
+   */
+  export type CustomFontUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomFonts.
+     */
+    data: XOR<CustomFontUpdateManyMutationInput, CustomFontUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFonts to update
+     */
+    where?: CustomFontWhereInput
+    /**
+     * Limit how many CustomFonts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomFont upsert
+   */
+  export type CustomFontUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomFont to update in case it exists.
+     */
+    where: CustomFontWhereUniqueInput
+    /**
+     * In case the CustomFont found by the `where` argument doesn't exist, create a new CustomFont with this data.
+     */
+    create: XOR<CustomFontCreateInput, CustomFontUncheckedCreateInput>
+    /**
+     * In case the CustomFont was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomFontUpdateInput, CustomFontUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomFont delete
+   */
+  export type CustomFontDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+    /**
+     * Filter which CustomFont to delete.
+     */
+    where: CustomFontWhereUniqueInput
+  }
+
+  /**
+   * CustomFont deleteMany
+   */
+  export type CustomFontDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFonts to delete
+     */
+    where?: CustomFontWhereInput
+    /**
+     * Limit how many CustomFonts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomFont without action
+   */
+  export type CustomFontDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFont
+     */
+    select?: CustomFontSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFont
+     */
+    omit?: CustomFontOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFontInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BackgroundImage
+   */
+
+  export type AggregateBackgroundImage = {
+    _count: BackgroundImageCountAggregateOutputType | null
+    _avg: BackgroundImageAvgAggregateOutputType | null
+    _sum: BackgroundImageSumAggregateOutputType | null
+    _min: BackgroundImageMinAggregateOutputType | null
+    _max: BackgroundImageMaxAggregateOutputType | null
+  }
+
+  export type BackgroundImageAvgAggregateOutputType = {
+    fileSize: number | null
+    width: number | null
+    height: number | null
+  }
+
+  export type BackgroundImageSumAggregateOutputType = {
+    fileSize: number | null
+    width: number | null
+    height: number | null
+  }
+
+  export type BackgroundImageMinAggregateOutputType = {
+    id: string | null
+    ownerId: string | null
+    name: string | null
+    fileName: string | null
+    storagePath: string | null
+    fileSize: number | null
+    mimeType: string | null
+    width: number | null
+    height: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BackgroundImageMaxAggregateOutputType = {
+    id: string | null
+    ownerId: string | null
+    name: string | null
+    fileName: string | null
+    storagePath: string | null
+    fileSize: number | null
+    mimeType: string | null
+    width: number | null
+    height: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BackgroundImageCountAggregateOutputType = {
+    id: number
+    ownerId: number
+    name: number
+    fileName: number
+    storagePath: number
+    fileSize: number
+    mimeType: number
+    width: number
+    height: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BackgroundImageAvgAggregateInputType = {
+    fileSize?: true
+    width?: true
+    height?: true
+  }
+
+  export type BackgroundImageSumAggregateInputType = {
+    fileSize?: true
+    width?: true
+    height?: true
+  }
+
+  export type BackgroundImageMinAggregateInputType = {
+    id?: true
+    ownerId?: true
+    name?: true
+    fileName?: true
+    storagePath?: true
+    fileSize?: true
+    mimeType?: true
+    width?: true
+    height?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BackgroundImageMaxAggregateInputType = {
+    id?: true
+    ownerId?: true
+    name?: true
+    fileName?: true
+    storagePath?: true
+    fileSize?: true
+    mimeType?: true
+    width?: true
+    height?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BackgroundImageCountAggregateInputType = {
+    id?: true
+    ownerId?: true
+    name?: true
+    fileName?: true
+    storagePath?: true
+    fileSize?: true
+    mimeType?: true
+    width?: true
+    height?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BackgroundImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BackgroundImage to aggregate.
+     */
+    where?: BackgroundImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundImages to fetch.
+     */
+    orderBy?: BackgroundImageOrderByWithRelationInput | BackgroundImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BackgroundImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BackgroundImages
+    **/
+    _count?: true | BackgroundImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BackgroundImageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BackgroundImageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BackgroundImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BackgroundImageMaxAggregateInputType
+  }
+
+  export type GetBackgroundImageAggregateType<T extends BackgroundImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateBackgroundImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBackgroundImage[P]>
+      : GetScalarType<T[P], AggregateBackgroundImage[P]>
+  }
+
+
+
+
+  export type BackgroundImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BackgroundImageWhereInput
+    orderBy?: BackgroundImageOrderByWithAggregationInput | BackgroundImageOrderByWithAggregationInput[]
+    by: BackgroundImageScalarFieldEnum[] | BackgroundImageScalarFieldEnum
+    having?: BackgroundImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BackgroundImageCountAggregateInputType | true
+    _avg?: BackgroundImageAvgAggregateInputType
+    _sum?: BackgroundImageSumAggregateInputType
+    _min?: BackgroundImageMinAggregateInputType
+    _max?: BackgroundImageMaxAggregateInputType
+  }
+
+  export type BackgroundImageGroupByOutputType = {
+    id: string
+    ownerId: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    width: number
+    height: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: BackgroundImageCountAggregateOutputType | null
+    _avg: BackgroundImageAvgAggregateOutputType | null
+    _sum: BackgroundImageSumAggregateOutputType | null
+    _min: BackgroundImageMinAggregateOutputType | null
+    _max: BackgroundImageMaxAggregateOutputType | null
+  }
+
+  type GetBackgroundImageGroupByPayload<T extends BackgroundImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BackgroundImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BackgroundImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BackgroundImageGroupByOutputType[P]>
+            : GetScalarType<T[P], BackgroundImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BackgroundImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    width?: boolean
+    height?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["backgroundImage"]>
+
+  export type BackgroundImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    width?: boolean
+    height?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["backgroundImage"]>
+
+  export type BackgroundImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    width?: boolean
+    height?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["backgroundImage"]>
+
+  export type BackgroundImageSelectScalar = {
+    id?: boolean
+    ownerId?: boolean
+    name?: boolean
+    fileName?: boolean
+    storagePath?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    width?: boolean
+    height?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BackgroundImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ownerId" | "name" | "fileName" | "storagePath" | "fileSize" | "mimeType" | "width" | "height" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["backgroundImage"]>
+  export type BackgroundImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BackgroundImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BackgroundImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BackgroundImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BackgroundImage"
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ownerId: string
+      name: string
+      fileName: string
+      storagePath: string
+      fileSize: number
+      mimeType: string
+      width: number
+      height: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["backgroundImage"]>
+    composites: {}
+  }
+
+  type BackgroundImageGetPayload<S extends boolean | null | undefined | BackgroundImageDefaultArgs> = $Result.GetResult<Prisma.$BackgroundImagePayload, S>
+
+  type BackgroundImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BackgroundImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BackgroundImageCountAggregateInputType | true
+    }
+
+  export interface BackgroundImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BackgroundImage'], meta: { name: 'BackgroundImage' } }
+    /**
+     * Find zero or one BackgroundImage that matches the filter.
+     * @param {BackgroundImageFindUniqueArgs} args - Arguments to find a BackgroundImage
+     * @example
+     * // Get one BackgroundImage
+     * const backgroundImage = await prisma.backgroundImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BackgroundImageFindUniqueArgs>(args: SelectSubset<T, BackgroundImageFindUniqueArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BackgroundImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BackgroundImageFindUniqueOrThrowArgs} args - Arguments to find a BackgroundImage
+     * @example
+     * // Get one BackgroundImage
+     * const backgroundImage = await prisma.backgroundImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BackgroundImageFindUniqueOrThrowArgs>(args: SelectSubset<T, BackgroundImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BackgroundImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundImageFindFirstArgs} args - Arguments to find a BackgroundImage
+     * @example
+     * // Get one BackgroundImage
+     * const backgroundImage = await prisma.backgroundImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BackgroundImageFindFirstArgs>(args?: SelectSubset<T, BackgroundImageFindFirstArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BackgroundImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundImageFindFirstOrThrowArgs} args - Arguments to find a BackgroundImage
+     * @example
+     * // Get one BackgroundImage
+     * const backgroundImage = await prisma.backgroundImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BackgroundImageFindFirstOrThrowArgs>(args?: SelectSubset<T, BackgroundImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BackgroundImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BackgroundImages
+     * const backgroundImages = await prisma.backgroundImage.findMany()
+     * 
+     * // Get first 10 BackgroundImages
+     * const backgroundImages = await prisma.backgroundImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const backgroundImageWithIdOnly = await prisma.backgroundImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BackgroundImageFindManyArgs>(args?: SelectSubset<T, BackgroundImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BackgroundImage.
+     * @param {BackgroundImageCreateArgs} args - Arguments to create a BackgroundImage.
+     * @example
+     * // Create one BackgroundImage
+     * const BackgroundImage = await prisma.backgroundImage.create({
+     *   data: {
+     *     // ... data to create a BackgroundImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends BackgroundImageCreateArgs>(args: SelectSubset<T, BackgroundImageCreateArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BackgroundImages.
+     * @param {BackgroundImageCreateManyArgs} args - Arguments to create many BackgroundImages.
+     * @example
+     * // Create many BackgroundImages
+     * const backgroundImage = await prisma.backgroundImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BackgroundImageCreateManyArgs>(args?: SelectSubset<T, BackgroundImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BackgroundImages and returns the data saved in the database.
+     * @param {BackgroundImageCreateManyAndReturnArgs} args - Arguments to create many BackgroundImages.
+     * @example
+     * // Create many BackgroundImages
+     * const backgroundImage = await prisma.backgroundImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BackgroundImages and only return the `id`
+     * const backgroundImageWithIdOnly = await prisma.backgroundImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BackgroundImageCreateManyAndReturnArgs>(args?: SelectSubset<T, BackgroundImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BackgroundImage.
+     * @param {BackgroundImageDeleteArgs} args - Arguments to delete one BackgroundImage.
+     * @example
+     * // Delete one BackgroundImage
+     * const BackgroundImage = await prisma.backgroundImage.delete({
+     *   where: {
+     *     // ... filter to delete one BackgroundImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BackgroundImageDeleteArgs>(args: SelectSubset<T, BackgroundImageDeleteArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BackgroundImage.
+     * @param {BackgroundImageUpdateArgs} args - Arguments to update one BackgroundImage.
+     * @example
+     * // Update one BackgroundImage
+     * const backgroundImage = await prisma.backgroundImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BackgroundImageUpdateArgs>(args: SelectSubset<T, BackgroundImageUpdateArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BackgroundImages.
+     * @param {BackgroundImageDeleteManyArgs} args - Arguments to filter BackgroundImages to delete.
+     * @example
+     * // Delete a few BackgroundImages
+     * const { count } = await prisma.backgroundImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BackgroundImageDeleteManyArgs>(args?: SelectSubset<T, BackgroundImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BackgroundImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BackgroundImages
+     * const backgroundImage = await prisma.backgroundImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BackgroundImageUpdateManyArgs>(args: SelectSubset<T, BackgroundImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BackgroundImages and returns the data updated in the database.
+     * @param {BackgroundImageUpdateManyAndReturnArgs} args - Arguments to update many BackgroundImages.
+     * @example
+     * // Update many BackgroundImages
+     * const backgroundImage = await prisma.backgroundImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BackgroundImages and only return the `id`
+     * const backgroundImageWithIdOnly = await prisma.backgroundImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BackgroundImageUpdateManyAndReturnArgs>(args: SelectSubset<T, BackgroundImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BackgroundImage.
+     * @param {BackgroundImageUpsertArgs} args - Arguments to update or create a BackgroundImage.
+     * @example
+     * // Update or create a BackgroundImage
+     * const backgroundImage = await prisma.backgroundImage.upsert({
+     *   create: {
+     *     // ... data to create a BackgroundImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BackgroundImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BackgroundImageUpsertArgs>(args: SelectSubset<T, BackgroundImageUpsertArgs<ExtArgs>>): Prisma__BackgroundImageClient<$Result.GetResult<Prisma.$BackgroundImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BackgroundImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundImageCountArgs} args - Arguments to filter BackgroundImages to count.
+     * @example
+     * // Count the number of BackgroundImages
+     * const count = await prisma.backgroundImage.count({
+     *   where: {
+     *     // ... the filter for the BackgroundImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends BackgroundImageCountArgs>(
+      args?: Subset<T, BackgroundImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BackgroundImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BackgroundImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BackgroundImageAggregateArgs>(args: Subset<T, BackgroundImageAggregateArgs>): Prisma.PrismaPromise<GetBackgroundImageAggregateType<T>>
+
+    /**
+     * Group by BackgroundImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BackgroundImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BackgroundImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BackgroundImageGroupByArgs['orderBy'] }
+        : { orderBy?: BackgroundImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BackgroundImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBackgroundImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BackgroundImage model
+   */
+  readonly fields: BackgroundImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BackgroundImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BackgroundImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BackgroundImage model
+   */
+  interface BackgroundImageFieldRefs {
+    readonly id: FieldRef<"BackgroundImage", 'String'>
+    readonly ownerId: FieldRef<"BackgroundImage", 'String'>
+    readonly name: FieldRef<"BackgroundImage", 'String'>
+    readonly fileName: FieldRef<"BackgroundImage", 'String'>
+    readonly storagePath: FieldRef<"BackgroundImage", 'String'>
+    readonly fileSize: FieldRef<"BackgroundImage", 'Int'>
+    readonly mimeType: FieldRef<"BackgroundImage", 'String'>
+    readonly width: FieldRef<"BackgroundImage", 'Int'>
+    readonly height: FieldRef<"BackgroundImage", 'Int'>
+    readonly isActive: FieldRef<"BackgroundImage", 'Boolean'>
+    readonly createdAt: FieldRef<"BackgroundImage", 'DateTime'>
+    readonly updatedAt: FieldRef<"BackgroundImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BackgroundImage findUnique
+   */
+  export type BackgroundImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * Filter, which BackgroundImage to fetch.
+     */
+    where: BackgroundImageWhereUniqueInput
+  }
+
+  /**
+   * BackgroundImage findUniqueOrThrow
+   */
+  export type BackgroundImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * Filter, which BackgroundImage to fetch.
+     */
+    where: BackgroundImageWhereUniqueInput
+  }
+
+  /**
+   * BackgroundImage findFirst
+   */
+  export type BackgroundImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * Filter, which BackgroundImage to fetch.
+     */
+    where?: BackgroundImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundImages to fetch.
+     */
+    orderBy?: BackgroundImageOrderByWithRelationInput | BackgroundImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BackgroundImages.
+     */
+    cursor?: BackgroundImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BackgroundImages.
+     */
+    distinct?: BackgroundImageScalarFieldEnum | BackgroundImageScalarFieldEnum[]
+  }
+
+  /**
+   * BackgroundImage findFirstOrThrow
+   */
+  export type BackgroundImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * Filter, which BackgroundImage to fetch.
+     */
+    where?: BackgroundImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundImages to fetch.
+     */
+    orderBy?: BackgroundImageOrderByWithRelationInput | BackgroundImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BackgroundImages.
+     */
+    cursor?: BackgroundImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BackgroundImages.
+     */
+    distinct?: BackgroundImageScalarFieldEnum | BackgroundImageScalarFieldEnum[]
+  }
+
+  /**
+   * BackgroundImage findMany
+   */
+  export type BackgroundImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * Filter, which BackgroundImages to fetch.
+     */
+    where?: BackgroundImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BackgroundImages to fetch.
+     */
+    orderBy?: BackgroundImageOrderByWithRelationInput | BackgroundImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BackgroundImages.
+     */
+    cursor?: BackgroundImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BackgroundImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BackgroundImages.
+     */
+    skip?: number
+    distinct?: BackgroundImageScalarFieldEnum | BackgroundImageScalarFieldEnum[]
+  }
+
+  /**
+   * BackgroundImage create
+   */
+  export type BackgroundImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BackgroundImage.
+     */
+    data: XOR<BackgroundImageCreateInput, BackgroundImageUncheckedCreateInput>
+  }
+
+  /**
+   * BackgroundImage createMany
+   */
+  export type BackgroundImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BackgroundImages.
+     */
+    data: BackgroundImageCreateManyInput | BackgroundImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BackgroundImage createManyAndReturn
+   */
+  export type BackgroundImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many BackgroundImages.
+     */
+    data: BackgroundImageCreateManyInput | BackgroundImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BackgroundImage update
+   */
+  export type BackgroundImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BackgroundImage.
+     */
+    data: XOR<BackgroundImageUpdateInput, BackgroundImageUncheckedUpdateInput>
+    /**
+     * Choose, which BackgroundImage to update.
+     */
+    where: BackgroundImageWhereUniqueInput
+  }
+
+  /**
+   * BackgroundImage updateMany
+   */
+  export type BackgroundImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BackgroundImages.
+     */
+    data: XOR<BackgroundImageUpdateManyMutationInput, BackgroundImageUncheckedUpdateManyInput>
+    /**
+     * Filter which BackgroundImages to update
+     */
+    where?: BackgroundImageWhereInput
+    /**
+     * Limit how many BackgroundImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BackgroundImage updateManyAndReturn
+   */
+  export type BackgroundImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * The data used to update BackgroundImages.
+     */
+    data: XOR<BackgroundImageUpdateManyMutationInput, BackgroundImageUncheckedUpdateManyInput>
+    /**
+     * Filter which BackgroundImages to update
+     */
+    where?: BackgroundImageWhereInput
+    /**
+     * Limit how many BackgroundImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BackgroundImage upsert
+   */
+  export type BackgroundImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BackgroundImage to update in case it exists.
+     */
+    where: BackgroundImageWhereUniqueInput
+    /**
+     * In case the BackgroundImage found by the `where` argument doesn't exist, create a new BackgroundImage with this data.
+     */
+    create: XOR<BackgroundImageCreateInput, BackgroundImageUncheckedCreateInput>
+    /**
+     * In case the BackgroundImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BackgroundImageUpdateInput, BackgroundImageUncheckedUpdateInput>
+  }
+
+  /**
+   * BackgroundImage delete
+   */
+  export type BackgroundImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+    /**
+     * Filter which BackgroundImage to delete.
+     */
+    where: BackgroundImageWhereUniqueInput
+  }
+
+  /**
+   * BackgroundImage deleteMany
+   */
+  export type BackgroundImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BackgroundImages to delete
+     */
+    where?: BackgroundImageWhereInput
+    /**
+     * Limit how many BackgroundImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BackgroundImage without action
+   */
+  export type BackgroundImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BackgroundImage
+     */
+    select?: BackgroundImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BackgroundImage
+     */
+    omit?: BackgroundImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BackgroundImageInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7271,6 +9875,40 @@ export namespace Prisma {
   };
 
   export type UsageMonthScalarFieldEnum = (typeof UsageMonthScalarFieldEnum)[keyof typeof UsageMonthScalarFieldEnum]
+
+
+  export const CustomFontScalarFieldEnum: {
+    id: 'id',
+    ownerId: 'ownerId',
+    name: 'name',
+    fileName: 'fileName',
+    storagePath: 'storagePath',
+    fileSize: 'fileSize',
+    mimeType: 'mimeType',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CustomFontScalarFieldEnum = (typeof CustomFontScalarFieldEnum)[keyof typeof CustomFontScalarFieldEnum]
+
+
+  export const BackgroundImageScalarFieldEnum: {
+    id: 'id',
+    ownerId: 'ownerId',
+    name: 'name',
+    fileName: 'fileName',
+    storagePath: 'storagePath',
+    fileSize: 'fileSize',
+    mimeType: 'mimeType',
+    width: 'width',
+    height: 'height',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BackgroundImageScalarFieldEnum = (typeof BackgroundImageScalarFieldEnum)[keyof typeof BackgroundImageScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7464,6 +10102,8 @@ export namespace Prisma {
     usageStats?: XOR<UsageStatsNullableScalarRelationFilter, UsageStatsWhereInput> | null
     countdowns?: CountdownListRelationFilter
     usageMonths?: UsageMonthListRelationFilter
+    customFonts?: CustomFontListRelationFilter
+    backgroundImages?: BackgroundImageListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7487,6 +10127,8 @@ export namespace Prisma {
     usageStats?: UsageStatsOrderByWithRelationInput
     countdowns?: CountdownOrderByRelationAggregateInput
     usageMonths?: UsageMonthOrderByRelationAggregateInput
+    customFonts?: CustomFontOrderByRelationAggregateInput
+    backgroundImages?: BackgroundImageOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7513,6 +10155,8 @@ export namespace Prisma {
     usageStats?: XOR<UsageStatsNullableScalarRelationFilter, UsageStatsWhereInput> | null
     countdowns?: CountdownListRelationFilter
     usageMonths?: UsageMonthListRelationFilter
+    customFonts?: CustomFontListRelationFilter
+    backgroundImages?: BackgroundImageListRelationFilter
   }, "id" | "email" | "stripeCustomerId" | "stripeSubscriptionId">
 
   export type UserOrderByWithAggregationInput = {
@@ -7858,6 +10502,180 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"UsageMonth"> | Date | string
   }
 
+  export type CustomFontWhereInput = {
+    AND?: CustomFontWhereInput | CustomFontWhereInput[]
+    OR?: CustomFontWhereInput[]
+    NOT?: CustomFontWhereInput | CustomFontWhereInput[]
+    id?: StringFilter<"CustomFont"> | string
+    ownerId?: StringFilter<"CustomFont"> | string
+    name?: StringFilter<"CustomFont"> | string
+    fileName?: StringFilter<"CustomFont"> | string
+    storagePath?: StringFilter<"CustomFont"> | string
+    fileSize?: IntFilter<"CustomFont"> | number
+    mimeType?: StringFilter<"CustomFont"> | string
+    isActive?: BoolFilter<"CustomFont"> | boolean
+    createdAt?: DateTimeFilter<"CustomFont"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFont"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type CustomFontOrderByWithRelationInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    owner?: UserOrderByWithRelationInput
+  }
+
+  export type CustomFontWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CustomFontWhereInput | CustomFontWhereInput[]
+    OR?: CustomFontWhereInput[]
+    NOT?: CustomFontWhereInput | CustomFontWhereInput[]
+    ownerId?: StringFilter<"CustomFont"> | string
+    name?: StringFilter<"CustomFont"> | string
+    fileName?: StringFilter<"CustomFont"> | string
+    storagePath?: StringFilter<"CustomFont"> | string
+    fileSize?: IntFilter<"CustomFont"> | number
+    mimeType?: StringFilter<"CustomFont"> | string
+    isActive?: BoolFilter<"CustomFont"> | boolean
+    createdAt?: DateTimeFilter<"CustomFont"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFont"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type CustomFontOrderByWithAggregationInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CustomFontCountOrderByAggregateInput
+    _avg?: CustomFontAvgOrderByAggregateInput
+    _max?: CustomFontMaxOrderByAggregateInput
+    _min?: CustomFontMinOrderByAggregateInput
+    _sum?: CustomFontSumOrderByAggregateInput
+  }
+
+  export type CustomFontScalarWhereWithAggregatesInput = {
+    AND?: CustomFontScalarWhereWithAggregatesInput | CustomFontScalarWhereWithAggregatesInput[]
+    OR?: CustomFontScalarWhereWithAggregatesInput[]
+    NOT?: CustomFontScalarWhereWithAggregatesInput | CustomFontScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomFont"> | string
+    ownerId?: StringWithAggregatesFilter<"CustomFont"> | string
+    name?: StringWithAggregatesFilter<"CustomFont"> | string
+    fileName?: StringWithAggregatesFilter<"CustomFont"> | string
+    storagePath?: StringWithAggregatesFilter<"CustomFont"> | string
+    fileSize?: IntWithAggregatesFilter<"CustomFont"> | number
+    mimeType?: StringWithAggregatesFilter<"CustomFont"> | string
+    isActive?: BoolWithAggregatesFilter<"CustomFont"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CustomFont"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CustomFont"> | Date | string
+  }
+
+  export type BackgroundImageWhereInput = {
+    AND?: BackgroundImageWhereInput | BackgroundImageWhereInput[]
+    OR?: BackgroundImageWhereInput[]
+    NOT?: BackgroundImageWhereInput | BackgroundImageWhereInput[]
+    id?: StringFilter<"BackgroundImage"> | string
+    ownerId?: StringFilter<"BackgroundImage"> | string
+    name?: StringFilter<"BackgroundImage"> | string
+    fileName?: StringFilter<"BackgroundImage"> | string
+    storagePath?: StringFilter<"BackgroundImage"> | string
+    fileSize?: IntFilter<"BackgroundImage"> | number
+    mimeType?: StringFilter<"BackgroundImage"> | string
+    width?: IntFilter<"BackgroundImage"> | number
+    height?: IntFilter<"BackgroundImage"> | number
+    isActive?: BoolFilter<"BackgroundImage"> | boolean
+    createdAt?: DateTimeFilter<"BackgroundImage"> | Date | string
+    updatedAt?: DateTimeFilter<"BackgroundImage"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BackgroundImageOrderByWithRelationInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    owner?: UserOrderByWithRelationInput
+  }
+
+  export type BackgroundImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BackgroundImageWhereInput | BackgroundImageWhereInput[]
+    OR?: BackgroundImageWhereInput[]
+    NOT?: BackgroundImageWhereInput | BackgroundImageWhereInput[]
+    ownerId?: StringFilter<"BackgroundImage"> | string
+    name?: StringFilter<"BackgroundImage"> | string
+    fileName?: StringFilter<"BackgroundImage"> | string
+    storagePath?: StringFilter<"BackgroundImage"> | string
+    fileSize?: IntFilter<"BackgroundImage"> | number
+    mimeType?: StringFilter<"BackgroundImage"> | string
+    width?: IntFilter<"BackgroundImage"> | number
+    height?: IntFilter<"BackgroundImage"> | number
+    isActive?: BoolFilter<"BackgroundImage"> | boolean
+    createdAt?: DateTimeFilter<"BackgroundImage"> | Date | string
+    updatedAt?: DateTimeFilter<"BackgroundImage"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type BackgroundImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BackgroundImageCountOrderByAggregateInput
+    _avg?: BackgroundImageAvgOrderByAggregateInput
+    _max?: BackgroundImageMaxOrderByAggregateInput
+    _min?: BackgroundImageMinOrderByAggregateInput
+    _sum?: BackgroundImageSumOrderByAggregateInput
+  }
+
+  export type BackgroundImageScalarWhereWithAggregatesInput = {
+    AND?: BackgroundImageScalarWhereWithAggregatesInput | BackgroundImageScalarWhereWithAggregatesInput[]
+    OR?: BackgroundImageScalarWhereWithAggregatesInput[]
+    NOT?: BackgroundImageScalarWhereWithAggregatesInput | BackgroundImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BackgroundImage"> | string
+    ownerId?: StringWithAggregatesFilter<"BackgroundImage"> | string
+    name?: StringWithAggregatesFilter<"BackgroundImage"> | string
+    fileName?: StringWithAggregatesFilter<"BackgroundImage"> | string
+    storagePath?: StringWithAggregatesFilter<"BackgroundImage"> | string
+    fileSize?: IntWithAggregatesFilter<"BackgroundImage"> | number
+    mimeType?: StringWithAggregatesFilter<"BackgroundImage"> | string
+    width?: IntWithAggregatesFilter<"BackgroundImage"> | number
+    height?: IntWithAggregatesFilter<"BackgroundImage"> | number
+    isActive?: BoolWithAggregatesFilter<"BackgroundImage"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"BackgroundImage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BackgroundImage"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -7879,6 +10697,8 @@ export namespace Prisma {
     usageStats?: UsageStatsCreateNestedOneWithoutUserInput
     countdowns?: CountdownCreateNestedManyWithoutOwnerInput
     usageMonths?: UsageMonthCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7902,6 +10722,8 @@ export namespace Prisma {
     usageStats?: UsageStatsUncheckedCreateNestedOneWithoutUserInput
     countdowns?: CountdownUncheckedCreateNestedManyWithoutOwnerInput
     usageMonths?: UsageMonthUncheckedCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontUncheckedCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUpdateInput = {
@@ -7925,6 +10747,8 @@ export namespace Prisma {
     usageStats?: UsageStatsUpdateOneWithoutUserNestedInput
     countdowns?: CountdownUpdateManyWithoutOwnerNestedInput
     usageMonths?: UsageMonthUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7948,6 +10772,8 @@ export namespace Prisma {
     usageStats?: UsageStatsUncheckedUpdateOneWithoutUserNestedInput
     countdowns?: CountdownUncheckedUpdateManyWithoutOwnerNestedInput
     usageMonths?: UsageMonthUncheckedUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUncheckedUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8325,6 +11151,200 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CustomFontCreateInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutCustomFontsInput
+  }
+
+  export type CustomFontUncheckedCreateInput = {
+    id?: string
+    ownerId: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFontUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutCustomFontsNestedInput
+  }
+
+  export type CustomFontUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFontCreateManyInput = {
+    id?: string
+    ownerId: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFontUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFontUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundImageCreateInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    width: number
+    height: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutBackgroundImagesInput
+  }
+
+  export type BackgroundImageUncheckedCreateInput = {
+    id?: string
+    ownerId: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    width: number
+    height: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutBackgroundImagesNestedInput
+  }
+
+  export type BackgroundImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundImageCreateManyInput = {
+    id?: string
+    ownerId: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    width: number
+    height: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8430,6 +11450,18 @@ export namespace Prisma {
     none?: UsageMonthWhereInput
   }
 
+  export type CustomFontListRelationFilter = {
+    every?: CustomFontWhereInput
+    some?: CustomFontWhereInput
+    none?: CustomFontWhereInput
+  }
+
+  export type BackgroundImageListRelationFilter = {
+    every?: BackgroundImageWhereInput
+    some?: BackgroundImageWhereInput
+    none?: BackgroundImageWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -8444,6 +11476,14 @@ export namespace Prisma {
   }
 
   export type UsageMonthOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomFontOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BackgroundImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8869,6 +11909,110 @@ export namespace Prisma {
     viewsLimit?: SortOrder
   }
 
+  export type CustomFontCountOrderByAggregateInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFontAvgOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type CustomFontMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFontMinOrderByAggregateInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFontSumOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type BackgroundImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BackgroundImageAvgOrderByAggregateInput = {
+    fileSize?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+  }
+
+  export type BackgroundImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BackgroundImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    ownerId?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    storagePath?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BackgroundImageSumOrderByAggregateInput = {
+    fileSize?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+  }
+
   export type RefreshTokenCreateNestedManyWithoutUserInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -8896,6 +12040,20 @@ export namespace Prisma {
     connect?: UsageMonthWhereUniqueInput | UsageMonthWhereUniqueInput[]
   }
 
+  export type CustomFontCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<CustomFontCreateWithoutOwnerInput, CustomFontUncheckedCreateWithoutOwnerInput> | CustomFontCreateWithoutOwnerInput[] | CustomFontUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: CustomFontCreateOrConnectWithoutOwnerInput | CustomFontCreateOrConnectWithoutOwnerInput[]
+    createMany?: CustomFontCreateManyOwnerInputEnvelope
+    connect?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+  }
+
+  export type BackgroundImageCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<BackgroundImageCreateWithoutOwnerInput, BackgroundImageUncheckedCreateWithoutOwnerInput> | BackgroundImageCreateWithoutOwnerInput[] | BackgroundImageUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: BackgroundImageCreateOrConnectWithoutOwnerInput | BackgroundImageCreateOrConnectWithoutOwnerInput[]
+    createMany?: BackgroundImageCreateManyOwnerInputEnvelope
+    connect?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+  }
+
   export type RefreshTokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -8921,6 +12079,20 @@ export namespace Prisma {
     connectOrCreate?: UsageMonthCreateOrConnectWithoutUserInput | UsageMonthCreateOrConnectWithoutUserInput[]
     createMany?: UsageMonthCreateManyUserInputEnvelope
     connect?: UsageMonthWhereUniqueInput | UsageMonthWhereUniqueInput[]
+  }
+
+  export type CustomFontUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<CustomFontCreateWithoutOwnerInput, CustomFontUncheckedCreateWithoutOwnerInput> | CustomFontCreateWithoutOwnerInput[] | CustomFontUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: CustomFontCreateOrConnectWithoutOwnerInput | CustomFontCreateOrConnectWithoutOwnerInput[]
+    createMany?: CustomFontCreateManyOwnerInputEnvelope
+    connect?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+  }
+
+  export type BackgroundImageUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<BackgroundImageCreateWithoutOwnerInput, BackgroundImageUncheckedCreateWithoutOwnerInput> | BackgroundImageCreateWithoutOwnerInput[] | BackgroundImageUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: BackgroundImageCreateOrConnectWithoutOwnerInput | BackgroundImageCreateOrConnectWithoutOwnerInput[]
+    createMany?: BackgroundImageCreateManyOwnerInputEnvelope
+    connect?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -9011,6 +12183,34 @@ export namespace Prisma {
     deleteMany?: UsageMonthScalarWhereInput | UsageMonthScalarWhereInput[]
   }
 
+  export type CustomFontUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<CustomFontCreateWithoutOwnerInput, CustomFontUncheckedCreateWithoutOwnerInput> | CustomFontCreateWithoutOwnerInput[] | CustomFontUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: CustomFontCreateOrConnectWithoutOwnerInput | CustomFontCreateOrConnectWithoutOwnerInput[]
+    upsert?: CustomFontUpsertWithWhereUniqueWithoutOwnerInput | CustomFontUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: CustomFontCreateManyOwnerInputEnvelope
+    set?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    disconnect?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    delete?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    connect?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    update?: CustomFontUpdateWithWhereUniqueWithoutOwnerInput | CustomFontUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: CustomFontUpdateManyWithWhereWithoutOwnerInput | CustomFontUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: CustomFontScalarWhereInput | CustomFontScalarWhereInput[]
+  }
+
+  export type BackgroundImageUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<BackgroundImageCreateWithoutOwnerInput, BackgroundImageUncheckedCreateWithoutOwnerInput> | BackgroundImageCreateWithoutOwnerInput[] | BackgroundImageUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: BackgroundImageCreateOrConnectWithoutOwnerInput | BackgroundImageCreateOrConnectWithoutOwnerInput[]
+    upsert?: BackgroundImageUpsertWithWhereUniqueWithoutOwnerInput | BackgroundImageUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: BackgroundImageCreateManyOwnerInputEnvelope
+    set?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    disconnect?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    delete?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    connect?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    update?: BackgroundImageUpdateWithWhereUniqueWithoutOwnerInput | BackgroundImageUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: BackgroundImageUpdateManyWithWhereWithoutOwnerInput | BackgroundImageUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: BackgroundImageScalarWhereInput | BackgroundImageScalarWhereInput[]
+  }
+
   export type RefreshTokenUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -9061,6 +12261,34 @@ export namespace Prisma {
     update?: UsageMonthUpdateWithWhereUniqueWithoutUserInput | UsageMonthUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UsageMonthUpdateManyWithWhereWithoutUserInput | UsageMonthUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UsageMonthScalarWhereInput | UsageMonthScalarWhereInput[]
+  }
+
+  export type CustomFontUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<CustomFontCreateWithoutOwnerInput, CustomFontUncheckedCreateWithoutOwnerInput> | CustomFontCreateWithoutOwnerInput[] | CustomFontUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: CustomFontCreateOrConnectWithoutOwnerInput | CustomFontCreateOrConnectWithoutOwnerInput[]
+    upsert?: CustomFontUpsertWithWhereUniqueWithoutOwnerInput | CustomFontUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: CustomFontCreateManyOwnerInputEnvelope
+    set?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    disconnect?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    delete?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    connect?: CustomFontWhereUniqueInput | CustomFontWhereUniqueInput[]
+    update?: CustomFontUpdateWithWhereUniqueWithoutOwnerInput | CustomFontUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: CustomFontUpdateManyWithWhereWithoutOwnerInput | CustomFontUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: CustomFontScalarWhereInput | CustomFontScalarWhereInput[]
+  }
+
+  export type BackgroundImageUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<BackgroundImageCreateWithoutOwnerInput, BackgroundImageUncheckedCreateWithoutOwnerInput> | BackgroundImageCreateWithoutOwnerInput[] | BackgroundImageUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: BackgroundImageCreateOrConnectWithoutOwnerInput | BackgroundImageCreateOrConnectWithoutOwnerInput[]
+    upsert?: BackgroundImageUpsertWithWhereUniqueWithoutOwnerInput | BackgroundImageUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: BackgroundImageCreateManyOwnerInputEnvelope
+    set?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    disconnect?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    delete?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    connect?: BackgroundImageWhereUniqueInput | BackgroundImageWhereUniqueInput[]
+    update?: BackgroundImageUpdateWithWhereUniqueWithoutOwnerInput | BackgroundImageUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: BackgroundImageUpdateManyWithWhereWithoutOwnerInput | BackgroundImageUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: BackgroundImageScalarWhereInput | BackgroundImageScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRefreshTokensInput = {
@@ -9121,6 +12349,34 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutUsageMonthsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUsageMonthsInput, UserUpdateWithoutUsageMonthsInput>, UserUncheckedUpdateWithoutUsageMonthsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCustomFontsInput = {
+    create?: XOR<UserCreateWithoutCustomFontsInput, UserUncheckedCreateWithoutCustomFontsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCustomFontsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCustomFontsNestedInput = {
+    create?: XOR<UserCreateWithoutCustomFontsInput, UserUncheckedCreateWithoutCustomFontsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCustomFontsInput
+    upsert?: UserUpsertWithoutCustomFontsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCustomFontsInput, UserUpdateWithoutCustomFontsInput>, UserUncheckedUpdateWithoutCustomFontsInput>
+  }
+
+  export type UserCreateNestedOneWithoutBackgroundImagesInput = {
+    create?: XOR<UserCreateWithoutBackgroundImagesInput, UserUncheckedCreateWithoutBackgroundImagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBackgroundImagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutBackgroundImagesNestedInput = {
+    create?: XOR<UserCreateWithoutBackgroundImagesInput, UserUncheckedCreateWithoutBackgroundImagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBackgroundImagesInput
+    upsert?: UserUpsertWithoutBackgroundImagesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBackgroundImagesInput, UserUpdateWithoutBackgroundImagesInput>, UserUncheckedUpdateWithoutBackgroundImagesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9490,6 +12746,78 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CustomFontCreateWithoutOwnerInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFontUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFontCreateOrConnectWithoutOwnerInput = {
+    where: CustomFontWhereUniqueInput
+    create: XOR<CustomFontCreateWithoutOwnerInput, CustomFontUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type CustomFontCreateManyOwnerInputEnvelope = {
+    data: CustomFontCreateManyOwnerInput | CustomFontCreateManyOwnerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BackgroundImageCreateWithoutOwnerInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    width: number
+    height: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundImageUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    width: number
+    height: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundImageCreateOrConnectWithoutOwnerInput = {
+    where: BackgroundImageWhereUniqueInput
+    create: XOR<BackgroundImageCreateWithoutOwnerInput, BackgroundImageUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type BackgroundImageCreateManyOwnerInputEnvelope = {
+    data: BackgroundImageCreateManyOwnerInput | BackgroundImageCreateManyOwnerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RefreshTokenUpsertWithWhereUniqueWithoutUserInput = {
     where: RefreshTokenWhereUniqueInput
     update: XOR<RefreshTokenUpdateWithoutUserInput, RefreshTokenUncheckedUpdateWithoutUserInput>
@@ -9614,6 +12942,72 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UsageMonth"> | Date | string
   }
 
+  export type CustomFontUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: CustomFontWhereUniqueInput
+    update: XOR<CustomFontUpdateWithoutOwnerInput, CustomFontUncheckedUpdateWithoutOwnerInput>
+    create: XOR<CustomFontCreateWithoutOwnerInput, CustomFontUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type CustomFontUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: CustomFontWhereUniqueInput
+    data: XOR<CustomFontUpdateWithoutOwnerInput, CustomFontUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type CustomFontUpdateManyWithWhereWithoutOwnerInput = {
+    where: CustomFontScalarWhereInput
+    data: XOR<CustomFontUpdateManyMutationInput, CustomFontUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type CustomFontScalarWhereInput = {
+    AND?: CustomFontScalarWhereInput | CustomFontScalarWhereInput[]
+    OR?: CustomFontScalarWhereInput[]
+    NOT?: CustomFontScalarWhereInput | CustomFontScalarWhereInput[]
+    id?: StringFilter<"CustomFont"> | string
+    ownerId?: StringFilter<"CustomFont"> | string
+    name?: StringFilter<"CustomFont"> | string
+    fileName?: StringFilter<"CustomFont"> | string
+    storagePath?: StringFilter<"CustomFont"> | string
+    fileSize?: IntFilter<"CustomFont"> | number
+    mimeType?: StringFilter<"CustomFont"> | string
+    isActive?: BoolFilter<"CustomFont"> | boolean
+    createdAt?: DateTimeFilter<"CustomFont"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFont"> | Date | string
+  }
+
+  export type BackgroundImageUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: BackgroundImageWhereUniqueInput
+    update: XOR<BackgroundImageUpdateWithoutOwnerInput, BackgroundImageUncheckedUpdateWithoutOwnerInput>
+    create: XOR<BackgroundImageCreateWithoutOwnerInput, BackgroundImageUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type BackgroundImageUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: BackgroundImageWhereUniqueInput
+    data: XOR<BackgroundImageUpdateWithoutOwnerInput, BackgroundImageUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type BackgroundImageUpdateManyWithWhereWithoutOwnerInput = {
+    where: BackgroundImageScalarWhereInput
+    data: XOR<BackgroundImageUpdateManyMutationInput, BackgroundImageUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type BackgroundImageScalarWhereInput = {
+    AND?: BackgroundImageScalarWhereInput | BackgroundImageScalarWhereInput[]
+    OR?: BackgroundImageScalarWhereInput[]
+    NOT?: BackgroundImageScalarWhereInput | BackgroundImageScalarWhereInput[]
+    id?: StringFilter<"BackgroundImage"> | string
+    ownerId?: StringFilter<"BackgroundImage"> | string
+    name?: StringFilter<"BackgroundImage"> | string
+    fileName?: StringFilter<"BackgroundImage"> | string
+    storagePath?: StringFilter<"BackgroundImage"> | string
+    fileSize?: IntFilter<"BackgroundImage"> | number
+    mimeType?: StringFilter<"BackgroundImage"> | string
+    width?: IntFilter<"BackgroundImage"> | number
+    height?: IntFilter<"BackgroundImage"> | number
+    isActive?: BoolFilter<"BackgroundImage"> | boolean
+    createdAt?: DateTimeFilter<"BackgroundImage"> | Date | string
+    updatedAt?: DateTimeFilter<"BackgroundImage"> | Date | string
+  }
+
   export type UserCreateWithoutRefreshTokensInput = {
     id?: string
     email: string
@@ -9634,6 +13028,8 @@ export namespace Prisma {
     usageStats?: UsageStatsCreateNestedOneWithoutUserInput
     countdowns?: CountdownCreateNestedManyWithoutOwnerInput
     usageMonths?: UsageMonthCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -9656,6 +13052,8 @@ export namespace Prisma {
     usageStats?: UsageStatsUncheckedCreateNestedOneWithoutUserInput
     countdowns?: CountdownUncheckedCreateNestedManyWithoutOwnerInput
     usageMonths?: UsageMonthUncheckedCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontUncheckedCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -9694,6 +13092,8 @@ export namespace Prisma {
     usageStats?: UsageStatsUpdateOneWithoutUserNestedInput
     countdowns?: CountdownUpdateManyWithoutOwnerNestedInput
     usageMonths?: UsageMonthUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -9716,6 +13116,8 @@ export namespace Prisma {
     usageStats?: UsageStatsUncheckedUpdateOneWithoutUserNestedInput
     countdowns?: CountdownUncheckedUpdateManyWithoutOwnerNestedInput
     usageMonths?: UsageMonthUncheckedUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUncheckedUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutUsageStatsInput = {
@@ -9738,6 +13140,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     countdowns?: CountdownCreateNestedManyWithoutOwnerInput
     usageMonths?: UsageMonthCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutUsageStatsInput = {
@@ -9760,6 +13164,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     countdowns?: CountdownUncheckedCreateNestedManyWithoutOwnerInput
     usageMonths?: UsageMonthUncheckedCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontUncheckedCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutUsageStatsInput = {
@@ -9798,6 +13204,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     countdowns?: CountdownUpdateManyWithoutOwnerNestedInput
     usageMonths?: UsageMonthUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsageStatsInput = {
@@ -9820,6 +13228,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     countdowns?: CountdownUncheckedUpdateManyWithoutOwnerNestedInput
     usageMonths?: UsageMonthUncheckedUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUncheckedUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutCountdownsInput = {
@@ -9842,6 +13252,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     usageStats?: UsageStatsCreateNestedOneWithoutUserInput
     usageMonths?: UsageMonthCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutCountdownsInput = {
@@ -9864,6 +13276,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     usageStats?: UsageStatsUncheckedCreateNestedOneWithoutUserInput
     usageMonths?: UsageMonthUncheckedCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontUncheckedCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutCountdownsInput = {
@@ -9902,6 +13316,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     usageStats?: UsageStatsUpdateOneWithoutUserNestedInput
     usageMonths?: UsageMonthUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCountdownsInput = {
@@ -9924,6 +13340,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     usageStats?: UsageStatsUncheckedUpdateOneWithoutUserNestedInput
     usageMonths?: UsageMonthUncheckedUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUncheckedUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutUsageMonthsInput = {
@@ -9946,6 +13364,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     usageStats?: UsageStatsCreateNestedOneWithoutUserInput
     countdowns?: CountdownCreateNestedManyWithoutOwnerInput
+    customFonts?: CustomFontCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutUsageMonthsInput = {
@@ -9968,6 +13388,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     usageStats?: UsageStatsUncheckedCreateNestedOneWithoutUserInput
     countdowns?: CountdownUncheckedCreateNestedManyWithoutOwnerInput
+    customFonts?: CustomFontUncheckedCreateNestedManyWithoutOwnerInput
+    backgroundImages?: BackgroundImageUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutUsageMonthsInput = {
@@ -10006,6 +13428,8 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     usageStats?: UsageStatsUpdateOneWithoutUserNestedInput
     countdowns?: CountdownUpdateManyWithoutOwnerNestedInput
+    customFonts?: CustomFontUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsageMonthsInput = {
@@ -10028,6 +13452,232 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     usageStats?: UsageStatsUncheckedUpdateOneWithoutUserNestedInput
     countdowns?: CountdownUncheckedUpdateManyWithoutOwnerNestedInput
+    customFonts?: CustomFontUncheckedUpdateManyWithoutOwnerNestedInput
+    backgroundImages?: BackgroundImageUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserCreateWithoutCustomFontsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    role?: $Enums.Role
+    plan?: $Enums.Plan
+    isActive?: boolean
+    isVerified?: boolean
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    subscriptionStatus?: string | null
+    currentPeriodEnd?: Date | string | null
+    rolloverCredits?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    usageStats?: UsageStatsCreateNestedOneWithoutUserInput
+    countdowns?: CountdownCreateNestedManyWithoutOwnerInput
+    usageMonths?: UsageMonthCreateNestedManyWithoutUserInput
+    backgroundImages?: BackgroundImageCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutCustomFontsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    role?: $Enums.Role
+    plan?: $Enums.Plan
+    isActive?: boolean
+    isVerified?: boolean
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    subscriptionStatus?: string | null
+    currentPeriodEnd?: Date | string | null
+    rolloverCredits?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    usageStats?: UsageStatsUncheckedCreateNestedOneWithoutUserInput
+    countdowns?: CountdownUncheckedCreateNestedManyWithoutOwnerInput
+    usageMonths?: UsageMonthUncheckedCreateNestedManyWithoutUserInput
+    backgroundImages?: BackgroundImageUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutCustomFontsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCustomFontsInput, UserUncheckedCreateWithoutCustomFontsInput>
+  }
+
+  export type UserUpsertWithoutCustomFontsInput = {
+    update: XOR<UserUpdateWithoutCustomFontsInput, UserUncheckedUpdateWithoutCustomFontsInput>
+    create: XOR<UserCreateWithoutCustomFontsInput, UserUncheckedCreateWithoutCustomFontsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCustomFontsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCustomFontsInput, UserUncheckedUpdateWithoutCustomFontsInput>
+  }
+
+  export type UserUpdateWithoutCustomFontsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolloverCredits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    usageStats?: UsageStatsUpdateOneWithoutUserNestedInput
+    countdowns?: CountdownUpdateManyWithoutOwnerNestedInput
+    usageMonths?: UsageMonthUpdateManyWithoutUserNestedInput
+    backgroundImages?: BackgroundImageUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCustomFontsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolloverCredits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    usageStats?: UsageStatsUncheckedUpdateOneWithoutUserNestedInput
+    countdowns?: CountdownUncheckedUpdateManyWithoutOwnerNestedInput
+    usageMonths?: UsageMonthUncheckedUpdateManyWithoutUserNestedInput
+    backgroundImages?: BackgroundImageUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserCreateWithoutBackgroundImagesInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    role?: $Enums.Role
+    plan?: $Enums.Plan
+    isActive?: boolean
+    isVerified?: boolean
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    subscriptionStatus?: string | null
+    currentPeriodEnd?: Date | string | null
+    rolloverCredits?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    usageStats?: UsageStatsCreateNestedOneWithoutUserInput
+    countdowns?: CountdownCreateNestedManyWithoutOwnerInput
+    usageMonths?: UsageMonthCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutBackgroundImagesInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    role?: $Enums.Role
+    plan?: $Enums.Plan
+    isActive?: boolean
+    isVerified?: boolean
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    subscriptionStatus?: string | null
+    currentPeriodEnd?: Date | string | null
+    rolloverCredits?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    usageStats?: UsageStatsUncheckedCreateNestedOneWithoutUserInput
+    countdowns?: CountdownUncheckedCreateNestedManyWithoutOwnerInput
+    usageMonths?: UsageMonthUncheckedCreateNestedManyWithoutUserInput
+    customFonts?: CustomFontUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutBackgroundImagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBackgroundImagesInput, UserUncheckedCreateWithoutBackgroundImagesInput>
+  }
+
+  export type UserUpsertWithoutBackgroundImagesInput = {
+    update: XOR<UserUpdateWithoutBackgroundImagesInput, UserUncheckedUpdateWithoutBackgroundImagesInput>
+    create: XOR<UserCreateWithoutBackgroundImagesInput, UserUncheckedCreateWithoutBackgroundImagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBackgroundImagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBackgroundImagesInput, UserUncheckedUpdateWithoutBackgroundImagesInput>
+  }
+
+  export type UserUpdateWithoutBackgroundImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolloverCredits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    usageStats?: UsageStatsUpdateOneWithoutUserNestedInput
+    countdowns?: CountdownUpdateManyWithoutOwnerNestedInput
+    usageMonths?: UsageMonthUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBackgroundImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rolloverCredits?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    usageStats?: UsageStatsUncheckedUpdateOneWithoutUserNestedInput
+    countdowns?: CountdownUncheckedUpdateManyWithoutOwnerNestedInput
+    usageMonths?: UsageMonthUncheckedUpdateManyWithoutUserNestedInput
+    customFonts?: CustomFontUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type RefreshTokenCreateManyUserInput = {
@@ -10057,6 +13707,32 @@ export namespace Prisma {
     month: number
     viewsUsed?: number
     viewsLimit: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFontCreateManyOwnerInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BackgroundImageCreateManyOwnerInput = {
+    id?: string
+    name: string
+    fileName: string
+    storagePath: string
+    fileSize: number
+    mimeType: string
+    width: number
+    height: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10150,6 +13826,84 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     viewsUsed?: IntFieldUpdateOperationsInput | number
     viewsLimit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFontUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFontUncheckedUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFontUncheckedUpdateManyWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundImageUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundImageUncheckedUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BackgroundImageUncheckedUpdateManyWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

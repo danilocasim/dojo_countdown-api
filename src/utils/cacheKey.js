@@ -122,6 +122,15 @@ export const generateRenderCacheKey = ({
   const normalizedBranding = Boolean(showBranding);
   const normalizedStyle = styleConfig || {};
 
+  // Extract font-specific fields for explicit inclusion in cache key
+  // This ensures custom fonts with the same style but different fontId/fontSource
+  // produce different cache keys
+  const fontSource = normalizedStyle.fontSource || 'preset';
+  const fontId = normalizedStyle.fontId || 'default';
+
+  // Extract background image ID for cache key
+  const backgroundImageId = normalizedStyle.backgroundImageId || null;
+
   // Build the payload to hash
   // Order of properties doesn't matter - stableStringify sorts them
   const payload = {
@@ -129,6 +138,13 @@ export const generateRenderCacheKey = ({
     format: normalizedFormat,
     dimensions: normalizedDimensions,
     branding: normalizedBranding,
+    // Explicitly include font info for cache key clarity
+    font: {
+      source: fontSource,
+      id: fontId,
+    },
+    // Include background image ID
+    backgroundImageId,
   };
 
   // Create stable hash of the payload
