@@ -6,6 +6,10 @@
 import { body, param, query } from 'express-validator';
 import { VALID_DESIGNS, isValidHexColor } from '../config/styles.js';
 import { isValidFontId, FONT_CATALOG } from '../config/fonts.js';
+import {
+  VALID_ANIMATION_TYPES,
+  ANIMATION_DURATION_LIMITS,
+} from '../config/animations.js';
 
 /**
  * Valid IANA timezone check.
@@ -80,6 +84,34 @@ const validateStyleConfig = (value) => {
     !['short', 'full', 'none'].includes(value.labelStyle)
   ) {
     throw new Error('labelStyle must be one of: short, full, none');
+  }
+
+  // Validate animation config
+  if (value.animation !== undefined) {
+    if (typeof value.animation !== 'object' || value.animation === null) {
+      throw new Error('animation must be an object');
+    }
+    if (
+      value.animation.type &&
+      !VALID_ANIMATION_TYPES.includes(value.animation.type)
+    ) {
+      throw new Error(
+        `Invalid animation type. Must be one of: ${VALID_ANIMATION_TYPES.join(', ')}`,
+      );
+    }
+    if (value.animation.durationMs !== undefined) {
+      if (typeof value.animation.durationMs !== 'number') {
+        throw new Error('animation.durationMs must be a number');
+      }
+      if (
+        value.animation.durationMs < ANIMATION_DURATION_LIMITS.min ||
+        value.animation.durationMs > ANIMATION_DURATION_LIMITS.max
+      ) {
+        throw new Error(
+          `animation.durationMs must be between ${ANIMATION_DURATION_LIMITS.min} and ${ANIMATION_DURATION_LIMITS.max}`,
+        );
+      }
+    }
   }
 
   return true;

@@ -27,6 +27,12 @@ import {
   renderExpiredState,
   getExpiredMessage,
 } from './expired.renderer.js';
+import {
+  getFrameTransform,
+  applyAnimationPre,
+  applyAnimationPost,
+  isAnimationActive,
+} from './animation.engine.js';
 
 /**
  * Default GIF configuration.
@@ -130,14 +136,22 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
   encoder.setDelay(frameDelay);
   encoder.setQuality(quality);
 
+  // Pre-compute whether animation is active
+  const animActive = isAnimationActive(style.animation);
+
   // Render each frame
   for (let i = 0; i < framesToRender; i++) {
     // Calculate time for this frame (subtract i seconds from initial)
     const frameTime = calculateTimeForFrame(initialTime, i);
 
+    // Compute animation transform for this frame (no-op if animation is "none")
+    const animTransform = animActive
+      ? getFrameTransform(style.animation, i, frameDelay)
+      : null;
+
     // Check if this frame is expired
     if (frameTime.isExpired) {
-      // Render expired frame
+      // Render expired frame (no animation on expired state)
       const expiredStyle = applyExpiredTreatment(style);
       renderFrame(
         ctx,
@@ -150,7 +164,7 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
         backgroundImage,
       );
     } else {
-      // Render countdown frame
+      // Render countdown frame with animation
       const segments = formatTimeSegments(frameTime, segmentConfig);
       renderFrame(
         ctx,
@@ -161,6 +175,7 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
         countdown,
         showBranding,
         backgroundImage,
+        animTransform,
       );
     }
 
@@ -240,6 +255,7 @@ const calculateTimeForFrame = (initialTime, frameIndex) => {
  * @param {Object} countdown - Countdown object
  * @param {boolean} showBranding - Whether to show branding
  * @param {Object|null} backgroundImage - Loaded background image or null
+ * @param {Object} animTransform - Animation transform from animation.engine
  */
 const renderFrame = (
   ctx,
@@ -250,6 +266,7 @@ const renderFrame = (
   countdown,
   showBranding,
   backgroundImage = null,
+  animTransform = null,
 ) => {
   const { width, height } = layout.canvas;
   const colors = style.colors || {};
@@ -257,7 +274,7 @@ const renderFrame = (
   // Clear canvas
   ctx.clearRect(0, 0, width, height);
 
-  // Draw backdrop
+  // Draw backdrop BEFORE animation transforms (backdrop stays static)
   if (!style.noBackdrop) {
     if (backgroundImage && backgroundImage.image) {
       // Background image with aspect-ratio safe rendering (cover mode)
@@ -266,6 +283,11 @@ const renderFrame = (
       ctx.fillStyle = colors.backdrop || '#FFFFFF';
       ctx.fillRect(0, 0, width, height);
     }
+  }
+
+  // Apply animation transforms to countdown content only
+  if (animTransform) {
+    applyAnimationPre(ctx, layout, animTransform);
   }
 
   if (isExpired) {
@@ -288,6 +310,11 @@ const renderFrame = (
         renderBlockFrame(ctx, layout, style, segments);
         break;
     }
+  }
+
+  // Restore context after animation transforms
+  if (animTransform) {
+    applyAnimationPost(ctx);
   }
 
   if (showBranding) {

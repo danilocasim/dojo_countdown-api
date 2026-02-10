@@ -9,6 +9,12 @@
 // - Ensures consistent fallbacks across the system
 
 import { DEFAULT_FONT_ID, isValidFontId, getFontById } from './fonts.js';
+import {
+  VALID_ANIMATION_TYPES,
+  ANIMATION_TYPES,
+  ANIMATION_DURATION_LIMITS,
+  DEFAULT_ANIMATION,
+} from './animations.js';
 
 /**
  * Available design variants.
@@ -71,6 +77,9 @@ export const DEFAULT_STYLE = {
 
   // Branding (controlled by plan)
   showBranding: true,
+
+  // Animation (applied to GIF renders only, ignored for static)
+  animation: { ...DEFAULT_ANIMATION },
 };
 
 /**
@@ -238,6 +247,25 @@ export const normalizeStyleConfig = (styleConfig) => {
   }
   if (typeof styleConfig.showBranding === 'boolean') {
     normalized.showBranding = styleConfig.showBranding;
+  }
+
+  // Validate and apply animation config
+  if (styleConfig.animation && typeof styleConfig.animation === 'object') {
+    if (
+      styleConfig.animation.type &&
+      VALID_ANIMATION_TYPES.includes(styleConfig.animation.type)
+    ) {
+      normalized.animation.type = styleConfig.animation.type;
+    }
+    if (typeof styleConfig.animation.durationMs === 'number') {
+      normalized.animation.durationMs = Math.min(
+        Math.max(
+          styleConfig.animation.durationMs,
+          ANIMATION_DURATION_LIMITS.min,
+        ),
+        ANIMATION_DURATION_LIMITS.max,
+      );
+    }
   }
 
   return normalized;
