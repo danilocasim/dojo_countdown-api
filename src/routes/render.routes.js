@@ -7,7 +7,11 @@
 import { Router } from "express";
 import * as renderController from "../controllers/render.controller.js";
 import { authenticate } from "../middlewares/auth.js";
-import { renderLimiter } from "../middlewares/rateLimiter.js";
+import {
+  renderPublicLimiter,
+  renderBurstLimiter,
+} from "../middlewares/rateLimiter.js";
+import { abuseGuard } from "../middlewares/abuseGuard.js";
 
 const router = Router();
 
@@ -17,12 +21,20 @@ const router = Router();
  * @route   GET /api/v1/render/:id.jpg
  * @desc    Render countdown image
  * @access  Public
- * @ratelimit 1000 requests per minute per IP
+ * @ratelimit 300/min sustained (Redis-backed)
+ * @ratelimit 60/10s burst (Redis-backed)
+ * @middleware abuseGuard — cache-busting detection
  */
 
 router.get("/:id/embed", renderController.getEmbedCode);
 
-router.get("/:id", renderLimiter, renderController.renderCountdownImage);
+router.get(
+  "/:id",
+  renderBurstLimiter,
+  renderPublicLimiter,
+  abuseGuard(),
+  renderController.renderCountdownImage,
+);
 
 /**
  * @route   GET /api/v1/render/:id/embed

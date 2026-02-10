@@ -13,8 +13,13 @@
 import * as renderService from '../services/render.service.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import { getRedis } from '../lib/redis.js';
-import { generateRenderCacheKey } from '../utils/cacheKey.js';
+// generateRenderCacheKey available for hash-based keys when needed
+// Current cache key uses id:format:frameCount (invalidated on config change)
 import { getRenderCacheTtl, getTtlCategory } from '../utils/cacheTtl.js';
+import {
+  buildCdnCacheControl,
+  buildNoCacheCacheControl,
+} from '../config/cdn.js';
 
 /**
  * GET /api/v1/render/:id
@@ -75,8 +80,9 @@ export const renderCountdownImage = asyncHandler(async (req, res) => {
         const metaStr = await redis.get(metaKey);
         const meta = metaStr ? JSON.parse(metaStr) : {};
 
-        // Set headers from cached metadata
-        setNoCacheHeaders(res);
+        // Set CDN-aware cache headers from cached metadata
+        const cachedTtl = meta.ttl || 0;
+        setRenderCacheHeaders(res, cachedTtl, cacheKey);
         res.set('Content-Type', meta.contentType || `image/${format}`);
         res.set('Content-Length', cached.length);
         res.set('X-Cache', 'HIT');
@@ -107,18 +113,18 @@ export const renderCountdownImage = asyncHandler(async (req, res) => {
   // ===========================================
   // Redis Cache Set (non-blocking)
   // ===========================================
+  // Calculate dynamic TTL based on countdown state
+  const renderTtl = getRenderCacheTtl({
+    isExpired: result.metadata.isExpired,
+    remainingMs: result.metadata.remainingMs,
+  });
+
   if (redis && cacheKey && !result.quotaExceeded) {
     // Don't cache quota exceeded images
     setImmediate(async () => {
       try {
-        // Calculate dynamic TTL based on countdown state
-        const ttl = getRenderCacheTtl({
-          isExpired: result.metadata.isExpired,
-          remainingMs: result.metadata.remainingMs,
-        });
-
         // Store the image buffer
-        await redis.setex(cacheKey, ttl, result.buffer);
+        await redis.setex(cacheKey, renderTtl, result.buffer);
 
         // Store metadata separately (for headers on cache hit)
         const metaKey = `${cacheKey}:meta`;
@@ -128,11 +134,12 @@ export const renderCountdownImage = asyncHandler(async (req, res) => {
           isExpired: result.metadata.isExpired,
           format: result.metadata.format,
           generatedAt: result.metadata.generatedAt,
+          ttl: renderTtl,
         };
-        await redis.setex(metaKey, ttl, JSON.stringify(meta));
+        await redis.setex(metaKey, renderTtl, JSON.stringify(meta));
 
         console.log(
-          `[RenderCache] SET: ${cacheKey} (TTL: ${ttl}s, category: ${getTtlCategory(ttl)})`,
+          `[RenderCache] SET: ${cacheKey} (TTL: ${renderTtl}s, category: ${getTtlCategory(renderTtl)})`,
         );
       } catch (cacheErr) {
         // Cache write failure - log but don't affect response
@@ -141,8 +148,12 @@ export const renderCountdownImage = asyncHandler(async (req, res) => {
     });
   }
 
-  // Set email-safe headers to prevent caching
-  setNoCacheHeaders(res);
+  // Set CDN-aware cache headers (quota-exceeded gets no-cache)
+  if (result.quotaExceeded) {
+    setNoCacheHeaders(res);
+  } else {
+    setRenderCacheHeaders(res, renderTtl, cacheKey);
+  }
 
   // Set content type
   res.set('Content-Type', result.contentType);
@@ -253,24 +264,40 @@ export const renderPreview = asyncHandler(async (req, res) => {
 });
 
 /**
- * Sets email-safe no-cache headers.
+ * Sets CDN-aware cache headers for public render responses.
+ * When CDN is enabled, uses s-maxage so the CDN caches while
+ * browsers/email clients still revalidate on every view.
  *
- * WHY THESE HEADERS:
- * - Prevents email clients from caching stale images
- * - Ensures countdown updates on every view
- * - Maximum compatibility with email clients
+ * @param {Response} res - Express response object
+ * @param {number} ttlSeconds - Cache TTL (0 = no-cache)
+ * @param {string} [etag] - Optional ETag value for conditional requests
+ */
+const setRenderCacheHeaders = (res, ttlSeconds = 0, etag = null) => {
+  res.set({
+    'Cache-Control': buildCdnCacheControl(ttlSeconds),
+    Pragma: 'no-cache',
+    Expires: '0',
+    'X-Content-Type-Options': 'nosniff',
+  });
+
+  if (etag) {
+    res.set('ETag', `"${etag}"`);
+  }
+};
+
+/**
+ * Sets strict no-cache headers for responses that must never be
+ * cached by any layer (previews, quota-exceeded images).
  *
  * @param {Response} res - Express response object
  */
 const setNoCacheHeaders = (res) => {
   res.set({
-    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+    'Cache-Control': buildNoCacheCacheControl(),
     Pragma: 'no-cache',
     Expires: '0',
     'Surrogate-Control': 'no-store',
-    // Prevent CDN caching
     'CDN-Cache-Control': 'no-store',
-    // Additional headers for email clients
     'X-Content-Type-Options': 'nosniff',
   });
 };

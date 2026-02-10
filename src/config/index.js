@@ -39,6 +39,21 @@ const config = {
   rateLimit: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000, // 15 minutes
     maxRequests: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10) || 100,
+    renderMax: parseInt(process.env.RENDER_RATE_LIMIT_MAX, 10) || 300, // per minute
+    renderBurstMax: parseInt(process.env.RENDER_BURST_LIMIT_MAX, 10) || 60, // per 10s
+  },
+
+  // CDN
+  cdn: {
+    enabled: process.env.CDN_ENABLED === "true",
+    baseUrl: process.env.CDN_BASE_URL || "",
+    staleWhileRevalidate: parseInt(process.env.CDN_STALE_WHILE_REVALIDATE, 10) || 2,
+  },
+
+  // Abuse Detection
+  abuse: {
+    windowSeconds: parseInt(process.env.ABUSE_WINDOW_SECONDS, 10) || 60,
+    maxUniqueKeys: parseInt(process.env.ABUSE_MAX_UNIQUE_KEYS, 10) || 50,
   },
 
   // CORS

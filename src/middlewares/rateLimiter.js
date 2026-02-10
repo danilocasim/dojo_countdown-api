@@ -12,6 +12,7 @@
 
 import rateLimit from "express-rate-limit";
 import { RateLimitError } from "../utils/errors.js";
+import { createRedisRateLimitStore } from "../lib/redisRateLimitStore.js";
 
 /**
  * Creates custom error response for rate limit exceeded.
@@ -122,6 +123,45 @@ export const renderLimiter = rateLimit({
 });
 
 /**
+ * Stricter rate limiter for public render endpoints.
+ * Uses Redis-backed counters for distributed consistency.
+ *
+ * 300 requests per minute per IP.
+ * WHY STRICTER: Prevents sustained abuse while allowing
+ * CDN revalidation bursts. CDN absorbs most legitimate traffic,
+ * so direct backend hits above this threshold indicate abuse.
+ *
+ * Falls back to in-memory if Redis unavailable.
+ */
+export const renderPublicLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: parseInt(process.env.RENDER_RATE_LIMIT_MAX || "300", 10),
+  message: "Too many render requests. Please slow down.",
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: rateLimitHandler,
+  keyGenerator: (req) => req.ip,
+  store: createRedisRateLimitStore({ prefix: "rl:render:" }),
+});
+
+/**
+ * Burst limiter for short-window abuse detection.
+ * Catches rapid-fire requests that the per-minute limiter misses.
+ *
+ * 60 requests per 10 seconds per IP.
+ */
+export const renderBurstLimiter = rateLimit({
+  windowMs: 10 * 1000, // 10 seconds
+  max: parseInt(process.env.RENDER_BURST_LIMIT_MAX || "60", 10),
+  message: "Too many requests in a short period. Please slow down.",
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: rateLimitHandler,
+  keyGenerator: (req) => req.ip,
+  store: createRedisRateLimitStore({ prefix: "rl:render-burst:" }),
+});
+
+/**
  * Creates a custom rate limiter with specified options.
  *
  * @param {Object} options - Rate limit options
@@ -144,5 +184,7 @@ export default {
   passwordLimiter,
   refreshLimiter,
   renderLimiter,
+  renderPublicLimiter,
+  renderBurstLimiter,
   createLimiter,
 };
