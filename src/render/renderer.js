@@ -4,31 +4,45 @@
 // Orchestrates the rendering pipeline for countdown images.
 // Supports multiple design variants.
 
-import { createCanvas, registerFont } from "canvas";
-import { calculateRemainingTime, formatTimeSegments } from "./time.utils.js";
+import { createCanvas, registerFont } from 'canvas';
+import { calculateRemainingTime, formatTimeSegments } from './time.utils.js';
 import {
   mergeStyleConfig,
   calculateLayout,
   darkenColor,
-} from "./layout.engine.js";
-import { renderBranding, shouldShowBranding } from "./branding.overlay.js";
+} from './layout.engine.js';
+import { renderBranding, shouldShowBranding } from './branding.overlay.js';
 import {
   applyExpiredTreatment,
   renderExpiredState,
   getExpiredMessage,
-} from "./expired.renderer.js";
+} from './expired.renderer.js';
 import {
   renderAnimatedGif,
   calculateOptimalFrameCount,
   estimateGifSize,
   GIF_CONFIG,
-} from "./gif.renderer.js";
-import { DESIGN_VARIANTS } from "../config/styles.js";
+} from './gif.renderer.js';
+import { DESIGN_VARIANTS } from '../config/styles.js';
+import { getFontById, DEFAULT_FONT_ID } from '../config/fonts.js';
+import { getCanvasFontFamily } from '../lib/fontLoader.js';
 
 /**
  * Font cache for performance.
  */
 const fontCache = new Map();
+
+/**
+ * Gets the canvas font family name from style config.
+ * Uses the font loader to get properly registered font names.
+ *
+ * @param {Object} style - Normalized style configuration
+ * @returns {string} Canvas font family name
+ */
+const getStyleFontFamily = (style) => {
+  const fontId = style?.fontId || DEFAULT_FONT_ID;
+  return getCanvasFontFamily(fontId);
+};
 
 /**
  * Registers a custom font for use in rendering.
@@ -48,9 +62,9 @@ export const registerCustomFont = (path, family) => {
  * Renders a countdown image (static or animated).
  */
 export const renderCountdown = async (countdown, options = {}) => {
-  const { format = "png", quality = 0.92, userPlan = "FREE" } = options;
+  const { format = 'png', quality = 0.92, userPlan = 'FREE' } = options;
 
-  if (format === "gif") {
+  if (format === 'gif') {
     return renderAnimatedGif(countdown, {
       frameCount: options.frameCount,
       frameDelay: options.frameDelay,
@@ -66,7 +80,7 @@ export const renderCountdown = async (countdown, options = {}) => {
  * Renders a static countdown image (PNG or JPEG).
  */
 const renderStaticImage = async (countdown, options = {}) => {
-  const { format = "png", quality = 0.92, userPlan = "FREE" } = options;
+  const { format = 'png', quality = 0.92, userPlan = 'FREE' } = options;
 
   const time = calculateRemainingTime(countdown.endAt);
 
@@ -97,7 +111,7 @@ const renderStaticImage = async (countdown, options = {}) => {
 
   // Create canvas
   const canvas = createCanvas(layout.canvas.width, layout.canvas.height);
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
 
   // Render based on design variant
   renderDesign(ctx, layout, style, segments, isExpired, countdown);
@@ -108,11 +122,11 @@ const renderStaticImage = async (countdown, options = {}) => {
   }
 
   // Export to buffer
-  if (format === "jpeg" || format === "jpg") {
-    return canvas.toBuffer("image/jpeg", { quality });
+  if (format === 'jpeg' || format === 'jpg') {
+    return canvas.toBuffer('image/jpeg', { quality });
   }
 
-  return canvas.toBuffer("image/png");
+  return canvas.toBuffer('image/png');
 };
 
 /**
@@ -150,7 +164,7 @@ const renderBackdrop = (ctx, layout, style) => {
     // Transparent background
     ctx.clearRect(0, 0, width, height);
   } else {
-    ctx.fillStyle = style.colors?.backdrop || "#FFFFFF";
+    ctx.fillStyle = style.colors?.backdrop || '#FFFFFF';
     ctx.fillRect(0, 0, width, height);
   }
 };
@@ -164,10 +178,11 @@ const renderBlockDesign = (
   style,
   segments,
   isExpired,
-  countdown
+  countdown,
 ) => {
   const { fontSize, unitSize } = layout.dimensions;
   const colors = style.colors || {};
+  const fontFamily = getStyleFontFamily(style);
 
   if (isExpired) {
     const expiredConfig = getExpiredMessage(countdown);
@@ -181,21 +196,21 @@ const renderBlockDesign = (
     if (!pos) return;
 
     // Draw block background
-    ctx.fillStyle = colors.design || "#000000";
+    ctx.fillStyle = colors.design || '#000000';
     roundRect(ctx, pos.unitX, pos.unitY, unitSize, unitSize, 8);
     ctx.fill();
 
     // Draw value
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.text || "#FFFFFF";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.text || '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
 
     // Draw label
     if (style.showLabels && segment.label) {
-      ctx.font = `${layout.dimensions.labelFontSize}px Arial`;
-      ctx.fillStyle = colors.design || "#000000";
+      ctx.font = `${layout.dimensions.labelFontSize}px ${fontFamily}`;
+      ctx.fillStyle = colors.design || '#000000';
       ctx.fillText(segment.label, pos.x, pos.labelY);
     }
   });
@@ -213,10 +228,11 @@ const renderCircleDesign = (
   style,
   segments,
   isExpired,
-  countdown
+  countdown,
 ) => {
   const { fontSize } = layout.dimensions;
   const colors = style.colors || {};
+  const fontFamily = getStyleFontFamily(style);
 
   if (isExpired) {
     const expiredConfig = getExpiredMessage(countdown);
@@ -232,20 +248,20 @@ const renderCircleDesign = (
     // Draw circle background
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, pos.radius, 0, Math.PI * 2);
-    ctx.fillStyle = colors.design || "#000000";
+    ctx.fillStyle = colors.design || '#000000';
     ctx.fill();
 
     // Draw value
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.text || "#FFFFFF";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.text || '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
 
     // Draw label below circle
     if (style.showLabels && segment.label) {
-      ctx.font = `${layout.dimensions.labelFontSize}px Arial`;
-      ctx.fillStyle = colors.design || "#000000";
+      ctx.font = `${layout.dimensions.labelFontSize}px ${fontFamily}`;
+      ctx.fillStyle = colors.design || '#000000';
       ctx.fillText(segment.label, pos.x, pos.labelY);
     }
   });
@@ -260,10 +276,11 @@ const renderMinimalDesign = (
   style,
   segments,
   isExpired,
-  countdown
+  countdown,
 ) => {
   const { fontSize, labelFontSize } = layout.dimensions;
   const colors = style.colors || {};
+  const fontFamily = getStyleFontFamily(style);
 
   if (isExpired) {
     const expiredConfig = getExpiredMessage(countdown);
@@ -277,16 +294,16 @@ const renderMinimalDesign = (
     if (!pos) return;
 
     // Draw value
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.design || "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.design || '#000000';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
 
     // Draw label
     if (style.showLabels && segment.label) {
-      ctx.font = `${labelFontSize}px Arial`;
-      ctx.fillStyle = colors.text || "#666666";
+      ctx.font = `${labelFontSize}px ${fontFamily}`;
+      ctx.fillStyle = colors.text || '#666666';
       ctx.fillText(segment.label, pos.x, pos.labelY);
     }
   });
@@ -304,11 +321,12 @@ const renderPillDesign = (
   style,
   segments,
   isExpired,
-  countdown
+  countdown,
 ) => {
   const { fontSize, borderRadius } = layout.dimensions;
   const colors = style.colors || {};
   const pill = layout.pill;
+  const fontFamily = getStyleFontFamily(style);
 
   if (isExpired) {
     const expiredConfig = getExpiredMessage(countdown);
@@ -317,7 +335,7 @@ const renderPillDesign = (
   }
 
   // Draw pill background
-  ctx.fillStyle = colors.design || "#000000";
+  ctx.fillStyle = colors.design || '#000000';
   roundRect(ctx, pill.x, pill.y, pill.width, pill.height, borderRadius);
   ctx.fill();
 
@@ -327,16 +345,16 @@ const renderPillDesign = (
     if (!pos) return;
 
     // Draw value
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.text || "#FFFFFF";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.text || '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
   });
 
   // Draw vertical separators
   if (layout.separators) {
-    ctx.strokeStyle = colors.text || "#FFFFFF";
+    ctx.strokeStyle = colors.text || '#FFFFFF';
     ctx.lineWidth = 1;
     ctx.globalAlpha = 0.3;
     layout.separators.forEach((sep) => {
@@ -355,12 +373,13 @@ const renderPillDesign = (
 const renderSeparators = (ctx, layout, style, colors) => {
   if (!style.showSeparators || !layout.separators) return;
 
-  const separatorChar = style.separatorChar || ":";
+  const separatorChar = style.separatorChar || ':';
+  const fontFamily = getStyleFontFamily(style);
 
   layout.separators.forEach((sep) => {
     if (sep.vertical) {
       // Vertical line separator (for pill)
-      ctx.strokeStyle = colors.text || "#FFFFFF";
+      ctx.strokeStyle = colors.text || '#FFFFFF';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(sep.x, sep.y1);
@@ -368,10 +387,10 @@ const renderSeparators = (ctx, layout, style, colors) => {
       ctx.stroke();
     } else {
       // Text separator
-      ctx.font = `bold ${sep.fontSize}px Arial`;
-      ctx.fillStyle = colors.design || "#000000";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+      ctx.font = `bold ${sep.fontSize}px ${fontFamily}`;
+      ctx.fillStyle = colors.design || '#000000';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
       ctx.fillText(separatorChar, sep.x, sep.y);
     }
   });
@@ -384,9 +403,9 @@ const applyExpiredTreatmentForDesign = (style) => {
   return {
     ...style,
     colors: {
-      design: darkenColor(style.colors?.design || "#000000", 0.4),
-      text: darkenColor(style.colors?.text || "#FFFFFF", 0.3),
-      backdrop: style.colors?.backdrop || "#FFFFFF",
+      design: darkenColor(style.colors?.design || '#000000', 0.4),
+      text: darkenColor(style.colors?.text || '#FFFFFF', 0.3),
+      backdrop: style.colors?.backdrop || '#FFFFFF',
     },
   };
 };
@@ -412,11 +431,11 @@ const roundRect = (ctx, x, y, width, height, radius) => {
  * Generates a preview image for a style configuration.
  */
 export const renderPreview = async (styleConfig, options = {}) => {
-  const { format = "png", userPlan = "PRO" } = options;
+  const { format = 'png', userPlan = 'PRO' } = options;
 
   const mockCountdown = {
     endAt: new Date(Date.now() + 90061000),
-    timezone: "UTC",
+    timezone: 'UTC',
     styleConfig,
   };
 

@@ -8,15 +8,17 @@
 // - Easy to modify without touching rendering logic
 // - Ensures consistent fallbacks across the system
 
+import { DEFAULT_FONT_ID, isValidFontId, getFontById } from './fonts.js';
+
 /**
  * Available design variants.
  * Each design has different visual representation.
  */
 export const DESIGN_VARIANTS = {
-  CIRCLE: "circle", // Circular units (like MotionMail style 1)
-  BLOCK: "block", // Square blocks (default, like MotionMail style 2)
-  MINIMAL: "minimal", // Simple text blocks (like MotionMail style 3)
-  PILL: "pill", // Rounded pill-style bar (like MotionMail style 4)
+  CIRCLE: 'circle', // Circular units (like MotionMail style 1)
+  BLOCK: 'block', // Square blocks (default, like MotionMail style 2)
+  MINIMAL: 'minimal', // Simple text blocks (like MotionMail style 3)
+  PILL: 'pill', // Rounded pill-style bar (like MotionMail style 4)
 };
 
 /**
@@ -30,22 +32,23 @@ export const VALID_DESIGNS = Object.values(DESIGN_VARIANTS);
  */
 export const DEFAULT_STYLE = {
   design: DESIGN_VARIANTS.BLOCK,
+  fontId: DEFAULT_FONT_ID, // Font from preset catalog
   colors: {
-    design: "#000000", // Main countdown shape color
-    text: "#FFFFFF", // Digits and labels
-    backdrop: "#FFFFFF", // Background color
+    design: '#000000', // Main countdown shape color
+    text: '#FFFFFF', // Digits and labels
+    backdrop: '#FFFFFF', // Background color
   },
   noBackdrop: false,
 
   // Additional layout options (with defaults)
   showLabels: true,
-  labelStyle: "short", // 'short' | 'full' | 'none'
+  labelStyle: 'short', // 'short' | 'full' | 'none'
   showDays: true,
   showHours: true,
   showMinutes: true,
   showSeconds: true,
   showSeparators: true,
-  separatorChar: ":",
+  separatorChar: ':',
 
   // Branding (controlled by plan)
   showBranding: true,
@@ -99,7 +102,7 @@ export const DESIGN_DIMENSIONS = {
  * @returns {boolean} True if valid hex color
  */
 export const isValidHexColor = (color) => {
-  if (typeof color !== "string") return false;
+  if (typeof color !== 'string') return false;
   return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color);
 };
 
@@ -122,10 +125,8 @@ export const normalizeStyleConfig = (styleConfig) => {
     colors: { ...DEFAULT_STYLE.colors },
   };
 
-  console.log("style", styleConfig);
-
   // If no config provided, return defaults
-  if (!styleConfig || typeof styleConfig !== "object") {
+  if (!styleConfig || typeof styleConfig !== 'object') {
     return normalized;
   }
 
@@ -134,10 +135,14 @@ export const normalizeStyleConfig = (styleConfig) => {
     normalized.design = styleConfig.design;
   }
 
+  // Validate and apply font
+  if (styleConfig.fontId && isValidFontId(styleConfig.fontId)) {
+    normalized.fontId = styleConfig.fontId;
+  }
+
   // Validate and apply colors
-  if (styleConfig.colors && typeof styleConfig.colors === "object") {
+  if (styleConfig.colors && typeof styleConfig.colors === 'object') {
     if (isValidHexColor(styleConfig.colors.design)) {
-      console.log(styleConfig.colors.design);
       normalized.colors.design = styleConfig.colors.design;
     }
     if (isValidHexColor(styleConfig.colors.text)) {
@@ -160,39 +165,39 @@ export const normalizeStyleConfig = (styleConfig) => {
   }
 
   // Apply noBackdrop
-  if (typeof styleConfig.noBackdrop === "boolean") {
+  if (typeof styleConfig.noBackdrop === 'boolean') {
     normalized.noBackdrop = styleConfig.noBackdrop;
   }
 
   // Apply display options
-  if (typeof styleConfig.showLabels === "boolean") {
+  if (typeof styleConfig.showLabels === 'boolean') {
     normalized.showLabels = styleConfig.showLabels;
   }
   if (
     styleConfig.labelStyle &&
-    ["short", "full", "none"].includes(styleConfig.labelStyle)
+    ['short', 'full', 'none'].includes(styleConfig.labelStyle)
   ) {
     normalized.labelStyle = styleConfig.labelStyle;
   }
-  if (typeof styleConfig.showDays === "boolean") {
+  if (typeof styleConfig.showDays === 'boolean') {
     normalized.showDays = styleConfig.showDays;
   }
-  if (typeof styleConfig.showHours === "boolean") {
+  if (typeof styleConfig.showHours === 'boolean') {
     normalized.showHours = styleConfig.showHours;
   }
-  if (typeof styleConfig.showMinutes === "boolean") {
+  if (typeof styleConfig.showMinutes === 'boolean') {
     normalized.showMinutes = styleConfig.showMinutes;
   }
-  if (typeof styleConfig.showSeconds === "boolean") {
+  if (typeof styleConfig.showSeconds === 'boolean') {
     normalized.showSeconds = styleConfig.showSeconds;
   }
-  if (typeof styleConfig.showSeparators === "boolean") {
+  if (typeof styleConfig.showSeparators === 'boolean') {
     normalized.showSeparators = styleConfig.showSeparators;
   }
-  if (typeof styleConfig.separatorChar === "string") {
-    normalized.separatorChar = styleConfig.separatorChar.slice(0, 1) || ":";
+  if (typeof styleConfig.separatorChar === 'string') {
+    normalized.separatorChar = styleConfig.separatorChar.slice(0, 1) || ':';
   }
-  if (typeof styleConfig.showBranding === "boolean") {
+  if (typeof styleConfig.showBranding === 'boolean') {
     normalized.showBranding = styleConfig.showBranding;
   }
 
@@ -218,4 +223,6 @@ export default {
   isValidHexColor,
   normalizeStyleConfig,
   getDesignDimensions,
+  isValidFontId,
+  getFontById,
 };

@@ -9,30 +9,31 @@
 // - Enforces ownership and authorization
 // - Manages status transitions
 // - Enforces plan-based limits
-import * as renderService from "./render.service.js";
+import * as renderService from './render.service.js';
+import * as cacheService from './cache.service.js';
 
-import prisma from "../lib/prisma.js";
+import prisma from '../lib/prisma.js';
 // Add import at top
-import { localToUTC } from "../render/time.utils.js";
+import { localToUTC } from '../render/time.utils.js';
 import {
   NotFoundError,
   ForbiddenError,
   BadRequestError,
-} from "../utils/errors.js";
-import { getPlanLimits, isLimitExceeded } from "../config/plans.js";
+} from '../utils/errors.js';
+import { getPlanLimits, isLimitExceeded } from '../config/plans.js';
 
 /**
  * Default style configuration for new countdowns.
  */
 const DEFAULT_STYLE_CONFIG = {
-  fontFamily: "Arial, sans-serif",
+  fontFamily: 'Arial, sans-serif',
   fontSize: 48,
-  fontColor: "#FFFFFF",
-  backgroundColor: "#1a1a2e",
-  accentColor: "#e94560",
-  layout: "horizontal",
+  fontColor: '#FFFFFF',
+  backgroundColor: '#1a1a2e',
+  accentColor: '#e94560',
+  layout: 'horizontal',
   showLabels: true,
-  labelStyle: "short", // 'short' (D H M S) or 'full' (Days Hours Minutes Seconds)
+  labelStyle: 'short', // 'short' (D H M S) or 'full' (Days Hours Minutes Seconds)
   showDays: true,
   showHours: true,
   showMinutes: true,
@@ -55,8 +56,8 @@ const DEFAULT_STYLE_CONFIG = {
  */
 export const calculateStatus = (countdown) => {
   // If manually disabled, keep disabled
-  if (countdown.status === "DISABLED") {
-    return "DISABLED";
+  if (countdown.status === 'DISABLED') {
+    return 'DISABLED';
   }
 
   // Check if expired based on time
@@ -64,10 +65,10 @@ export const calculateStatus = (countdown) => {
   const endAt = new Date(countdown.endAt);
 
   if (endAt <= now) {
-    return "EXPIRED";
+    return 'EXPIRED';
   }
 
-  return "ACTIVE";
+  return 'ACTIVE';
 };
 
 /**
@@ -86,8 +87,8 @@ const enrichCountdown = (countdown) => {
     ...countdown,
     calculatedStatus,
     remainingMs,
-    isExpired: calculatedStatus === "EXPIRED",
-    isActive: calculatedStatus === "ACTIVE",
+    isExpired: calculatedStatus === 'EXPIRED',
+    isActive: calculatedStatus === 'ACTIVE',
   };
 };
 
@@ -101,7 +102,7 @@ const enrichCountdown = (countdown) => {
  * @returns {Promise<Object>} Created countdown
  */
 export const createCountdown = async (userId, data, userPlan) => {
-  const { title, endAt, timezone = "UTC", styleConfig = {} } = data;
+  const { title, endAt, timezone = 'UTC', styleConfig = {} } = data;
 
   // Get user's current usage
   const usageStats = await prisma.usageStats.findUnique({
@@ -109,7 +110,7 @@ export const createCountdown = async (userId, data, userPlan) => {
   });
 
   if (!usageStats) {
-    throw new BadRequestError("User usage stats not found");
+    throw new BadRequestError('User usage stats not found');
   }
 
   // Check plan limits
@@ -118,12 +119,12 @@ export const createCountdown = async (userId, data, userPlan) => {
   if (
     isLimitExceeded(
       userPlan,
-      "maxActiveCountdowns",
-      usageStats.activeCountdowns
+      'maxActiveCountdowns',
+      usageStats.activeCountdowns,
     )
   ) {
     throw new ForbiddenError(
-      `You have reached your ${userPlan} plan limit of ${limits.maxActiveCountdowns} active countdowns. Please upgrade your plan or delete existing countdowns.`
+      `You have reached your ${userPlan} plan limit of ${limits.maxActiveCountdowns} active countdowns. Please upgrade your plan or delete existing countdowns.`,
     );
   }
 
@@ -134,7 +135,7 @@ export const createCountdown = async (userId, data, userPlan) => {
 
   if (daysUntilEnd > limits.countdownDurationDays) {
     throw new ForbiddenError(
-      `Your ${userPlan} plan allows countdowns up to ${limits.countdownDurationDays} days. This countdown would run for ${daysUntilEnd} days.`
+      `Your ${userPlan} plan allows countdowns up to ${limits.countdownDurationDays} days. This countdown would run for ${daysUntilEnd} days.`,
     );
   }
 
@@ -143,7 +144,7 @@ export const createCountdown = async (userId, data, userPlan) => {
     ...DEFAULT_STYLE_CONFIG,
     ...styleConfig,
     showBranding: limits.removeBranding
-      ? styleConfig.showBranding ?? false
+      ? (styleConfig.showBranding ?? false)
       : true,
   };
 
@@ -151,8 +152,8 @@ export const createCountdown = async (userId, data, userPlan) => {
   // If so, use directly. Otherwise, convert from local timezone.
   let utcEndAt;
   if (
-    typeof endAt === "string" &&
-    (endAt.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(endAt))
+    typeof endAt === 'string' &&
+    (endAt.endsWith('Z') || /[+-]\d{2}:\d{2}$/.test(endAt))
   ) {
     // Already UTC/ISO format
     utcEndAt = new Date(endAt);
@@ -170,7 +171,7 @@ export const createCountdown = async (userId, data, userPlan) => {
         endAt: utcEndAt,
         timezone,
         styleConfig: finalStyleConfig,
-        status: "ACTIVE",
+        status: 'ACTIVE',
       },
     }),
     prisma.usageStats.update({
@@ -198,13 +199,13 @@ export const getCountdownById = async (countdownId, userId) => {
   });
 
   if (!countdown) {
-    throw new NotFoundError("Countdown not found");
+    throw new NotFoundError('Countdown not found');
   }
 
   // Ownership check
   if (countdown.ownerId !== userId) {
     throw new ForbiddenError(
-      "You do not have permission to access this countdown"
+      'You do not have permission to access this countdown',
     );
   }
 
@@ -222,15 +223,15 @@ export const getUserCountdowns = async (userId, options = {}) => {
   const {
     page = 1,
     limit = 10,
-    status = "all",
-    sortBy = "createdAt",
-    sortOrder = "desc",
+    status = 'all',
+    sortBy = 'createdAt',
+    sortOrder = 'desc',
   } = options;
 
   // Build where clause
   const where = { ownerId: userId };
 
-  if (status !== "all") {
+  if (status !== 'all') {
     where.status = status;
   }
 
@@ -256,17 +257,17 @@ export const getUserCountdowns = async (userId, options = {}) => {
       // If status changed (e.g., became expired), update in DB
       if (
         enriched.calculatedStatus !== countdown.status &&
-        countdown.status !== "DISABLED"
+        countdown.status !== 'DISABLED'
       ) {
         await syncCountdownStatus(
           countdown.id,
           userId,
-          enriched.calculatedStatus
+          enriched.calculatedStatus,
         );
       }
 
       return enriched;
-    })
+    }),
   );
 
   return {
@@ -296,9 +297,9 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
   const existing = await getCountdownById(countdownId, userId);
 
   // Check if countdown is expired (cannot edit expired countdowns)
-  if (existing.calculatedStatus === "EXPIRED" && data.status !== "DISABLED") {
+  if (existing.calculatedStatus === 'EXPIRED' && data.status !== 'DISABLED') {
     throw new BadRequestError(
-      "Cannot edit an expired countdown. Create a new one instead."
+      'Cannot edit an expired countdown. Create a new one instead.',
     );
   }
 
@@ -312,11 +313,11 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
   if (endAt !== undefined) {
     // Determine if endAt is already UTC
     let utcEndAt;
-    const tz = timezone || existing.timezone || "UTC";
+    const tz = timezone || existing.timezone || 'UTC';
 
     if (
-      typeof endAt === "string" &&
-      (endAt.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(endAt))
+      typeof endAt === 'string' &&
+      (endAt.endsWith('Z') || /[+-]\d{2}:\d{2}$/.test(endAt))
     ) {
       utcEndAt = new Date(endAt);
     } else {
@@ -330,7 +331,7 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
 
     if (daysUntilEnd > limits.countdownDurationDays) {
       throw new ForbiddenError(
-        `Your ${userPlan} plan allows countdowns up to ${limits.countdownDurationDays} days.`
+        `Your ${userPlan} plan allows countdowns up to ${limits.countdownDurationDays} days.`,
       );
     }
 
@@ -344,12 +345,12 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
   if (status !== undefined) {
     // Can only manually set to ACTIVE or DISABLED
     // EXPIRED is determined by time
-    if (status === "ACTIVE") {
+    if (status === 'ACTIVE') {
       // Can only reactivate if not time-expired
       const checkDate = updateData.endAt || existing.endAt;
       if (new Date(checkDate) <= new Date()) {
         throw new BadRequestError(
-          "Cannot set status to ACTIVE for an expired countdown"
+          'Cannot set status to ACTIVE for an expired countdown',
         );
       }
     }
@@ -364,7 +365,7 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
       ...styleConfig,
       // Enforce branding for plans that don't allow removal
       showBranding: limits.removeBranding
-        ? styleConfig.showBranding ?? existing.styleConfig.showBranding
+        ? (styleConfig.showBranding ?? existing.styleConfig.showBranding)
         : true,
     };
     updateData.styleConfig = mergedConfig;
@@ -375,6 +376,13 @@ export const updateCountdown = async (countdownId, userId, data, userPlan) => {
     where: { id: countdownId },
     data: updateData,
   });
+
+  // Invalidate render cache if any render-affecting field changed (non-blocking)
+  if (Object.keys(updateData).length > 0) {
+    setImmediate(() => {
+      cacheService.onCountdownConfigChanged(countdownId, updateData);
+    });
+  }
 
   return enrichCountdown(updated);
 };
@@ -392,7 +400,7 @@ export const deleteCountdown = async (countdownId, userId) => {
   const existing = await getCountdownById(countdownId, userId);
 
   // Delete countdown and update usage in transaction
-  const decrementActive = existing.calculatedStatus === "ACTIVE" ? 1 : 0;
+  const decrementActive = existing.calculatedStatus === 'ACTIVE' ? 1 : 0;
 
   await prisma.$transaction([
     prisma.countdown.delete({
@@ -405,6 +413,11 @@ export const deleteCountdown = async (countdownId, userId) => {
       },
     }),
   ]);
+
+  // Invalidate render cache (non-blocking)
+  setImmediate(() => {
+    cacheService.onCountdownDeleted(countdownId);
+  });
 
   return true;
 };
@@ -433,7 +446,7 @@ const syncCountdownStatus = async (countdownId, userId, newStatus) => {
   });
 
   // If transitioning from ACTIVE to EXPIRED, decrement active count
-  if (countdown.status === "ACTIVE" && newStatus === "EXPIRED") {
+  if (countdown.status === 'ACTIVE' && newStatus === 'EXPIRED') {
     await prisma.usageStats.update({
       where: { userId },
       data: {
@@ -452,9 +465,9 @@ const syncCountdownStatus = async (countdownId, userId, newStatus) => {
 export const getCountdownStats = async (userId) => {
   const [total, active, expired, disabled] = await Promise.all([
     prisma.countdown.count({ where: { ownerId: userId } }),
-    prisma.countdown.count({ where: { ownerId: userId, status: "ACTIVE" } }),
-    prisma.countdown.count({ where: { ownerId: userId, status: "EXPIRED" } }),
-    prisma.countdown.count({ where: { ownerId: userId, status: "DISABLED" } }),
+    prisma.countdown.count({ where: { ownerId: userId, status: 'ACTIVE' } }),
+    prisma.countdown.count({ where: { ownerId: userId, status: 'EXPIRED' } }),
+    prisma.countdown.count({ where: { ownerId: userId, status: 'DISABLED' } }),
   ]);
 
   return {
@@ -477,7 +490,7 @@ export const expireCountdowns = async () => {
   // Find all active countdowns that should be expired
   const toExpire = await prisma.countdown.findMany({
     where: {
-      status: "ACTIVE",
+      status: 'ACTIVE',
       endAt: { lte: now },
     },
     select: {
@@ -503,14 +516,14 @@ export const expireCountdowns = async () => {
       where: {
         id: { in: toExpire.map((c) => c.id) },
       },
-      data: { status: "EXPIRED" },
+      data: { status: 'EXPIRED' },
     }),
     // Update usage stats for each owner
     ...Object.entries(ownerCounts).map(([ownerId, count]) =>
       prisma.usageStats.update({
         where: { userId: ownerId },
         data: { activeCountdowns: { decrement: count } },
-      })
+      }),
     ),
   ]);
 
@@ -539,7 +552,7 @@ export const getCountdownForRender = async (countdownId) => {
   });
 
   if (!countdown) {
-    throw new NotFoundError("Countdown not found");
+    throw new NotFoundError('Countdown not found');
   }
 
   return countdown;

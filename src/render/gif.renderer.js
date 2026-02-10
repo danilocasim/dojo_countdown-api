@@ -9,18 +9,20 @@
 // - Static images show stale time after caching
 // - Animated GIFs loop, showing "live" countdown effect
 // - Maximum email client compatibility
-import { DESIGN_VARIANTS } from "../config/styles.js";
-import { createCanvas } from "canvas";
-import GIFEncoder from "gifencoder";
-import { Readable } from "stream";
-import { calculateRemainingTime, formatTimeSegments } from "./time.utils.js";
-import { mergeStyleConfig, calculateLayout } from "./layout.engine.js";
-import { renderBranding, shouldShowBranding } from "./branding.overlay.js";
+import { DESIGN_VARIANTS } from '../config/styles.js';
+import { DEFAULT_FONT_ID } from '../config/fonts.js';
+import { getCanvasFontFamily } from '../lib/fontLoader.js';
+import { createCanvas } from 'canvas';
+import GIFEncoder from 'gifencoder';
+import { Readable } from 'stream';
+import { calculateRemainingTime, formatTimeSegments } from './time.utils.js';
+import { mergeStyleConfig, calculateLayout } from './layout.engine.js';
+import { renderBranding, shouldShowBranding } from './branding.overlay.js';
 import {
   applyExpiredTreatment,
   renderExpiredState,
   getExpiredMessage,
-} from "./expired.renderer.js";
+} from './expired.renderer.js';
 
 /**
  * Default GIF configuration.
@@ -31,6 +33,18 @@ export const GIF_CONFIG = {
   repeat: 0, // 0 = loop forever, -1 = no repeat
   quality: 10, // GIF quality (1-20, lower = better quality, larger file)
   maxFrames: 60, // Maximum frames allowed (to limit file size)
+};
+
+/**
+ * Gets the canvas font family name from style config.
+ * Uses the font loader to get properly registered font names.
+ *
+ * @param {Object} style - Normalized style configuration
+ * @returns {string} Canvas font family name
+ */
+const getStyleFontFamily = (style) => {
+  const fontId = style?.fontId || DEFAULT_FONT_ID;
+  return getCanvasFontFamily(fontId);
 };
 
 /**
@@ -45,7 +59,7 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
     frameCount = GIF_CONFIG.frameCount,
     frameDelay = GIF_CONFIG.frameDelay,
     quality = GIF_CONFIG.quality,
-    userPlan = "FREE",
+    userPlan = 'FREE',
   } = options;
 
   // Limit frame count to prevent huge files
@@ -88,14 +102,14 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
 
   // Create canvas
   const canvas = createCanvas(layout.canvas.width, layout.canvas.height);
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
 
   // Collect frames into buffer
   const chunks = [];
 
   // Setup encoder
   const stream = encoder.createReadStream();
-  stream.on("data", (chunk) => chunks.push(chunk));
+  stream.on('data', (chunk) => chunks.push(chunk));
 
   encoder.start();
   encoder.setRepeat(GIF_CONFIG.repeat);
@@ -118,7 +132,7 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
         null,
         true,
         countdown,
-        showBranding
+        showBranding,
       );
     } else {
       // Render countdown frame
@@ -134,7 +148,7 @@ export const renderAnimatedGif = async (countdown, options = {}) => {
 
   // Wait for stream to complete and return buffer
   return new Promise((resolve) => {
-    stream.on("end", () => {
+    stream.on('end', () => {
       resolve(Buffer.concat(chunks));
     });
   });
@@ -160,10 +174,10 @@ const calculateTimeForFrame = (initialTime, frameIndex) => {
       minutes: 0,
       seconds: 0,
       formatted: {
-        days: "00",
-        hours: "00",
-        minutes: "00",
-        seconds: "00",
+        days: '00',
+        hours: '00',
+        minutes: '00',
+        seconds: '00',
       },
     };
   }
@@ -174,7 +188,7 @@ const calculateTimeForFrame = (initialTime, frameIndex) => {
   const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
   const seconds = totalSeconds % 60;
 
-  const padZero = (n) => String(n).padStart(2, "0");
+  const padZero = (n) => String(n).padStart(2, '0');
 
   return {
     isExpired: false,
@@ -213,7 +227,7 @@ const renderFrame = (
   segments,
   isExpired,
   countdown,
-  showBranding
+  showBranding,
 ) => {
   const { width, height } = layout.canvas;
   const colors = style.colors || {};
@@ -223,7 +237,7 @@ const renderFrame = (
 
   // Draw backdrop
   if (!style.noBackdrop) {
-    ctx.fillStyle = colors.backdrop || "#FFFFFF";
+    ctx.fillStyle = colors.backdrop || '#FFFFFF';
     ctx.fillRect(0, 0, width, height);
   }
 
@@ -257,26 +271,27 @@ const renderFrame = (
 const renderBlockFrame = (ctx, layout, style, segments) => {
   const { fontSize, unitSize } = layout.dimensions;
   const colors = style.colors || {};
+  const fontFamily = getStyleFontFamily(style);
 
   segments.forEach((segment, index) => {
     const pos = layout.segments[index];
     if (!pos) return;
 
     // Draw block
-    ctx.fillStyle = colors.design || "#000000";
+    ctx.fillStyle = colors.design || '#000000';
     roundRect(ctx, pos.unitX, pos.unitY, unitSize, unitSize, 8);
     ctx.fill();
 
     // Draw value
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.text || "#FFFFFF";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.text || '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
 
     if (style.showLabels && segment.label) {
-      ctx.font = `${layout.dimensions.labelFontSize}px Arial`;
-      ctx.fillStyle = colors.design || "#000000";
+      ctx.font = `${layout.dimensions.labelFontSize}px ${fontFamily}`;
+      ctx.fillStyle = colors.design || '#000000';
       ctx.fillText(segment.label, pos.x, pos.labelY);
     }
   });
@@ -287,6 +302,7 @@ const renderBlockFrame = (ctx, layout, style, segments) => {
 const renderCircleFrame = (ctx, layout, style, segments) => {
   const { fontSize } = layout.dimensions;
   const colors = style.colors || {};
+  const fontFamily = getStyleFontFamily(style);
 
   segments.forEach((segment, index) => {
     const pos = layout.segments[index];
@@ -294,18 +310,18 @@ const renderCircleFrame = (ctx, layout, style, segments) => {
 
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, pos.radius, 0, Math.PI * 2);
-    ctx.fillStyle = colors.design || "#000000";
+    ctx.fillStyle = colors.design || '#000000';
     ctx.fill();
 
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.text || "#FFFFFF";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.text || '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
 
     if (style.showLabels && segment.label) {
-      ctx.font = `${layout.dimensions.labelFontSize}px Arial`;
-      ctx.fillStyle = colors.design || "#000000";
+      ctx.font = `${layout.dimensions.labelFontSize}px ${fontFamily}`;
+      ctx.fillStyle = colors.design || '#000000';
       ctx.fillText(segment.label, pos.x, pos.labelY);
     }
   });
@@ -314,20 +330,21 @@ const renderCircleFrame = (ctx, layout, style, segments) => {
 const renderMinimalFrame = (ctx, layout, style, segments) => {
   const { fontSize, labelFontSize } = layout.dimensions;
   const colors = style.colors || {};
+  const fontFamily = getStyleFontFamily(style);
 
   segments.forEach((segment, index) => {
     const pos = layout.segments[index];
     if (!pos) return;
 
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.design || "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.design || '#000000';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
 
     if (style.showLabels && segment.label) {
-      ctx.font = `${labelFontSize}px Arial`;
-      ctx.fillStyle = colors.text || "#666666";
+      ctx.font = `${labelFontSize}px ${fontFamily}`;
+      ctx.fillStyle = colors.text || '#666666';
       ctx.fillText(segment.label, pos.x, pos.labelY);
     }
   });
@@ -339,8 +356,9 @@ const renderPillFrame = (ctx, layout, style, segments) => {
   const { fontSize, borderRadius } = layout.dimensions;
   const colors = style.colors || {};
   const pill = layout.pill;
+  const fontFamily = getStyleFontFamily(style);
 
-  ctx.fillStyle = colors.design || "#000000";
+  ctx.fillStyle = colors.design || '#000000';
   roundRect(ctx, pill.x, pill.y, pill.width, pill.height, borderRadius);
   ctx.fill();
 
@@ -348,15 +366,15 @@ const renderPillFrame = (ctx, layout, style, segments) => {
     const pos = layout.segments[index];
     if (!pos) return;
 
-    ctx.font = `bold ${fontSize}px Arial`;
-    ctx.fillStyle = colors.text || "#FFFFFF";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.text || '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
   });
 
   if (layout.separators) {
-    ctx.strokeStyle = colors.text || "#FFFFFF";
+    ctx.strokeStyle = colors.text || '#FFFFFF';
     ctx.lineWidth = 1;
     ctx.globalAlpha = 0.3;
     layout.separators.forEach((sep) => {
@@ -371,13 +389,14 @@ const renderPillFrame = (ctx, layout, style, segments) => {
 
 const renderFrameSeparators = (ctx, layout, style, colors) => {
   if (!style.showSeparators || !layout.separators) return;
+  const fontFamily = getStyleFontFamily(style);
 
   layout.separators.forEach((sep) => {
-    ctx.font = `bold ${sep.fontSize}px Arial`;
-    ctx.fillStyle = colors.design || "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(style.separatorChar || ":", sep.x, sep.y);
+    ctx.font = `bold ${sep.fontSize}px ${fontFamily}`;
+    ctx.fillStyle = colors.design || '#000000';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(style.separatorChar || ':', sep.x, sep.y);
   });
 };
 
@@ -423,14 +442,14 @@ const renderTimeSegments = (ctx, layout, style, segments) => {
     // Draw value
     ctx.font = `bold ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = fontColor;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(segment.value, pos.x, pos.valueY);
 
     // Draw label if enabled
     if (showLabels && segment.label && !pos.compact) {
       ctx.font = `${labelFontSize || 14}px ${fontFamily}`;
-      ctx.fillStyle = labelColor || "rgba(255,255,255,0.6)";
+      ctx.fillStyle = labelColor || 'rgba(255,255,255,0.6)';
       ctx.fillText(segment.label, pos.x, pos.labelY);
     }
   });
@@ -439,11 +458,11 @@ const renderTimeSegments = (ctx, layout, style, segments) => {
   if (showSeparators && layout.separators) {
     ctx.font = `bold ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = accentColor || fontColor;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
     layout.separators.forEach((sep) => {
-      ctx.fillText(separatorChar || ":", sep.x, sep.y);
+      ctx.fillText(separatorChar || ':', sep.x, sep.y);
     });
   }
 };
@@ -461,7 +480,7 @@ const renderExpiredGif = async (countdown, style, options) => {
   const segments = formatTimeSegments(
     {
       isExpired: true,
-      formatted: { days: "00", hours: "00", minutes: "00", seconds: "00" },
+      formatted: { days: '00', hours: '00', minutes: '00', seconds: '00' },
     },
     {
       showDays: style.showDays,
@@ -469,18 +488,18 @@ const renderExpiredGif = async (countdown, style, options) => {
       showMinutes: style.showMinutes,
       showSeconds: style.showSeconds,
       labelStyle: style.labelStyle,
-    }
+    },
   );
 
   const layout = calculateLayout(expiredStyle, segments.length);
 
   const encoder = new GIFEncoder(layout.canvas.width, layout.canvas.height);
   const canvas = createCanvas(layout.canvas.width, layout.canvas.height);
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
 
   const chunks = [];
   const stream = encoder.createReadStream();
-  stream.on("data", (chunk) => chunks.push(chunk));
+  stream.on('data', (chunk) => chunks.push(chunk));
 
   encoder.start();
   encoder.setRepeat(0);
@@ -488,8 +507,8 @@ const renderExpiredGif = async (countdown, style, options) => {
 
   // Render single expired frame
   const showBranding = shouldShowBranding(
-    options.userPlan || "FREE",
-    countdown.styleConfig
+    options.userPlan || 'FREE',
+    countdown.styleConfig,
   );
   renderFrame(ctx, layout, expiredStyle, null, true, countdown, showBranding);
   encoder.addFrame(ctx);
@@ -497,7 +516,7 @@ const renderExpiredGif = async (countdown, style, options) => {
   encoder.finish();
 
   return new Promise((resolve) => {
-    stream.on("end", () => {
+    stream.on('end', () => {
       resolve(Buffer.concat(chunks));
     });
   });

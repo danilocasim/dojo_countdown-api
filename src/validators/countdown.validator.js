@@ -5,6 +5,7 @@
 
 import { body, param, query } from 'express-validator';
 import { VALID_DESIGNS, isValidHexColor } from '../config/styles.js';
+import { isValidFontId, FONT_CATALOG } from '../config/fonts.js';
 
 /**
  * Valid IANA timezone check.
@@ -33,6 +34,12 @@ const validateStyleConfig = (value) => {
     throw new Error(
       `Invalid design. Must be one of: ${VALID_DESIGNS.join(', ')}`,
     );
+  }
+
+  // Validate fontId
+  if (value.fontId && !isValidFontId(value.fontId)) {
+    const validFontIds = FONT_CATALOG.map((f) => f.id).join(', ');
+    throw new Error(`Invalid fontId. Must be one of: ${validFontIds}`);
   }
 
   // Validate colors

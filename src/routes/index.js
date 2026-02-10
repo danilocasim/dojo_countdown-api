@@ -4,14 +4,15 @@
 // Central route registration for the application.
 // All routes are mounted here with their base paths.
 
-import { Router } from "express";
-import healthRoutes from "./health.routes.js";
-import authRoutes from "./auth.routes.js";
-import userRoutes from "./user.routes.js";
-import countdownRoutes from "./countdown.routes.js";
-import renderRoutes from "./render.routes.js";
-import usageRoutes from "./usage.routes.js";
-import billingRoutes from "./billing.routes.js";
+import { Router } from 'express';
+import healthRoutes from './health.routes.js';
+import authRoutes from './auth.routes.js';
+import userRoutes from './user.routes.js';
+import countdownRoutes from './countdown.routes.js';
+import renderRoutes from './render.routes.js';
+import usageRoutes from './usage.routes.js';
+import billingRoutes from './billing.routes.js';
+import fontsRoutes from './fonts.routes.js';
 
 const router = Router();
 
@@ -25,15 +26,16 @@ const router = Router();
  */
 
 // Health check routes (no /api prefix - standard for health endpoints)
-router.use("/health", healthRoutes);
+router.use('/health', healthRoutes);
 
 // API v1 routes
-router.use("/api/v1/auth", authRoutes);
-router.use("/api/v1/users", userRoutes);
-router.use("/api/v1/countdowns", countdownRoutes);
-router.use("/api/v1/render", renderRoutes);
-router.use("/api/v1/usage", usageRoutes);
-router.use("/api/v1/billing", billingRoutes);
+router.use('/api/v1/auth', authRoutes);
+router.use('/api/v1/users', userRoutes);
+router.use('/api/v1/countdowns', countdownRoutes);
+router.use('/api/v1/render', renderRoutes);
+router.use('/api/v1/usage', usageRoutes);
+router.use('/api/v1/billing', billingRoutes);
+router.use('/api/v1/fonts', fontsRoutes);
 
 // ===========================================
 // Future route registrations:

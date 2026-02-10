@@ -9,11 +9,11 @@
 // - Cleaner separation of concerns
 // - Easier to configure for different environments
 
-import express from "express";
-import { registerMiddleware } from "./middlewares/index.js";
-import routes from "./routes/index.js";
-import notFoundHandler from "./middlewares/notFound.js";
-import errorHandler from "./middlewares/errorHandler.js";
+import express from 'express';
+import { registerMiddleware } from './middlewares/index.js';
+import routes from './routes/index.js';
+import notFoundHandler from './middlewares/notFound.js';
+import errorHandler from './middlewares/errorHandler.js';
 /**
  * Creates and configures the Express application.
  * @returns {Express.Application} Configured Express app
@@ -24,7 +24,7 @@ const createApp = () => {
   // ===========================================
   // Trust proxy (required for rate limiting, secure cookies behind reverse proxy)
   // ===========================================
-  app.set("trust proxy", 1);
+  app.set('trust proxy', 1);
 
   // ===========================================
   // Register Base Middleware
@@ -38,15 +38,20 @@ const createApp = () => {
   app.use(routes);
 
   // ===========================================
+  // Favicon handler (prevents 404 noise from browsers)
+  // ===========================================
+  app.get('/favicon.ico', (req, res) => res.status(204).end());
+
+  // ===========================================
   // Root endpoint - API information
   // ===========================================
-  app.get("/", (req, res) => {
+  app.get('/', (req, res) => {
     res.json({
       success: true,
-      message: "DojoCountdown API",
-      version: "1.0.0",
-      documentation: "/api/docs", // Future: API documentation
-      health: "/health",
+      message: 'DojoCountdown API',
+      version: '1.0.0',
+      documentation: '/api/docs', // Future: API documentation
+      health: '/health',
     });
   });
 

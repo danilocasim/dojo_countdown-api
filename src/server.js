@@ -16,6 +16,7 @@ dotenv.config();
 import app from './app.js';
 import prisma from './lib/prisma.js';
 import config, { validateConfig } from './config/index.js';
+import { loadAllFonts } from './lib/fontLoader.js';
 
 // ===========================================
 // Configuration
@@ -45,6 +46,13 @@ const startServer = async () => {
     console.log('🔌 Connecting to database...');
     await prisma.$connect();
     console.log('✅ Database connected successfully');
+
+    // ===========================================
+    // Load Fonts for Canvas Rendering
+    // ===========================================
+    console.log('🔤 Loading fonts for rendering...');
+    await loadAllFonts();
+    console.log('✅ Fonts loaded successfully');
 
     // ===========================================
     // Start HTTP Server
