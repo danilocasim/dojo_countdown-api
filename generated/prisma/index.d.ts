@@ -1546,9 +1546,9 @@ export namespace Prisma {
     plan: $Enums.Plan | null
     isActive: boolean | null
     isVerified: boolean | null
-    stripeCustomerId: string | null
-    stripeSubscriptionId: string | null
-    stripePriceId: string | null
+    paymongoCustomerId: string | null
+    paymongoSubscriptionId: string | null
+    paymongoPlanId: string | null
     subscriptionStatus: string | null
     currentPeriodEnd: Date | null
     rolloverCredits: number | null
@@ -1565,9 +1565,9 @@ export namespace Prisma {
     plan: $Enums.Plan | null
     isActive: boolean | null
     isVerified: boolean | null
-    stripeCustomerId: string | null
-    stripeSubscriptionId: string | null
-    stripePriceId: string | null
+    paymongoCustomerId: string | null
+    paymongoSubscriptionId: string | null
+    paymongoPlanId: string | null
     subscriptionStatus: string | null
     currentPeriodEnd: Date | null
     rolloverCredits: number | null
@@ -1584,9 +1584,9 @@ export namespace Prisma {
     plan: number
     isActive: number
     isVerified: number
-    stripeCustomerId: number
-    stripeSubscriptionId: number
-    stripePriceId: number
+    paymongoCustomerId: number
+    paymongoSubscriptionId: number
+    paymongoPlanId: number
     subscriptionStatus: number
     currentPeriodEnd: number
     rolloverCredits: number
@@ -1613,9 +1613,9 @@ export namespace Prisma {
     plan?: true
     isActive?: true
     isVerified?: true
-    stripeCustomerId?: true
-    stripeSubscriptionId?: true
-    stripePriceId?: true
+    paymongoCustomerId?: true
+    paymongoSubscriptionId?: true
+    paymongoPlanId?: true
     subscriptionStatus?: true
     currentPeriodEnd?: true
     rolloverCredits?: true
@@ -1632,9 +1632,9 @@ export namespace Prisma {
     plan?: true
     isActive?: true
     isVerified?: true
-    stripeCustomerId?: true
-    stripeSubscriptionId?: true
-    stripePriceId?: true
+    paymongoCustomerId?: true
+    paymongoSubscriptionId?: true
+    paymongoPlanId?: true
     subscriptionStatus?: true
     currentPeriodEnd?: true
     rolloverCredits?: true
@@ -1651,9 +1651,9 @@ export namespace Prisma {
     plan?: true
     isActive?: true
     isVerified?: true
-    stripeCustomerId?: true
-    stripeSubscriptionId?: true
-    stripePriceId?: true
+    paymongoCustomerId?: true
+    paymongoSubscriptionId?: true
+    paymongoPlanId?: true
     subscriptionStatus?: true
     currentPeriodEnd?: true
     rolloverCredits?: true
@@ -1757,9 +1757,9 @@ export namespace Prisma {
     plan: $Enums.Plan
     isActive: boolean
     isVerified: boolean
-    stripeCustomerId: string | null
-    stripeSubscriptionId: string | null
-    stripePriceId: string | null
+    paymongoCustomerId: string | null
+    paymongoSubscriptionId: string | null
+    paymongoPlanId: string | null
     subscriptionStatus: string | null
     currentPeriodEnd: Date | null
     rolloverCredits: number
@@ -1795,9 +1795,9 @@ export namespace Prisma {
     plan?: boolean
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: boolean
-    stripeSubscriptionId?: boolean
-    stripePriceId?: boolean
+    paymongoCustomerId?: boolean
+    paymongoSubscriptionId?: boolean
+    paymongoPlanId?: boolean
     subscriptionStatus?: boolean
     currentPeriodEnd?: boolean
     rolloverCredits?: boolean
@@ -1821,9 +1821,9 @@ export namespace Prisma {
     plan?: boolean
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: boolean
-    stripeSubscriptionId?: boolean
-    stripePriceId?: boolean
+    paymongoCustomerId?: boolean
+    paymongoSubscriptionId?: boolean
+    paymongoPlanId?: boolean
     subscriptionStatus?: boolean
     currentPeriodEnd?: boolean
     rolloverCredits?: boolean
@@ -1840,9 +1840,9 @@ export namespace Prisma {
     plan?: boolean
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: boolean
-    stripeSubscriptionId?: boolean
-    stripePriceId?: boolean
+    paymongoCustomerId?: boolean
+    paymongoSubscriptionId?: boolean
+    paymongoPlanId?: boolean
     subscriptionStatus?: boolean
     currentPeriodEnd?: boolean
     rolloverCredits?: boolean
@@ -1859,9 +1859,9 @@ export namespace Prisma {
     plan?: boolean
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: boolean
-    stripeSubscriptionId?: boolean
-    stripePriceId?: boolean
+    paymongoCustomerId?: boolean
+    paymongoSubscriptionId?: boolean
+    paymongoPlanId?: boolean
     subscriptionStatus?: boolean
     currentPeriodEnd?: boolean
     rolloverCredits?: boolean
@@ -1869,7 +1869,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "plan" | "isActive" | "isVerified" | "stripeCustomerId" | "stripeSubscriptionId" | "stripePriceId" | "subscriptionStatus" | "currentPeriodEnd" | "rolloverCredits" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "plan" | "isActive" | "isVerified" | "paymongoCustomerId" | "paymongoSubscriptionId" | "paymongoPlanId" | "subscriptionStatus" | "currentPeriodEnd" | "rolloverCredits" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     usageStats?: boolean | User$usageStatsArgs<ExtArgs>
@@ -1901,9 +1901,9 @@ export namespace Prisma {
       plan: $Enums.Plan
       isActive: boolean
       isVerified: boolean
-      stripeCustomerId: string | null
-      stripeSubscriptionId: string | null
-      stripePriceId: string | null
+      paymongoCustomerId: string | null
+      paymongoSubscriptionId: string | null
+      paymongoPlanId: string | null
       subscriptionStatus: string | null
       currentPeriodEnd: Date | null
       rolloverCredits: number
@@ -2346,9 +2346,9 @@ export namespace Prisma {
     readonly plan: FieldRef<"User", 'Plan'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly isVerified: FieldRef<"User", 'Boolean'>
-    readonly stripeCustomerId: FieldRef<"User", 'String'>
-    readonly stripeSubscriptionId: FieldRef<"User", 'String'>
-    readonly stripePriceId: FieldRef<"User", 'String'>
+    readonly paymongoCustomerId: FieldRef<"User", 'String'>
+    readonly paymongoSubscriptionId: FieldRef<"User", 'String'>
+    readonly paymongoPlanId: FieldRef<"User", 'String'>
     readonly subscriptionStatus: FieldRef<"User", 'String'>
     readonly currentPeriodEnd: FieldRef<"User", 'DateTime'>
     readonly rolloverCredits: FieldRef<"User", 'Int'>
@@ -9806,9 +9806,9 @@ export namespace Prisma {
     plan: 'plan',
     isActive: 'isActive',
     isVerified: 'isVerified',
-    stripeCustomerId: 'stripeCustomerId',
-    stripeSubscriptionId: 'stripeSubscriptionId',
-    stripePriceId: 'stripePriceId',
+    paymongoCustomerId: 'paymongoCustomerId',
+    paymongoSubscriptionId: 'paymongoSubscriptionId',
+    paymongoPlanId: 'paymongoPlanId',
     subscriptionStatus: 'subscriptionStatus',
     currentPeriodEnd: 'currentPeriodEnd',
     rolloverCredits: 'rolloverCredits',
@@ -10090,9 +10090,9 @@ export namespace Prisma {
     plan?: EnumPlanFilter<"User"> | $Enums.Plan
     isActive?: BoolFilter<"User"> | boolean
     isVerified?: BoolFilter<"User"> | boolean
-    stripeCustomerId?: StringNullableFilter<"User"> | string | null
-    stripeSubscriptionId?: StringNullableFilter<"User"> | string | null
-    stripePriceId?: StringNullableFilter<"User"> | string | null
+    paymongoCustomerId?: StringNullableFilter<"User"> | string | null
+    paymongoSubscriptionId?: StringNullableFilter<"User"> | string | null
+    paymongoPlanId?: StringNullableFilter<"User"> | string | null
     subscriptionStatus?: StringNullableFilter<"User"> | string | null
     currentPeriodEnd?: DateTimeNullableFilter<"User"> | Date | string | null
     rolloverCredits?: IntFilter<"User"> | number
@@ -10115,9 +10115,9 @@ export namespace Prisma {
     plan?: SortOrder
     isActive?: SortOrder
     isVerified?: SortOrder
-    stripeCustomerId?: SortOrderInput | SortOrder
-    stripeSubscriptionId?: SortOrderInput | SortOrder
-    stripePriceId?: SortOrderInput | SortOrder
+    paymongoCustomerId?: SortOrderInput | SortOrder
+    paymongoSubscriptionId?: SortOrderInput | SortOrder
+    paymongoPlanId?: SortOrderInput | SortOrder
     subscriptionStatus?: SortOrderInput | SortOrder
     currentPeriodEnd?: SortOrderInput | SortOrder
     rolloverCredits?: SortOrder
@@ -10134,8 +10134,8 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
-    stripeCustomerId?: string
-    stripeSubscriptionId?: string
+    paymongoCustomerId?: string
+    paymongoSubscriptionId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -10145,7 +10145,7 @@ export namespace Prisma {
     plan?: EnumPlanFilter<"User"> | $Enums.Plan
     isActive?: BoolFilter<"User"> | boolean
     isVerified?: BoolFilter<"User"> | boolean
-    stripePriceId?: StringNullableFilter<"User"> | string | null
+    paymongoPlanId?: StringNullableFilter<"User"> | string | null
     subscriptionStatus?: StringNullableFilter<"User"> | string | null
     currentPeriodEnd?: DateTimeNullableFilter<"User"> | Date | string | null
     rolloverCredits?: IntFilter<"User"> | number
@@ -10157,7 +10157,7 @@ export namespace Prisma {
     usageMonths?: UsageMonthListRelationFilter
     customFonts?: CustomFontListRelationFilter
     backgroundImages?: BackgroundImageListRelationFilter
-  }, "id" | "email" | "stripeCustomerId" | "stripeSubscriptionId">
+  }, "id" | "email" | "paymongoCustomerId" | "paymongoSubscriptionId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10168,9 +10168,9 @@ export namespace Prisma {
     plan?: SortOrder
     isActive?: SortOrder
     isVerified?: SortOrder
-    stripeCustomerId?: SortOrderInput | SortOrder
-    stripeSubscriptionId?: SortOrderInput | SortOrder
-    stripePriceId?: SortOrderInput | SortOrder
+    paymongoCustomerId?: SortOrderInput | SortOrder
+    paymongoSubscriptionId?: SortOrderInput | SortOrder
+    paymongoPlanId?: SortOrderInput | SortOrder
     subscriptionStatus?: SortOrderInput | SortOrder
     currentPeriodEnd?: SortOrderInput | SortOrder
     rolloverCredits?: SortOrder
@@ -10195,9 +10195,9 @@ export namespace Prisma {
     plan?: EnumPlanWithAggregatesFilter<"User"> | $Enums.Plan
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     isVerified?: BoolWithAggregatesFilter<"User"> | boolean
-    stripeCustomerId?: StringNullableWithAggregatesFilter<"User"> | string | null
-    stripeSubscriptionId?: StringNullableWithAggregatesFilter<"User"> | string | null
-    stripePriceId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    paymongoCustomerId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    paymongoSubscriptionId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    paymongoPlanId?: StringNullableWithAggregatesFilter<"User"> | string | null
     subscriptionStatus?: StringNullableWithAggregatesFilter<"User"> | string | null
     currentPeriodEnd?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     rolloverCredits?: IntWithAggregatesFilter<"User"> | number
@@ -10685,9 +10685,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -10710,9 +10710,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -10735,9 +10735,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -10760,9 +10760,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -10785,9 +10785,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -10804,9 +10804,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -10823,9 +10823,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -11496,9 +11496,9 @@ export namespace Prisma {
     plan?: SortOrder
     isActive?: SortOrder
     isVerified?: SortOrder
-    stripeCustomerId?: SortOrder
-    stripeSubscriptionId?: SortOrder
-    stripePriceId?: SortOrder
+    paymongoCustomerId?: SortOrder
+    paymongoSubscriptionId?: SortOrder
+    paymongoPlanId?: SortOrder
     subscriptionStatus?: SortOrder
     currentPeriodEnd?: SortOrder
     rolloverCredits?: SortOrder
@@ -11519,9 +11519,9 @@ export namespace Prisma {
     plan?: SortOrder
     isActive?: SortOrder
     isVerified?: SortOrder
-    stripeCustomerId?: SortOrder
-    stripeSubscriptionId?: SortOrder
-    stripePriceId?: SortOrder
+    paymongoCustomerId?: SortOrder
+    paymongoSubscriptionId?: SortOrder
+    paymongoPlanId?: SortOrder
     subscriptionStatus?: SortOrder
     currentPeriodEnd?: SortOrder
     rolloverCredits?: SortOrder
@@ -11538,9 +11538,9 @@ export namespace Prisma {
     plan?: SortOrder
     isActive?: SortOrder
     isVerified?: SortOrder
-    stripeCustomerId?: SortOrder
-    stripeSubscriptionId?: SortOrder
-    stripePriceId?: SortOrder
+    paymongoCustomerId?: SortOrder
+    paymongoSubscriptionId?: SortOrder
+    paymongoPlanId?: SortOrder
     subscriptionStatus?: SortOrder
     currentPeriodEnd?: SortOrder
     rolloverCredits?: SortOrder
@@ -13017,9 +13017,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13041,9 +13041,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13081,9 +13081,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13105,9 +13105,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13129,9 +13129,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13153,9 +13153,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13193,9 +13193,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13217,9 +13217,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13241,9 +13241,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13265,9 +13265,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13305,9 +13305,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13329,9 +13329,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13353,9 +13353,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13377,9 +13377,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13417,9 +13417,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13441,9 +13441,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13465,9 +13465,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13489,9 +13489,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13529,9 +13529,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13553,9 +13553,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13577,9 +13577,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13601,9 +13601,9 @@ export namespace Prisma {
     plan?: $Enums.Plan
     isActive?: boolean
     isVerified?: boolean
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    stripePriceId?: string | null
+    paymongoCustomerId?: string | null
+    paymongoSubscriptionId?: string | null
+    paymongoPlanId?: string | null
     subscriptionStatus?: string | null
     currentPeriodEnd?: Date | string | null
     rolloverCredits?: number
@@ -13641,9 +13641,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number
@@ -13665,9 +13665,9 @@ export namespace Prisma {
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymongoPlanId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rolloverCredits?: IntFieldUpdateOperationsInput | number

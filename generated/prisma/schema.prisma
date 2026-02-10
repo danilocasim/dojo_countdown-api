@@ -51,12 +51,12 @@ model User {
   isActive   Boolean @default(true)
   isVerified Boolean @default(false)
 
-  // Stripe billing fields
-  stripeCustomerId     String?   @unique
-  stripeSubscriptionId String?   @unique
-  stripePriceId        String?
-  subscriptionStatus   String? // active, past_due, canceled, etc.
-  currentPeriodEnd     DateTime? // Stripe billing cycle end
+  // PayMongo billing fields
+  paymongoCustomerId     String?   @unique
+  paymongoSubscriptionId String?   @unique
+  paymongoPlanId         String?
+  subscriptionStatus     String? // active, past_due, cancelled, unpaid, pending, etc.
+  currentPeriodEnd       DateTime? // PayMongo billing cycle end (next_billing_schedule)
 
   // Credit rollover for paid plans
   rolloverCredits Int @default(0)
@@ -73,7 +73,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   @@index([email])
-  @@index([stripeCustomerId])
+  @@index([paymongoCustomerId])
   @@map("users")
 }
 

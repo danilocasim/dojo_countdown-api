@@ -64,21 +64,24 @@ const config = {
   // Frontend
   frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
 
-  // Stripe
-  stripe: {
-    secretKey: process.env.STRIPE_SECRET_KEY,
-    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-    // Maps Stripe Price IDs to internal plan names
-    priceToplan: {
-      [process.env.STRIPE_PRICE_BOOTSTRAP]: "BOOTSTRAP",
-      [process.env.STRIPE_PRICE_STARTUP]: "STARTUP",
-      [process.env.STRIPE_PRICE_ENTERPRISE]: "ENTERPRISE",
+  // PayMongo
+  paymongo: {
+    secretKey: process.env.PAYMONGO_SECRET_KEY,
+    publicKey: process.env.PAYMONGO_PUBLIC_KEY,
+    webhookSecret: process.env.PAYMONGO_WEBHOOK_SECRET,
+    // Base URL for PayMongo API
+    baseUrl: process.env.PAYMONGO_BASE_URL || "https://api.paymongo.com/v1",
+    // Maps PayMongo Plan IDs to internal plan names
+    planIdToName: {
+      [process.env.PAYMONGO_PLAN_BOOTSTRAP]: "BOOTSTRAP",
+      [process.env.PAYMONGO_PLAN_STARTUP]: "STARTUP",
+      [process.env.PAYMONGO_PLAN_ENTERPRISE]: "ENTERPRISE",
     },
-    // Maps internal plan names to Stripe Price IDs
-    planToPrice: {
-      BOOTSTRAP: process.env.STRIPE_PRICE_BOOTSTRAP,
-      STARTUP: process.env.STRIPE_PRICE_STARTUP,
-      ENTERPRISE: process.env.STRIPE_PRICE_ENTERPRISE,
+    // Maps internal plan names to PayMongo Plan IDs
+    nameToPlanId: {
+      BOOTSTRAP: process.env.PAYMONGO_PLAN_BOOTSTRAP,
+      STARTUP: process.env.PAYMONGO_PLAN_STARTUP,
+      ENTERPRISE: process.env.PAYMONGO_PLAN_ENTERPRISE,
     },
   },
 };
