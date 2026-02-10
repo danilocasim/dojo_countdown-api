@@ -11,7 +11,7 @@
 // - Scales for high-traffic image endpoints
 
 import prisma from "../lib/prisma.js";
-import { getMonthlyViewLimit } from "../config/plans.js";
+import { getMonthlyViewLimit, getPlanLimits } from "../config/plans.js";
 
 /**
  * Gets the current UTC year and month.
@@ -36,34 +36,62 @@ export const getCurrentPeriod = () => {
  * Gets or creates usage record for the current month.
  * Uses upsert for idempotent creation under concurrent requests.
  *
+ * For paid plans with rollover enabled, consumes any stored
+ * rolloverCredits by adding them to the month's viewsLimit,
+ * then zeroes out the user's rolloverCredits (one-time consumption).
+ *
  * @param {string} userId - User ID
  * @param {string} plan - User's current plan
  * @returns {Promise<Object>} UsageMonth record
  */
 export const getOrCreateUsageMonth = async (userId, plan) => {
   const { year, month } = getCurrentPeriod();
-  const viewsLimit = getMonthlyViewLimit(plan);
+  const baseLimit = getMonthlyViewLimit(plan);
+  const limits = getPlanLimits(plan);
 
-  // Upsert ensures idempotent creation under concurrent requests
-  const usageMonth = await prisma.usageMonth.upsert({
-    where: {
-      userId_year_month: {
-        userId,
-        year,
-        month,
-      },
-    },
-    update: {}, // No update needed if exists
-    create: {
-      userId,
-      year,
-      month,
-      viewsUsed: 0,
-      viewsLimit,
-    },
+  // Check if this record already exists
+  const existing = await prisma.usageMonth.findUnique({
+    where: { userId_year_month: { userId, year, month } },
   });
 
-  return usageMonth;
+  if (existing) return existing;
+
+  // New month — apply rollover credits for paid plans
+  let viewsLimit = baseLimit;
+
+  if (limits.rolloverEnabled) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { rolloverCredits: true },
+    });
+
+    if (user && user.rolloverCredits > 0) {
+      viewsLimit = baseLimit + user.rolloverCredits;
+
+      // Consume rollover credits atomically with month creation
+      return prisma.$transaction(async (tx) => {
+        // Zero out rollover credits on the user
+        await tx.user.update({
+          where: { id: userId },
+          data: { rolloverCredits: 0 },
+        });
+
+        // Create the month record with boosted limit
+        return tx.usageMonth.upsert({
+          where: { userId_year_month: { userId, year, month } },
+          update: {}, // Race condition safety: another request may have created it
+          create: { userId, year, month, viewsUsed: 0, viewsLimit },
+        });
+      });
+    }
+  }
+
+  // No rollover — standard upsert
+  return prisma.usageMonth.upsert({
+    where: { userId_year_month: { userId, year, month } },
+    update: {},
+    create: { userId, year, month, viewsUsed: 0, viewsLimit },
+  });
 };
 
 /**

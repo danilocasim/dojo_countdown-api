@@ -29,6 +29,8 @@ export const PLAN_LIMITS = {
     apiAccess: false,
     analytics: false,
     priority: "low",
+    rolloverEnabled: false,
+    rolloverCap: 0,
   },
 
   BOOTSTRAP: {
@@ -40,6 +42,8 @@ export const PLAN_LIMITS = {
     apiAccess: false,
     analytics: true,
     priority: "normal",
+    rolloverEnabled: true,
+    rolloverCap: 50_000, // Max 50% of monthly limit
   },
 
   STARTUP: {
@@ -51,6 +55,8 @@ export const PLAN_LIMITS = {
     apiAccess: true,
     analytics: true,
     priority: "high",
+    rolloverEnabled: true,
+    rolloverCap: 350_000,
   },
 
   ENTERPRISE: {
@@ -62,6 +68,8 @@ export const PLAN_LIMITS = {
     apiAccess: true,
     analytics: true,
     priority: "highest",
+    rolloverEnabled: true,
+    rolloverCap: 1_400_000,
   },
 };
 

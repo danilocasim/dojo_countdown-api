@@ -130,6 +130,12 @@ exports.Prisma.UserScalarFieldEnum = {
   plan: 'plan',
   isActive: 'isActive',
   isVerified: 'isVerified',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripePriceId: 'stripePriceId',
+  subscriptionStatus: 'subscriptionStatus',
+  currentPeriodEnd: 'currentPeriodEnd',
+  rolloverCredits: 'rolloverCredits',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

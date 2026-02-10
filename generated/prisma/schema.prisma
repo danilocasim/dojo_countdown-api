@@ -51,6 +51,16 @@ model User {
   isActive   Boolean @default(true)
   isVerified Boolean @default(false)
 
+  // Stripe billing fields
+  stripeCustomerId     String?   @unique
+  stripeSubscriptionId String?   @unique
+  stripePriceId        String?
+  subscriptionStatus   String? // active, past_due, canceled, etc.
+  currentPeriodEnd     DateTime? // Stripe billing cycle end
+
+  // Credit rollover for paid plans
+  rolloverCredits Int @default(0)
+
   // Relationships
   refreshTokens RefreshToken[]
   usageStats    UsageStats?
@@ -61,6 +71,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   @@index([email])
+  @@index([stripeCustomerId])
   @@map("users")
 }
 

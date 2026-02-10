@@ -49,8 +49,16 @@ export const registerMiddleware = (app) => {
    * JSON Parser
    * WHY: Parses incoming JSON request bodies
    * Limit protects against large payload attacks
+   *
+   * Skips the Stripe webhook path — that route needs the raw body
+   * for signature verification, handled by express.raw() in billing.routes.js
    */
-  app.use(express.json({ limit: "10mb" }));
+  app.use((req, res, next) => {
+    if (req.originalUrl === "/api/v1/billing/webhook") {
+      return next();
+    }
+    express.json({ limit: "10mb" })(req, res, next);
+  });
 
   /**
    * URL-encoded Parser

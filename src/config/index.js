@@ -45,6 +45,27 @@ const config = {
   cors: {
     origin: process.env.CORS_ORIGIN || "*",
   },
+
+  // Frontend
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
+
+  // Stripe
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY,
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+    // Maps Stripe Price IDs to internal plan names
+    priceToplan: {
+      [process.env.STRIPE_PRICE_BOOTSTRAP]: "BOOTSTRAP",
+      [process.env.STRIPE_PRICE_STARTUP]: "STARTUP",
+      [process.env.STRIPE_PRICE_ENTERPRISE]: "ENTERPRISE",
+    },
+    // Maps internal plan names to Stripe Price IDs
+    planToPrice: {
+      BOOTSTRAP: process.env.STRIPE_PRICE_BOOTSTRAP,
+      STARTUP: process.env.STRIPE_PRICE_STARTUP,
+      ENTERPRISE: process.env.STRIPE_PRICE_ENTERPRISE,
+    },
+  },
 };
 
 /**
